@@ -25,13 +25,13 @@ export default class LevelMap {
         this.mapData.tilesets.forEach((tilesetmapData, index) => {
             // Load the tileset image
             let tileset = new Image();
-            tileset.src = tilesetmapData.source;
+            tileset.src = tilesetmapData.image;
             this.tilesets.push(tileset);
 
             // Create the tileset's tiles
-            let colCount = Math.floor(tilesetmapData.width / this.tileWidth),
-                rowCount = Math.floor(tilesetmapData.height / this.tileHeight),
-                tileCount = colCount * rowCount;
+            let colCount = tilesetmapData.columns,
+                rowCount = tilesetmapData.tilecount/colCount,
+                tileCount = tilesetmapData.tilecount;
 
 
             for (let i = 0; i < tileCount; i++) {
@@ -46,7 +46,7 @@ export default class LevelMap {
                     // can be left blank, we need to make sure the property exists.
                     // We'll assume any tiles missing the solid property are *not* solid
                     //solid: !!(tilesetmapData.tileproperties[i] && tilesetmapData.tileproperties[i].solid === "true")
-                    solid: (tilesetmapData.tileproperties[i] && tilesetmapData.tileproperties[i].solid === true)
+                    solid: (tilesetmapData.tiles[i] && tilesetmapData.tiles[i].objectgroup.properties.solid === true)
                 };
                 this.tiles.push(tile);
             }

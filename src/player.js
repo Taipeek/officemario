@@ -12,7 +12,7 @@ export default class Player {
         this.gravity = {current: 0.2, initial: 0.2};
         this.frictionCoef = {current: 0.98, initial: 0.98, braking: 0.7};
         this.playerData.objects.forEach(item => {
-            if (item.name === "spawnpoint") {
+            if (item.type === "playerSpawn") {
                 this.position.x = item.x;
                 this.position.y = item.y;
                 this.width.initial = this.width.current = item.width;
@@ -100,13 +100,13 @@ export default class Player {
         if (lowerCurrentTile && lowerCurrentTile.solid) {
             this.velocity.y = 0;
             this.position.y = this.game.map.tileHeight * lowerTilePosition.y - this.height.current;
-            console.log(this.position, upperTilePosition);
+            // console.log(this.position, upperTilePosition);
         }
 
         if (upperCurrentTile && upperCurrentTile.solid) {
             this.velocity.y = 0.000000001; //hack for not jumping again
             this.position.y = this.game.map.tileHeight * (upperTilePosition.y + 1);
-            console.log(this.position, upperTilePosition);
+            //console.log(this.position, upperTilePosition);
         }
 
         if (!lowerCurrentTile) {
