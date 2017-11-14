@@ -86,11 +86,11 @@ export default class LevelMap {
 
     }
 
-    tileAt(x, y, layer) {
+    tileAt(pos, layer) {
         // sanity check
-        if(layer < 0 || x < 0 || y < 0 || layer >= this.layers.length || x > this.mapWidth || y > this.mapHeight)
+        if(layer < 0 || pos.x < 0 || pos.y < 0 || layer >= this.layers.length || pos.x > this.mapWidth || pos.y > this.mapHeight)
             return undefined;
-        return this.tiles[this.layers[layer].data[x + y*this.mapWidth] - 1];
+        return this.tiles[this.layers[layer].data[pos.x + pos.y*this.mapWidth] - 1];
     }
 
     render() {
@@ -115,8 +115,11 @@ export default class LevelMap {
                                     tile.sx, tile.sy, this.tileWidth, this.tileHeight, // The portion of image to draw
                                     x * this.tileWidth, y * this.tileHeight, this.tileWidth, this.tileHeight // Where to draw the image on-screen
                                 );
+                                //debug
                                 this.game.ctx.strokeStyle = "white";
                                 this.game.ctx.strokeRect(x * this.tileWidth, y * this.tileHeight, this.tileWidth, this.tileHeight);
+                                this.game.ctx.fillStyle = "black";
+                                this.game.ctx.fillText(x+","+y, x * this.tileWidth+3, y * this.tileHeight+30,);
                             }
                         }
 
