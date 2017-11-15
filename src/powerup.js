@@ -44,6 +44,7 @@ export default class Powerup
 		else
 			this.velocity.y += this.gravity;
 
+		// needs fixing - tile clips into the wall
 		// check collision from the left
 		let leftTilePosition = {x: this.tilePos.x -1, y: this.tilePos.y};
 		let leftTile = this.game.map.tileAt(leftTilePosition, 0);
@@ -123,6 +124,10 @@ export default class Powerup
 		this.game.ctx.save();
         this.game.ctx.fillStyle = "red";
         this.game.ctx.fillRect(this.position.x, this.position.y, this.tileWidth, this.tileHeight);
+        let text = this.type;
+        this.game.ctx.fillStyle = "white";
+        this.game.ctx.fillText(this.type, this.position.x + this.tileWidth/2 - this.game.ctx.measureText(text).width/2, 
+        					   this.position.y + this.tileHeight/2);
         this.game.ctx.restore();
 	}
 }
