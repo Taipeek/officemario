@@ -1,5 +1,6 @@
 import Player from "./player";
 import LevelMap from "./levelMap";
+import Powerup from "./powerup";
 
 export default class Game {
     constructor() {
@@ -38,6 +39,8 @@ export default class Game {
         this.map = new LevelMap(this);
         this.player = new Player(this);
         this.gameLoopInterval = null;
+        this.powerups = [];
+        this.powerups.push(new Powerup(this, 13*this.map.tileWidth, 8*this.map.tileHeight, 'auto'));
     }
 
     pause(){
@@ -117,11 +120,17 @@ export default class Game {
     render() {
         this.map.render();
         this.player.render();
+        this.powerups.forEach(powerup => {
+            powerup.render();
+        });
     }
 
     update() {
         this.map.update();
         this.player.update();
+        this.powerups.forEach(powerup => {
+            powerup.update();
+        });
     }
 
     gameLoop() {
