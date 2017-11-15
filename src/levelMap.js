@@ -30,7 +30,7 @@ export default class LevelMap {
 
             // Create the tileset's tiles
             let colCount = tilesetmapData.columns,
-                rowCount = tilesetmapData.tilecount/colCount,
+                rowCount = tilesetmapData.tilecount / colCount,
                 tileCount = tilesetmapData.tilecount;
 
 
@@ -63,7 +63,8 @@ export default class LevelMap {
                     name: layerData.name,
                     width: layerData.width,
                     height: layerData.height,
-                    visible: layerData.visible
+                    visible: layerData.visible,
+                    type: layerData.type
                 };
 
                 // Set up the layer's data array.  We'll try to optimize
@@ -78,6 +79,18 @@ export default class LevelMap {
                 // save the tile layer
                 this.layers.push(layer);
             }
+            else if (layerData.type === "imagelayer") {
+                let layer = {
+                    name: layerData.name,
+                    x: layerData.x,
+                    y: layerData.y,
+                    image: new Image(),
+                    visible: layerData.visible,
+                    type: layerData.type
+                };
+                layer.image.src = layerData.image;
+                this.layers.push(layer);
+            }
         });
         this.tileAt = this.tileAt.bind(this);
         this.render = this.render.bind(this);
@@ -88,9 +101,10 @@ export default class LevelMap {
 
     tileAt(pos, layer) {
         // sanity check
-        if(layer < 0 || pos.x < 0 || pos.y < 0 || layer >= this.layers.length || pos.x > this.mapWidth || pos.y > this.mapHeight)
+        if(!layer) layer = 1;
+        if (layer < 0 || pos.x < 0 || pos.y < 0 || layer >= this.layers.length || pos.x > this.mapWidth || pos.y > this.mapHeight)
             return undefined;
-        return this.tiles[this.layers[layer].data[pos.x + pos.y*this.mapWidth] - 1];
+        return this.tiles[this.layers[layer].data[pos.x + pos.y * this.mapWidth] - 1];
     }
 
     render() {
@@ -102,6 +116,12 @@ export default class LevelMap {
         this.layers.forEach((layer) => {
             // Only draw layers that are currently visible
             if (layer.visible) {
+                if (layer.type === "imagelayer") {
+                    this.game.ctx.drawImage(
+                        layer.image, layer.x, layer.y);
+                    return;
+                }
+
                 for (let y = 0; y < layer.height; y++) {
                     for (let x = 0; x < layer.width; x++) {
                         let tileId = layer.data[x + layer.width * y];
@@ -119,7 +139,7 @@ export default class LevelMap {
                                 this.game.ctx.strokeStyle = "white";
                                 this.game.ctx.strokeRect(x * this.tileWidth, y * this.tileHeight, this.tileWidth, this.tileHeight);
                                 this.game.ctx.fillStyle = "black";
-                                this.game.ctx.fillText(x+","+y, x * this.tileWidth+3, y * this.tileHeight+30,);
+                                this.game.ctx.fillText(x + "," + y, x * this.tileWidth + 3, y * this.tileHeight + 30,);
                             }
                         }
 
@@ -131,7 +151,7 @@ export default class LevelMap {
         this.game.ctx.restore();
     }
 
-    update(){
+    update() {
 
     }
 

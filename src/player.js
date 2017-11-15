@@ -1,7 +1,7 @@
 export default class Player {
     constructor(game) {
         this.game = game;
-        this.playerData = this.game.map.mapData.layers[1];
+        this.playerData = this.game.map.mapData.layers[2];
         this.position = {x: 0, y: 0};
         this.velocity = {x: 0, y: 0};
         this.maxVelocity = {x: 5, y: 3};
@@ -154,10 +154,10 @@ export default class Player {
         let lowerRightTilePosition = this.getTileXY("lower", "right");
         let upperLeftTilePosition = this.getTileXY("upper", "left");
         let upperRightTilePosition = this.getTileXY("upper", "right");
-        let lowerLeftCurrentTile = this.game.map.tileAt(lowerLeftTilePosition, 0);
-        let lowerRightCurrentTile = this.game.map.tileAt(lowerRightTilePosition, 0);
-        let upperLeftCurrentTile = this.game.map.tileAt(upperLeftTilePosition, 0);
-        let upperRightCurrentTile = this.game.map.tileAt(upperRightTilePosition, 0);
+        let lowerLeftCurrentTile = this.game.map.tileAt(lowerLeftTilePosition);
+        let lowerRightCurrentTile = this.game.map.tileAt(lowerRightTilePosition);
+        let upperLeftCurrentTile = this.game.map.tileAt(upperLeftTilePosition);
+        let upperRightCurrentTile = this.game.map.tileAt(upperRightTilePosition);
 
         // vertical detection bottom
         if ((lowerLeftCurrentTile && lowerLeftCurrentTile.solid) || (lowerRightCurrentTile && lowerRightCurrentTile.solid)) {
@@ -196,9 +196,9 @@ export default class Player {
         if (lowerLeftTilePosition.y - upperLeftTilePosition.y > 1) {
             let diff = lowerLeftTilePosition.y - upperLeftTilePosition.y;
             let rightPos = {x: upperRightTilePosition.x, y: upperRightTilePosition.y + 1};
-            let rightTile = this.game.map.tileAt(rightPos, 0);
+            let rightTile = this.game.map.tileAt(rightPos);
             let leftPos = {x: upperLeftTilePosition.x, y: upperLeftTilePosition.y + 1};
-            let leftTile = this.game.map.tileAt(rightPos, 0);
+            let leftTile = this.game.map.tileAt(rightPos);
             // console.log(rightPos,leftPos,rightTile,leftTile);
 
             if (rightTile && rightTile.solid) {
