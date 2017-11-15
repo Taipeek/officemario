@@ -31,24 +31,30 @@ export default class Powerup
 
 	checkTileCollisions()
 	{
-		// check collision with a below tile
-		let belowTilePosition = {x: this.tilePos.x, y: this.tilePos.y +1};
-		let belowTile = this.game.map.tileAt(belowTilePosition, 0);
+		// check collision with tiles below the lower-left and lower-right corner of the tile
+		let belowTilePositionL = {x: Math.floor(this.position.x / this.tileWidth), y: this.tilePos.y +1};
+		let belowTileL = this.game.map.tileAt(belowTilePositionL, 0);
 
-		if (belowTile && belowTile.solid && ((belowTilePosition.y * this.tileHeight) - this.position.y - this.tileHeight) <= 3)
+		let belowTilePositionR = {x: Math.floor((this.position.x + this.tileWidth) / this.tileWidth), y: this.tilePos.y +1};
+		let belowTileR = this.game.map.tileAt(belowTilePositionR, 0);		
+
+		if (belowTileL && belowTileL.solid && ((belowTilePositionL.y * this.tileHeight) - this.position.y - this.tileHeight) <= 3)
 		{
-			//console.log("colliding from the bottom with " + belowTilePosition.x + " " + belowTilePosition.y);
 			this.velocity.y = 0;
-            this.position.y = (belowTilePosition.y -1) * this.tileHeight;
+            this.position.y = (belowTilePositionL.y -1) * this.tileHeight;
+		}
+		else if (belowTileR && belowTileR.solid && ((belowTilePositionR.y * this.tileHeight) - this.position.y - this.tileHeight) <= 3)
+		{
+			this.velocity.y = 0;
+            this.position.y = (belowTilePositionR.y -1) * this.tileHeight;
 		}
 		else
 			this.velocity.y += this.gravity;
 
-		// needs fixing - tile clips into the wall
 		// check collision from the left
 		let leftTilePosition = {x: this.tilePos.x -1, y: this.tilePos.y};
 		let leftTile = this.game.map.tileAt(leftTilePosition, 0);
-		if (leftTile && leftTile.solid && (this.position.x - ((leftTilePosition.x +1) * this.tileWidth)) <= 0)
+		if (leftTile && leftTile.solid && (this.position.x - ((leftTilePosition.x +1) * this.tileWidth)) < 0)
 		{
 			//console.log("colliding from the left side with " + leftTilePosition.x + " " + leftTilePosition.y);
 			this.velocity.x *= -1;
@@ -56,7 +62,7 @@ export default class Powerup
 		}
 		let rightTilePosition = {x: this.tilePos.x +1, y: this.tilePos.y};
 		let rightTile = this.game.map.tileAt(rightTilePosition, 0);
-		if (rightTile && rightTile.solid && ((rightTilePosition.x * this.tileWidth) - (this.position.x + this.tileWidth)) <= 0)
+		if (rightTile && rightTile.solid && ((rightTilePosition.x * this.tileWidth) - (this.position.x + this.tileWidth)) < 0)
 		{
 			//console.log("colliding from the right side with " + rightTilePosition.x + " " + rightTilePosition.y);
 			this.velocity.x *= -1;
