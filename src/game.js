@@ -13,8 +13,10 @@ export default class Game {
         this.gameState = {};
         this.gameLoopSpeed = 100 / 3;
         this.keyBoard = [];
+        this.screenPosition = {x: 0, y: 0};
 
         //binds
+        this.moveScreen = this.moveScreen.bind(this);
         this.render = this.render.bind(this);
         this.update = this.update.bind(this);
         this.handleKeyDown = this.handleKeyDown.bind(this);
@@ -23,10 +25,29 @@ export default class Game {
         this.pause = this.pause.bind(this);
         this.gameLoop = this.gameLoop.bind(this);
 
+
         // key handlers
         window.onkeydown = this.handleKeyDown;
         window.onkeyup = this.handleKeyUp;
         this.newGame();
+    }
+
+    moveScreen(where) {
+        let step = 10;
+        if (where === "right") {
+            this.screenPosition.x += step;
+            if (this.screenPosition.x > this.map.mapWidthPixels) this.screenPosition.x = this.map.mapWidthPixels;
+        } else if (where === "left") {
+            this.screenPosition.x -= step;
+            if (this.screenPosition.x < 0) this.screenPosition.x = 0;
+        } else if (where === "up") {
+            this.screenPosition.y -= step;
+            if (this.screenPosition.y < 0) this.screenPosition.y = 0;
+
+        } else if (where === "down") {
+            this.screenPosition.y += step;
+            if (this.screenPosition.y > this.map.mapHeightPixels) this.screenPosition.y = this.map.mapHeightPixels;
+        }
     }
 
     newGame() {
@@ -41,12 +62,12 @@ export default class Game {
         this.player = new Player(this);
         this.gameLoopInterval = null;
         this.powerups = [];
-        this.features=[];
-        this.powerups.push(new Powerup(this, 13*this.map.tileWidth, 8*this.map.tileHeight, 'auto'));
-        this.features.push(new Feature(this, 12*this.map.tileWidth, 10*this.map.tileHeight));
+        this.features = [];
+        this.powerups.push(new Powerup(this, 13 * this.map.tileWidth, 8 * this.map.tileHeight, 'auto'));
+        this.features.push(new Feature(this, 12 * this.map.tileWidth, 10 * this.map.tileHeight));
     }
 
-    pause(){
+    pause() {
         clearInterval(this.gameLoopInterval);
         this.gameLoopInterval = null;
         this.gameState.status = "paused";
@@ -94,7 +115,7 @@ export default class Game {
 
         if (event.key === "v") {
             let xy = this.player.getTileXY();
-            console.log(xy, this.map.tileAt(xy.x,xy.y, 0))
+            console.log(xy, this.map.tileAt(xy.x, xy.y, 0))
         }
     }
 
@@ -121,14 +142,17 @@ export default class Game {
     }
 
     render() {
+        this.ctx.save();
+        this.ctx.translate(-this.screenPosition.x, -this.screenPosition.y);
         this.map.render();
         this.player.render();
         this.powerups.forEach(powerup => {
             powerup.render();
         });
-         this.features.forEach(feature => {
+        this.features.forEach(feature => {
             feature.render();
         });
+        this.ctx.restore();
     }
 
     update() {

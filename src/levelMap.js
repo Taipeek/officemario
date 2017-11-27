@@ -7,8 +7,6 @@ export default class LevelMap {
         this.layers = [];
         this.tileWidth = 0;
         this.tileHeight = 0;
-        this.mapWidth = 0;
-        this.mapHeight = 0;
 
         this.options = 0;
         // Release old tiles & tilesets
@@ -20,6 +18,8 @@ export default class LevelMap {
         this.tileHeight = this.mapData.tileheight;
         this.mapWidth = this.mapData.width;
         this.mapHeight = this.mapData.height;
+        this.mapWidthPixels = this.mapData.width * this.tileWidth;
+        this.mapHeightPixels = this.mapData.height * this.tileHeight;
 
         // Load the tileset(s)
         this.mapData.tilesets.forEach((tilesetmapData, index) => {
@@ -101,7 +101,7 @@ export default class LevelMap {
 
     tileAt(pos, layer) {
         // sanity check
-        if(!layer) layer = 1;
+        if (!layer) layer = 1;
         if (layer < 0 || pos.x < 0 || pos.y < 0 || layer >= this.layers.length || pos.x > this.mapWidth || pos.y > this.mapHeight)
             return undefined;
         return this.tiles[this.layers[layer].data[pos.x + pos.y * this.mapWidth] - 1];

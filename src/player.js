@@ -4,12 +4,12 @@ export default class Player {
         this.playerData = this.game.map.mapData.layers[2];
         this.position = {x: 0, y: 0};
         this.velocity = {x: 0, y: 0};
-        this.maxVelocity = {x: 5, y: 3};
+        this.maxVelocity = {x: 5, y: 5};
         this.width = {current: 0, initial: 0};
         this.height = {current: 0, initial: 0};
-        this.moveForce = {current: 2, initial: 2};
-        this.jumpForce = {current: 7, initial: 7};
-        this.gravity = {current: 0.2, initial: 0.2};
+        this.moveForce = {current: 2.5, initial: 2.5};
+        this.jumpForce = {current: 16, initial: 16};
+        this.gravity = {current: 0.7, initial: 0.7};
         this.frictionCoef = {current: 0.98, initial: 0.98, braking: 0.7};
         this.playerData.objects.forEach(item => {
             if (item.type === "playerSpawn") {
@@ -146,6 +146,26 @@ export default class Player {
             this.velocity.x *= this.frictionCoef.braking;
         }
 
+        //move he screen if necessary
+        let sWidth = this.game.canvas.width;
+        let sHeight = this.game.canvas.height;
+        let sTreshhold = {x: sWidth / 4, y: sHeight / 5};
+        let pPosition = {
+            x: this.position.x - this.game.screenPosition.x,
+            y: this.position.y - this.game.screenPosition.y
+        };
+        if (pPosition.x > sWidth - sTreshhold.x) {
+            this.game.moveScreen("right");
+        } else if (pPosition.x < sTreshhold.x) {
+            this.game.moveScreen("left");
+        }
+
+        if (pPosition.y > sHeight - sTreshhold.y) {
+            this.game.moveScreen("down");
+        } else if (pPosition.y < sTreshhold.y) {
+            this.game.moveScreen("up");
+        }
+
     }
 
 
@@ -206,7 +226,7 @@ export default class Player {
                 this.position.x = this.game.map.tileWidth * (rightPos.x) - this.width.current;
             } else if (leftTile && leftTile.solid) {
                 this.velocity.x = 0;
-                this.position.x = this.game.map.tileWidth * (leftPos.x +1);
+                this.position.x = this.game.map.tileWidth * (leftPos.x + 1);
             }
 
 
