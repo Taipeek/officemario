@@ -41,14 +41,26 @@ export default class Feature
 			this.velocity.y = 0;
             this.position.y = (belowTilePositionL.y -1) * this.tileHeight;
 		}
-		else if (belowTileR && belowTileR.solid && ((belowTilePositionR.y * this.tileHeight) - this.position.y - this.tileHeight) <= 3)
+		else if (false && belowTileR && belowTileR.solid && ((belowTilePositionR.y * this.tileHeight) - this.position.y - this.tileHeight) <= 3)
 		{
 			this.velocity.y = 0;
             this.position.y = (belowTilePositionR.y -1) * this.tileHeight;
 		}
-		else
-                        this.velocity.x*=-1;
-			
+                
+		else{
+                    
+                }
+                        
+		if (belowTileR && !belowTileR.solid && ((belowTilePositionR.y * this.tileHeight) - this.position.y - this.tileHeight) <= 3)
+		{
+			this.velocity.x*=-1;
+            
+		}
+                else if (belowTileL && !belowTileL.solid && ((belowTilePositionL.y * this.tileHeight) - this.position.y - this.tileHeight) <= 3)
+		{
+			this.velocity.x*=-1;
+            
+		}
 
 		// check collision from the left
 		let leftTilePosition = {x: this.tilePos.x -1, y: this.tilePos.y};
@@ -73,41 +85,38 @@ export default class Feature
 	{
 		let player = this.game.player;
 		
-		// the player hits the powerup from the left (with his right side)
+                let topHit = ((this.position.y <= (player.position.y+ player.height.current)
+		 && this.position.y >=( player.position.y + 0.8*player.height.current)
+		 && this.position.x >= player.position.x
+		 && this.position.x <= (player.position.x+player.width.current)) ||
+             ((this.position.y <= (player.position.y+ player.height.current)
+		 && this.position.y >=( player.position.y + 0.8*player.height.current)
+		 && this.position.x+this.tileWidth >= player.position.x
+		 && this.position.x+this.tileWidth <= (player.position.x+player.width.current))));
+		
 		let leftHit = (this.position.y + this.tileHeight >= player.position.y 
 		 && this.position.y <= player.position.y + player.height.current
 		 && this.position.x <= player.position.x + player.width.current 
 		 && this.position.x >= player.position.x);
 
-		// the player hits the powerup with his left side
+		
 		let rightHit = (this.position.y + this.tileHeight >= player.position.y 
 		 && this.position.y <= player.position.y + player.height.current
 		 && this.position.x <= player.position.x
 		 && this.position.x + this.tileWidth >= player.position.x);
 		
-		if (leftHit || rightHit)
-		{
-			this.apply();
+		if (topHit)
+		{	//feature killed		
 			this.active = false;
+                    
 		}
+                else if(leftHit || rightHit){
+                    //feature picked up
+                    this.active = false;
+                }
 	}
 
-	apply()
-	{
-		switch(this.type)
-		{
-			case 'debug':
-				//this.player.onehitBugs = true;
-				break;
-			case 'auto':
-				this.game.player.maxVelocity.x *= 2;
-				this.game.player.maxVelocity.y *= 2;
-				break;
-			default:
-				console.log("unknown powerup type: " + this.type);
-				return;
-		}
-	}
+
 
 	update()
 	{
@@ -115,9 +124,7 @@ export default class Feature
 			return;
 		this.checkTileCollisions();
 		this.checkPlayerCollision();
-		this.move();
-
-		
+		this.move();	
 		
 	}
 
