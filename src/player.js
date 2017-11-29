@@ -1,3 +1,6 @@
+import Powerup from "./powerup";
+import Feature from "./feature";
+
 export default class Player {
     constructor(game) {
         this.game = game;
@@ -17,6 +20,10 @@ export default class Player {
             if (item.type === "playerspawn") {
                 this.position.x = item.x;
                 this.position.y = item.y;
+            } else if (item.type === "powerupspawn") {
+                this.game.powerups.push(new Powerup(this.game, item.x, item.y, 'auto'));
+            } else if (item.type === "enemyspawn") {
+                this.game.features.push(new Feature(this.game, item.x, item.y));
             }
         });
         this.lastDirection = "r";
@@ -158,15 +165,15 @@ export default class Player {
             y: this.position.y - this.game.screenPosition.y
         };
         if (pPosition.x > sWidth - sTreshhold.x) {
-            this.game.moveScreen("right",this.cameraMove.x);
+            this.game.moveScreen("right", this.cameraMove.x);
         } else if (pPosition.x < sTreshhold.x) {
-            this.game.moveScreen("left",this.cameraMove.x);
+            this.game.moveScreen("left", this.cameraMove.x);
         }
 
         if (pPosition.y > sHeight - sTreshhold.y) {
-            this.game.moveScreen("down",this.cameraMove.y);
+            this.game.moveScreen("down", this.cameraMove.y);
         } else if (pPosition.y < sTreshhold.y) {
-            this.game.moveScreen("up",this.cameraMove.y);
+            this.game.moveScreen("up", this.cameraMove.y);
         }
 
     }

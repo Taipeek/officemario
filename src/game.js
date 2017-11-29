@@ -1,7 +1,5 @@
 import Player from "./player";
 import LevelMap from "./levelMap";
-import Powerup from "./powerup";
-import Feature from "./feature";
 
 export default class Game {
     constructor() {
@@ -33,11 +31,11 @@ export default class Game {
         this.newGame();
     }
 
-    moveScreen(where,step) {
-        if(!step) step = 8;
+    moveScreen(where, step) {
+        if (!step) step = 8;
         if (where === "right") {
             this.screenPosition.x += step;
-            if (this.screenPosition.x > this.map.mapWidthPixels) this.screenPosition.x = this.map.mapWidthPixels;
+            if (this.screenPosition.x + this.canvas.width > this.map.mapWidthPixels) this.screenPosition.x = this.map.mapWidthPixels - this.canvas.width;
         } else if (where === "left") {
             this.screenPosition.x -= step;
             if (this.screenPosition.x < 0) this.screenPosition.x = 0;
@@ -47,7 +45,7 @@ export default class Game {
 
         } else if (where === "down") {
             this.screenPosition.y += step;
-            if (this.screenPosition.y > this.map.mapHeightPixels) this.screenPosition.y = this.map.mapHeightPixels;
+            if (this.screenPosition.y + this.canvas.height > this.map.mapHeightPixels) this.screenPosition.y = this.map.mapHeightPixels - this.canvas.height;
         }
     }
 
@@ -60,12 +58,11 @@ export default class Game {
         };
         //Create game objects
         this.map = new LevelMap(this);
-        this.player = new Player(this);
         this.gameLoopInterval = null;
         this.powerups = [];
         this.features = [];
-        this.powerups.push(new Powerup(this, 13 * this.map.tileWidth, 8 * this.map.tileHeight, 'auto'));
-        this.features.push(new Feature(this, 12 * this.map.tileWidth, 10 * this.map.tileHeight));
+        this.player = new Player(this);
+
     }
 
     pause() {
