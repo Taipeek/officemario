@@ -5,8 +5,8 @@ export default class Player {
         this.position = {x: 0, y: 0};
         this.velocity = {x: 0, y: 0};
         this.maxVelocity = {x: 5, y: 5};
-        this.width = {current: 42, initial: 42};
-        this.height = {current: 69, initial: 69};
+        this.width = {current: 32, initial: 32};
+        this.height = {current: 64, initial: 64};
         this.moveForce = {current: 2.5, initial: 2.5};
         this.jumpForce = {current: 16, initial: 16};
         this.gravity = {current: 0.7, initial: 0.7};
@@ -141,7 +141,7 @@ export default class Player {
     }
 
     applyMovement() {
-        this.cameraMove = {x: this.velocity.x, y: this.velocity.y};
+        this.cameraMove = {x: Math.abs(Math.floor(this.velocity.x)), y: Math.abs(Math.floor(this.velocity.y))};
         this.position.x += this.velocity.x;
         this.position.y += this.velocity.y;
 
@@ -152,7 +152,7 @@ export default class Player {
         //move he screen if necessary
         let sWidth = this.game.canvas.width;
         let sHeight = this.game.canvas.height;
-        let sTreshhold = {x: sWidth / 4, y: sHeight / 5};
+        let sTreshhold = {x: sWidth / 3.4, y: sHeight / 4};
         let pPosition = {
             x: this.position.x - this.game.screenPosition.x,
             y: this.position.y - this.game.screenPosition.y
