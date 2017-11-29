@@ -5,20 +5,22 @@ export default class Player {
         this.position = {x: 0, y: 0};
         this.velocity = {x: 0, y: 0};
         this.maxVelocity = {x: 5, y: 5};
-        this.width = {current: 32, initial: 32};
+        this.width = {current: 42, initial: 42};
         this.height = {current: 64, initial: 64};
         this.moveForce = {current: 2.5, initial: 2.5};
         this.jumpForce = {current: 16, initial: 16};
         this.gravity = {current: 0.7, initial: 0.7};
         this.frictionCoef = {current: 0.98, initial: 0.98, braking: 0.7};
-        this.image =  new Image();
-        this.image.src = "img/walk_sheet.png";
+        this.image = new Image();
+        this.image.src = "img/player_walk_sheet.png";
         this.playerData.objects.forEach(item => {
             if (item.type === "playerspawn") {
                 this.position.x = item.x;
                 this.position.y = item.y;
             }
         });
+        this.lastDirection = "r";
+        this.animation = 0;
         this.getTileXY = this.getTileXY.bind(this);
         this.getTileXYHorizontal = this.getTileXYHorizontal.bind(this);
         this.jumpCrouch = this.jumpCrouch.bind(this);
@@ -244,9 +246,24 @@ export default class Player {
 
     render() {
         this.game.ctx.save();
-        this.game.ctx.drawImage(this.image,0,0,this.width.current,this.height.current,this.position.x,this.position.y,this.width.current,this.height.current)
-       // this.game.ctx.fillStyle = "beige";
-       // this.game.ctx.fillRect(this.position.x, this.position.y, this.width.current, this.height.current);
+        if (this.game.keyBoard['right']) {
+            if (!(this.game.renderCounter % 4))
+                this.animation = (this.animation + 1) % 8;
+            this.direction = "r";
+        } else if (this.game.keyBoard['left']) {
+            if (!(this.game.renderCounter % 4))
+                this.animation = (this.animation + 1) % 8;
+            this.direction = "l";
+        } else {
+            this.animation = 0;
+        }
+        // if (this.direction === "l")
+        //     this.game.ctx.scale(-1, 1);
+        // else
+        //     this.game.ctx.scale(-1, 1);
+        this.game.ctx.drawImage(this.image, this.width.initial * this.animation, 0, this.width.current, this.height.current, this.position.x, this.position.y, this.width.current, this.height.current)
+        // this.game.ctx.fillStyle = "beige";
+        // this.game.ctx.fillRect(this.position.x, this.position.y, this.width.current, this.height.current);
         this.game.ctx.restore();
     }
 

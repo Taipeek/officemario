@@ -24,6 +24,7 @@ export default class Game {
         this.newGame = this.newGame.bind(this);
         this.pause = this.pause.bind(this);
         this.gameLoop = this.gameLoop.bind(this);
+        this.renderCounter = 0;
 
 
         // key handlers
@@ -153,6 +154,7 @@ export default class Game {
             feature.render();
         });
         this.ctx.restore();
+        this.renderCounter++;
     }
 
     update() {
