@@ -6,7 +6,7 @@ export default class Player {
         this.velocity = {x: 0, y: 0};
         this.maxVelocity = {x: 5, y: 5};
         this.width = {current: 42, initial: 42};
-        this.height = {current: 64, initial: 64};
+        this.height = {current: 69, initial: 69};
         this.moveForce = {current: 2.5, initial: 2.5};
         this.jumpForce = {current: 16, initial: 16};
         this.gravity = {current: 0.7, initial: 0.7};
@@ -141,6 +141,7 @@ export default class Player {
     }
 
     applyMovement() {
+        this.cameraMove = {x: this.velocity.x, y: this.velocity.y};
         this.position.x += this.velocity.x;
         this.position.y += this.velocity.y;
 
@@ -157,15 +158,15 @@ export default class Player {
             y: this.position.y - this.game.screenPosition.y
         };
         if (pPosition.x > sWidth - sTreshhold.x) {
-            this.game.moveScreen("right");
+            this.game.moveScreen("right",this.cameraMove.x);
         } else if (pPosition.x < sTreshhold.x) {
-            this.game.moveScreen("left");
+            this.game.moveScreen("left",this.cameraMove.x);
         }
 
         if (pPosition.y > sHeight - sTreshhold.y) {
-            this.game.moveScreen("down");
+            this.game.moveScreen("down",this.cameraMove.y);
         } else if (pPosition.y < sTreshhold.y) {
-            this.game.moveScreen("up");
+            this.game.moveScreen("up",this.cameraMove.y);
         }
 
     }
@@ -257,11 +258,10 @@ export default class Player {
         } else {
             this.animation = 0;
         }
-        // if (this.direction === "l")
-        //     this.game.ctx.scale(-1, 1);
-        // else
-        //     this.game.ctx.scale(-1, 1);
-        this.game.ctx.drawImage(this.image, this.width.initial * this.animation, 0, this.width.current, this.height.current, this.position.x, this.position.y, this.width.current, this.height.current)
+        this.game.ctx.translate(this.position.x + this.width.current / 2, this.position.y + this.height.current / 2);
+        if (this.direction === "l")
+            this.game.ctx.scale(-1, 1);
+        this.game.ctx.drawImage(this.image, this.width.initial * this.animation, 0, this.width.current, this.height.current, -this.width.current / 2, -this.height.current / 2, this.width.current, this.height.current)
         // this.game.ctx.fillStyle = "beige";
         // this.game.ctx.fillRect(this.position.x, this.position.y, this.width.current, this.height.current);
         this.game.ctx.restore();

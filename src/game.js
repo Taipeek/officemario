@@ -33,8 +33,8 @@ export default class Game {
         this.newGame();
     }
 
-    moveScreen(where) {
-        let step = 10;
+    moveScreen(where,step) {
+        if(!step) step = 8;
         if (where === "right") {
             this.screenPosition.x += step;
             if (this.screenPosition.x > this.map.mapWidthPixels) this.screenPosition.x = this.map.mapWidthPixels;
