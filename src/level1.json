@@ -1,7 +1,7 @@
 { "height":32,
  "layers":[
         {
-         "image":"..\/public\/lvl1bg.png",
+         "image":"lvl1bg.png",
          "name":"bg",
          "opacity":1,
          "type":"imagelayer",
@@ -10,7 +10,7 @@
          "y":0
         },
         {
-         "image":"..\/public\/lvl1office.png",
+         "image":"lvl1office.png",
          "name":"office",
          "offsetx":3840,
          "offsety":0,
@@ -160,7 +160,7 @@
         {
          "columns":2,
          "firstgid":1,
-         "image":"..\/..\/..\/KSU\/Office Mario\/tiles.png",
+         "image":"tiles.png",
          "imageheight":64,
          "imagewidth":64,
          "margin":0,

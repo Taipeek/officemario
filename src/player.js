@@ -1,22 +1,22 @@
 export default class Player {
     constructor(game) {
         this.game = game;
-        this.playerData = this.game.map.mapData.layers[2];
+        this.playerData = this.game.map.mapData.layers[3];
         this.position = {x: 0, y: 0};
         this.velocity = {x: 0, y: 0};
         this.maxVelocity = {x: 5, y: 5};
-        this.width = {current: 0, initial: 0};
-        this.height = {current: 0, initial: 0};
+        this.width = {current: 32, initial: 32};
+        this.height = {current: 64, initial: 64};
         this.moveForce = {current: 2.5, initial: 2.5};
         this.jumpForce = {current: 16, initial: 16};
         this.gravity = {current: 0.7, initial: 0.7};
         this.frictionCoef = {current: 0.98, initial: 0.98, braking: 0.7};
+        this.image =  new Image();
+        this.image.src = "img/walk_sheet.png";
         this.playerData.objects.forEach(item => {
-            if (item.type === "playerSpawn") {
+            if (item.type === "playerspawn") {
                 this.position.x = item.x;
                 this.position.y = item.y;
-                this.width.initial = this.width.current = item.width;
-                this.height.initial = this.height.current = item.height;
             }
         });
         this.getTileXY = this.getTileXY.bind(this);
@@ -196,10 +196,10 @@ export default class Player {
         lowerRightTilePosition = this.getTileXYHorizontal("lower", "right");
         upperLeftTilePosition = this.getTileXYHorizontal("upper", "left");
         upperRightTilePosition = this.getTileXYHorizontal("upper", "right");
-        lowerLeftCurrentTile = this.game.map.tileAt(lowerLeftTilePosition, 0);
-        lowerRightCurrentTile = this.game.map.tileAt(lowerRightTilePosition, 0);
-        upperLeftCurrentTile = this.game.map.tileAt(upperLeftTilePosition, 0);
-        upperRightCurrentTile = this.game.map.tileAt(upperRightTilePosition, 0);
+        lowerLeftCurrentTile = this.game.map.tileAt(lowerLeftTilePosition);
+        lowerRightCurrentTile = this.game.map.tileAt(lowerRightTilePosition);
+        upperLeftCurrentTile = this.game.map.tileAt(upperLeftTilePosition);
+        upperRightCurrentTile = this.game.map.tileAt(upperRightTilePosition);
         // horizontal detection left
         if ((lowerLeftCurrentTile && lowerLeftCurrentTile.solid) || (upperLeftCurrentTile && upperLeftCurrentTile.solid)) {
             this.velocity.x = 0;
@@ -244,8 +244,9 @@ export default class Player {
 
     render() {
         this.game.ctx.save();
-        this.game.ctx.fillStyle = "beige";
-        this.game.ctx.fillRect(this.position.x, this.position.y, this.width.current, this.height.current);
+        this.game.ctx.drawImage(this.image,0,0,this.width.current,this.height.current,this.position.x,this.position.y,this.width.current,this.height.current)
+       // this.game.ctx.fillStyle = "beige";
+       // this.game.ctx.fillRect(this.position.x, this.position.y, this.width.current, this.height.current);
         this.game.ctx.restore();
     }
 
