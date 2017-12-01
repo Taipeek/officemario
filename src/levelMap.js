@@ -1,7 +1,7 @@
 export default class LevelMap {
     constructor(game) {
         this.game = game;
-        this.mapData = require('./map.json');
+        this.mapData = require('./level1.json');
         this.tiles = [];
         this.tilesets = [];
         this.layers = [];
@@ -20,6 +20,7 @@ export default class LevelMap {
         this.mapHeight = this.mapData.height;
         this.mapWidthPixels = this.mapData.width * this.tileWidth;
         this.mapHeightPixels = this.mapData.height * this.tileHeight;
+        this.game.screenPosition.y = this.mapHeightPixels - this.game.canvas.height;
 
         // Load the tileset(s)
         this.mapData.tilesets.forEach((tilesetmapData, index) => {
@@ -82,8 +83,8 @@ export default class LevelMap {
             else if (layerData.type === "imagelayer") {
                 let layer = {
                     name: layerData.name,
-                    x: layerData.x,
-                    y: layerData.y,
+                    x: layerData.offsetx ? layerData.offsetx : 0,
+                    y: layerData.offsety ? layerData.offsety : 0,
                     image: new Image(),
                     visible: layerData.visible,
                     type: layerData.type
@@ -101,7 +102,7 @@ export default class LevelMap {
 
     tileAt(pos, layer) {
         // sanity check
-        if (!layer) layer = 1;
+        if (!layer) layer = 2;
         if (layer < 0 || pos.x < 0 || pos.y < 0 || layer >= this.layers.length || pos.x > this.mapWidth || pos.y > this.mapHeight)
             return undefined;
         return this.tiles[this.layers[layer].data[pos.x + pos.y * this.mapWidth] - 1];

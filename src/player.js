@@ -1,24 +1,33 @@
+import Powerup from "./powerup";
+import Feature from "./feature";
+
 export default class Player {
     constructor(game) {
         this.game = game;
-        this.playerData = this.game.map.mapData.layers[2];
+        this.playerData = this.game.map.mapData.layers[3];
         this.position = {x: 0, y: 0};
         this.velocity = {x: 0, y: 0};
         this.maxVelocity = {x: 5, y: 5};
-        this.width = {current: 0, initial: 0};
-        this.height = {current: 0, initial: 0};
+        this.width = {current: 32, initial: 32};
+        this.height = {current: 64, initial: 64};
         this.moveForce = {current: 2.5, initial: 2.5};
         this.jumpForce = {current: 16, initial: 16};
         this.gravity = {current: 0.7, initial: 0.7};
         this.frictionCoef = {current: 0.98, initial: 0.98, braking: 0.7};
+        this.image = new Image();
+        this.image.src = "img/player_walk_sheet.png";
         this.playerData.objects.forEach(item => {
-            if (item.type === "playerSpawn") {
+            if (item.type === "playerspawn") {
                 this.position.x = item.x;
                 this.position.y = item.y;
-                this.width.initial = this.width.current = item.width;
-                this.height.initial = this.height.current = item.height;
+            } else if (item.type === "powerupspawn") {
+                this.game.powerups.push(new Powerup(this.game, item.x, item.y, 'auto'));
+            } else if (item.type === "enemyspawn") {
+                this.game.features.push(new Feature(this.game, item.x, item.y));
             }
         });
+        this.lastDirection = "r";
+        this.animation = 0;
         this.getTileXY = this.getTileXY.bind(this);
         this.getTileXYHorizontal = this.getTileXYHorizontal.bind(this);
         this.jumpCrouch = this.jumpCrouch.bind(this);
@@ -139,6 +148,7 @@ export default class Player {
     }
 
     applyMovement() {
+        this.cameraMove = {x: Math.abs(Math.floor(this.velocity.x)), y: Math.abs(Math.floor(this.velocity.y))};
         this.position.x += this.velocity.x;
         this.position.y += this.velocity.y;
 
@@ -149,21 +159,21 @@ export default class Player {
         //move he screen if necessary
         let sWidth = this.game.canvas.width;
         let sHeight = this.game.canvas.height;
-        let sTreshhold = {x: sWidth / 4, y: sHeight / 5};
+        let sTreshhold = {x: sWidth / 3.4, y: sHeight / 4};
         let pPosition = {
             x: this.position.x - this.game.screenPosition.x,
             y: this.position.y - this.game.screenPosition.y
         };
         if (pPosition.x > sWidth - sTreshhold.x) {
-            this.game.moveScreen("right");
+            this.game.moveScreen("right", this.cameraMove.x);
         } else if (pPosition.x < sTreshhold.x) {
-            this.game.moveScreen("left");
+            this.game.moveScreen("left", this.cameraMove.x);
         }
 
         if (pPosition.y > sHeight - sTreshhold.y) {
-            this.game.moveScreen("down");
+            this.game.moveScreen("down", this.cameraMove.y);
         } else if (pPosition.y < sTreshhold.y) {
-            this.game.moveScreen("up");
+            this.game.moveScreen("up", this.cameraMove.y);
         }
 
     }
@@ -209,10 +219,10 @@ export default class Player {
         lowerRightTilePosition = this.getTileXYHorizontal("lower", "right");
         upperLeftTilePosition = this.getTileXYHorizontal("upper", "left");
         upperRightTilePosition = this.getTileXYHorizontal("upper", "right");
-        lowerLeftCurrentTile = this.game.map.tileAt(lowerLeftTilePosition, 0);
-        lowerRightCurrentTile = this.game.map.tileAt(lowerRightTilePosition, 0);
-        upperLeftCurrentTile = this.game.map.tileAt(upperLeftTilePosition, 0);
-        upperRightCurrentTile = this.game.map.tileAt(upperRightTilePosition, 0);
+        lowerLeftCurrentTile = this.game.map.tileAt(lowerLeftTilePosition);
+        lowerRightCurrentTile = this.game.map.tileAt(lowerRightTilePosition);
+        upperLeftCurrentTile = this.game.map.tileAt(upperLeftTilePosition);
+        upperRightCurrentTile = this.game.map.tileAt(upperRightTilePosition);
         // horizontal detection left
         if ((lowerLeftCurrentTile && lowerLeftCurrentTile.solid) || (upperLeftCurrentTile && upperLeftCurrentTile.solid)) {
             this.velocity.x = 0;
@@ -257,8 +267,23 @@ export default class Player {
 
     render() {
         this.game.ctx.save();
-        this.game.ctx.fillStyle = "beige";
-        this.game.ctx.fillRect(this.position.x, this.position.y, this.width.current, this.height.current);
+        if (this.game.keyBoard['right']) {
+            if (!(this.game.renderCounter % 4))
+                this.animation = (this.animation + 1) % 8;
+            this.direction = "r";
+        } else if (this.game.keyBoard['left']) {
+            if (!(this.game.renderCounter % 4))
+                this.animation = (this.animation + 1) % 8;
+            this.direction = "l";
+        } else {
+            this.animation = 0;
+        }
+        this.game.ctx.translate(this.position.x + this.width.current / 2, this.position.y + this.height.current / 2);
+        if (this.direction === "l")
+            this.game.ctx.scale(-1, 1);
+        this.game.ctx.drawImage(this.image, this.width.initial * this.animation, 0, this.width.current, this.height.current, -this.width.current / 2, -this.height.current / 2, this.width.current, this.height.current)
+        // this.game.ctx.fillStyle = "beige";
+        // this.game.ctx.fillRect(this.position.x, this.position.y, this.width.current, this.height.current);
         this.game.ctx.restore();
     }
 
