@@ -1,10 +1,7 @@
-import Powerup from "./powerup";
-import Feature from "./feature";
 
 export default class Player {
     constructor(game) {
         this.game = game;
-        this.playerData = this.game.map.mapData.layers[3];
         this.position = {x: 0, y: 0};
         this.velocity = {x: 0, y: 0};
         this.maxVelocity = {x: 5, y: 5};
@@ -16,18 +13,9 @@ export default class Player {
         this.frictionCoef = {current: 0.98, initial: 0.98, braking: 0.7};
         this.image = new Image();
         this.image.src = "img/player_walk_sheet.png";
-        this.playerData.objects.forEach(item => {
-            if (item.type === "playerspawn") {
-                this.position.x = item.x;
-                this.position.y = item.y;
-            } else if (item.type === "powerupspawn") {
-                this.game.powerups.push(new Powerup(this.game, item.x, item.y, 'auto'));
-            } else if (item.type === "enemyspawn") {
-                this.game.features.push(new Feature(this.game, item.x, item.y));
-            }
-        });
         this.lastDirection = "r";
         this.animation = 0;
+        this.invincible = false;
         this.getTileXY = this.getTileXY.bind(this);
         this.getTileXYHorizontal = this.getTileXYHorizontal.bind(this);
         this.jumpCrouch = this.jumpCrouch.bind(this);
