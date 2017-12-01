@@ -5,16 +5,18 @@ export default class Powerup {
         this.active = true;
         this.applied = false;
         this.timeToLive = Math.floor((5 + Math.random() * 5) * this.game.gameLoopSpeed); // 5 to 10 seconds
-        this.effectTime = 10 * this.game.gameLoopSpeed; // the effets last for 10 seconds
+        this.duration = Math.floor(10 * this.game.gameLoopSpeed); // the effects last for 10 seconds
         this.position = {x: x, y: y};
         this.gravity = 0.7;
         this.tilePos = this.calcTilePosition(this.position);
-        this.velocity = {
-            x: (Math.random() < 0.5 ? -1 : 1),
-            y: this.gravity
-        };
         this.tileWidth = this.game.map.tileWidth;
         this.tileHeight = this.game.map.tileHeight;
+        this.velocity = {
+            x: (Math.random() < 0.5 ? -1 : 1),
+            y: this.gravity,
+            max: this.tileHeight/2
+        };        
+        //console.log('spawned ' + this.type + ' at ' + this.position.x + ' ' + this.position.y);
     }
 
     calcTilePosition(position) {
@@ -48,8 +50,14 @@ export default class Powerup {
             this.velocity.y = 0;
             this.position.y = (belowTilePositionR.y - 1) * this.tileHeight;
         }
-        else
+        else {
             this.velocity.y += this.gravity;
+            if (this.velocity.y > this.velocity.max)
+                this.velocity.y = this.velocity.max;
+
+            if (this.velocity.y < -this.velocity.max) // should never happen, objects don't fly up
+                this.velocity.y = -this.velocity.max;
+        }
 
         // check collision from the left
         let leftTilePosition = {x: this.tilePos.x - 1, y: this.tilePos.y};
@@ -100,7 +108,16 @@ export default class Powerup {
                 this.game.player.maxVelocity.y *= 2;
                 break;
             case 'coffee':
-                this.game.shake = true;
+                this.game.gameState.lives++;
+                this.game.shake = {
+                    on: true,
+                    rampdown: false,
+                    counter: this.duration
+                };
+                break;
+            case 'pizza': 
+                this.game.gameState.lives++;               
+                this.game.player.maxVelocity.x *= 0.5;
                 break;
             default:
                 console.log("unknown powerup type: " + this.type);
@@ -120,7 +137,10 @@ export default class Powerup {
                 this.game.player.maxVelocity.y /= 2;
                 break;
             case 'coffee':
-                this.game.shake = false;
+                this.game.shake.on = false;
+                break;
+            case 'pizza':                
+                this.game.player.maxVelocity.x /= 0.5;
                 break;
             default:
                 console.log("unknown powerup type: " + this.type);
@@ -131,8 +151,8 @@ export default class Powerup {
     update() {
         if (this.applied)
         {
-            this.effectTime -= 1;
-            if (this.effectTime <= 0)
+            this.duration -= 1;
+            if (this.duration <= 0)
                 this.wearoff();
             return;
         }
@@ -142,21 +162,33 @@ export default class Powerup {
         this.checkPlayerCollision();
         this.move();
 
-        this.timeToLive -= 1;
+        //this.timeToLive -= 1;
         if (this.timeToLive <= 0)
             this.active = false;
     }
 
     render() {
+        //debug - comment the whole block below
+        /*if (this.applied) {            
+            this.game.ctx.save();
+            let text = 'frames left: ' + this.duration;
+            this.game.ctx.font = '14px Courier';
+            this.game.ctx.fillText(text, 
+                this.game.player.position.x + this.game.player.width.current/2 - this.game.ctx.measureText(text).width/2, 
+                this.game.player.position.y - 10);
+            this.game.ctx.restore();
+        }*/
+
         if (!this.active)
             return;
         this.game.ctx.save();
-        this.game.ctx.fillStyle = "red";
+        this.game.ctx.fillStyle = 'red';
         this.game.ctx.fillRect(this.position.x, this.position.y, this.tileWidth, this.tileHeight);
         let text = this.type;
-        this.game.ctx.fillStyle = "white";
-        this.game.ctx.fillText(this.type, this.position.x + this.tileWidth / 2 - this.game.ctx.measureText(text).width / 2,
-            this.position.y + this.tileHeight / 2);
+        this.game.ctx.fillStyle = 'white';
+        this.game.ctx.fillText(this.type, this.position.x + this.tileWidth/2 - this.game.ctx.measureText(text).width/2,
+            this.position.y + this.tileHeight/2);
+
         this.game.ctx.restore();
     }
 }

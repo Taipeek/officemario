@@ -28,7 +28,7 @@ export default class Game {
         this.pause = this.pause.bind(this);
         this.gameLoop = this.gameLoop.bind(this);
         this.renderCounter = 0;
-        this.shake = false;
+        this.shake = {on: false};
 
         // key handlers
         window.onkeydown = this.handleKeyDown;
@@ -74,7 +74,7 @@ export default class Game {
                 this.player.position.x = item.x;
                 this.player.position.y = item.y;
             } else if (item.type === "powerupspawn") {
-                this.powerups.push(new Powerup(this, item.x, item.y, 'auto'));
+                this.powerups.push(new Powerup(this, /*item.x*/100, item.y, 'coffee'));
             } else if (item.type === "enemyspawn") {
                 this.features.push(new Bug(this, item.x, item.y));
             }
@@ -170,17 +170,27 @@ export default class Game {
         }
     }
 
-    shakeScreen() {
-        let randX = Math.floor((0.5 - Math.random()) * 20);
-        let randY = Math.floor((0.5 - Math.random()) * 12);
-        this.ctx.translate(randX, randY);
+    handleShake() {     
+        if (!this.shake.on)
+            return;
+                
+        let randX = (0.5 - Math.random()) * 30; // almost unplayable
+        let randY = (0.5 - Math.random()) * 18;
+
+        if (this.shake.rampdown) {
+            randX *= (this.shake.counter / (this.gameLoopSpeed*2));
+            randY *= (this.shake.counter / (this.gameLoopSpeed*2));
+        }
+        this.ctx.translate(Math.floor(randX), Math.floor(randY));
+        this.shake.counter--;
+
+        if (this.shake.counter <= 2* this.gameLoopSpeed)
+            this.shake.rampdown = true;
     }
 
     render() {
         this.ctx.save();
-        if (this.shake) {
-            this.shakeScreen();
-        }
+        this.handleShake();
         this.ctx.translate(-this.screenPosition.x, -this.screenPosition.y);
         this.map.render();
 
