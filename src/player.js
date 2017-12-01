@@ -1,10 +1,7 @@
-import Powerup from "./powerup";
-import Feature from "./feature";
 
 export default class Player {
     constructor(game) {
         this.game = game;
-        this.playerData = this.game.map.mapData.layers[3];
         this.position = {x: 0, y: 0};
         this.velocity = {x: 0, y: 0};
         this.maxVelocity = {x: 5, y: 5};
@@ -14,20 +11,13 @@ export default class Player {
         this.jumpForce = {current: 16, initial: 16};
         this.gravity = {current: 0.7, initial: 0.7};
         this.frictionCoef = {current: 0.98, initial: 0.98, braking: 0.7};
-        this.image = new Image();
-        this.image.src = "img/player_walk_sheet.png";
-        this.playerData.objects.forEach(item => {
-            if (item.type === "playerspawn") {
-                this.position.x = item.x;
-                this.position.y = item.y;
-            } else if (item.type === "powerupspawn") {
-                this.game.powerups.push(new Powerup(this.game, item.x, item.y, 'auto'));
-            } else if (item.type === "enemyspawn") {
-                this.game.features.push(new Feature(this.game, item.x, item.y));
-            }
-        });
+        this.imageWalk = new Image();
+        this.imageWalk.src = "img/player_walk_sheet.png";
+        this.imageJump = new Image();
+        this.imageJump.src = "img/Fat_jump_right.png";
         this.lastDirection = "r";
         this.animation = 0;
+        this.invincible = false;
         this.getTileXY = this.getTileXY.bind(this);
         this.getTileXYHorizontal = this.getTileXYHorizontal.bind(this);
         this.jumpCrouch = this.jumpCrouch.bind(this);
@@ -265,12 +255,16 @@ export default class Player {
         } else {
             this.animation = 0;
         }
+
         this.game.ctx.translate(this.position.x + this.width.current / 2, this.position.y + this.height.current / 2);
-        if (this.direction === "l")
+        if (this.direction === "l") {
             this.game.ctx.scale(-1, 1);
-        this.game.ctx.drawImage(this.image, this.width.initial * this.animation, 0, this.width.current, this.height.current, -this.width.current / 2, -this.height.current / 2, this.width.current, this.height.current)
-        // this.game.ctx.fillStyle = "beige";
-        // this.game.ctx.fillRect(this.position.x, this.position.y, this.width.current, this.height.current);
+        }
+        if(this.velocity.y === 0) {
+            this.game.ctx.drawImage(this.imageWalk, this.width.initial * this.animation, 0, this.width.current, this.height.current, -this.width.current / 2, -this.height.current / 2, this.width.current, this.height.current)
+        } else{
+            this.game.ctx.drawImage(this.imageJump, -this.width.current / 2, -this.height.current / 2, this.width.current, this.height.current)
+        }
         this.game.ctx.restore();
     }
 

@@ -1,5 +1,7 @@
 import Player from "./player";
 import LevelMap from "./levelMap";
+import Powerup from "./powerup";
+import Feature from "./feature";
 
 export default class Game {
     constructor() {
@@ -58,10 +60,21 @@ export default class Game {
         };
         //Create game objects
         this.map = new LevelMap(this);
+        this.player = new Player(this);
         this.gameLoopInterval = null;
         this.powerups = [];
         this.features = [];
-        this.player = new Player(this);
+        let objectLayer = this.map.mapData.layers[3];
+        objectLayer.objects.forEach(item => {
+            if (item.type === "playerspawn") {
+                this.player.position.x = item.x;
+                this.player.position.y = item.y;
+            } else if (item.type === "powerupspawn") {
+                this.powerups.push(new Powerup(this, item.x, item.y, 'auto'));
+            } else if (item.type === "enemyspawn") {
+                this.features.push(new Feature(this, item.x, item.y));
+            }
+        });
 
     }
 

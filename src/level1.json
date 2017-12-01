@@ -1,7 +1,7 @@
 { "height":32,
  "layers":[
         {
-         "image":"lvl1bg.png",
+         "imageWalk":"lvl1bg.png",
          "name":"bg",
          "opacity":1,
          "type":"imagelayer",
@@ -10,7 +10,7 @@
          "y":0
         },
         {
-         "image":"lvl1office.png",
+         "imageWalk":"lvl1office.png",
          "name":"office",
          "offsetx":3840,
          "offsety":0,
@@ -160,7 +160,7 @@
         {
          "columns":2,
          "firstgid":1,
-         "image":"tiles.png",
+         "imageWalk":"tiles.png",
          "imageheight":64,
          "imagewidth":64,
          "margin":0,
