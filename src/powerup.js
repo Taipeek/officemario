@@ -93,11 +93,14 @@ export default class Powerup {
         this.applied = true;
         switch (this.type) {
             case 'debug':
-                //this.player.onehitBugs = true;
+                this.player.invincible = true;
                 break;
             case 'auto':
                 this.game.player.maxVelocity.x *= 2;
                 this.game.player.maxVelocity.y *= 2;
+                break;
+            case 'coffee':
+                this.game.shake = true;
                 break;
             default:
                 console.log("unknown powerup type: " + this.type);
@@ -110,11 +113,14 @@ export default class Powerup {
         this.applied = false;
         switch (this.type) {
             case 'debug':
-                //this.player.onehitBugs = true;
+                this.player.invincible = false;
                 break;
             case 'auto':
                 this.game.player.maxVelocity.x /= 2;
                 this.game.player.maxVelocity.y /= 2;
+                break;
+            case 'coffee':
+                this.game.shake = false;
                 break;
             default:
                 console.log("unknown powerup type: " + this.type);

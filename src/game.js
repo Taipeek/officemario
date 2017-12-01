@@ -23,7 +23,7 @@ export default class Game {
         this.pause = this.pause.bind(this);
         this.gameLoop = this.gameLoop.bind(this);
         this.renderCounter = 0;
-
+        this.shake = false;
 
         // key handlers
         window.onkeydown = this.handleKeyDown;
@@ -139,9 +139,19 @@ export default class Game {
         }
     }
 
-    render() {
+    shakeScreen()
+    {
+        let randX = Math.floor((0.5 - Math.random()) * 20);
+        let randY = Math.floor((0.5 - Math.random()) * 12);
+        this.ctx.translate(randX,randY);
+    }
+
+    render() {        
         this.ctx.save();
+        if (this.shake)
+            this.shakeScreen();
         this.ctx.translate(-this.screenPosition.x, -this.screenPosition.y);
+        
         this.map.render();
         this.player.render();
         this.powerups.forEach(powerup => {
