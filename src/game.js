@@ -3,6 +3,7 @@ import LevelMap from "./levelMap";
 import Powerup from "./powerup";
 import Feature from "./feature";
 import ScoreBoard from "./scoreBoard";
+import Bug from "./bug";
 
 export default class Game {
     constructor() {
@@ -23,6 +24,7 @@ export default class Game {
         this.handleKeyDown = this.handleKeyDown.bind(this);
         this.handleKeyUp = this.handleKeyUp.bind(this);
         this.newGame = this.newGame.bind(this);
+        this.checkGameOver = this.checkGameOver.bind(this);
         this.pause = this.pause.bind(this);
         this.gameLoop = this.gameLoop.bind(this);
         this.renderCounter = 0;
@@ -56,7 +58,8 @@ export default class Game {
         this.gameState = {
             status: "new",
             score: 0,
-            lives: 3,
+            lives: 1,
+            level: 1
         };
         //Create game objects
         this.map = new LevelMap(this);
@@ -73,10 +76,24 @@ export default class Game {
             } else if (item.type === "powerupspawn") {
                 this.powerups.push(new Powerup(this, item.x, item.y, 'auto'));
             } else if (item.type === "enemyspawn") {
-                this.features.push(new Feature(this, item.x, item.y));
+                this.features.push(new Bug(this, item.x, item.y));
             }
         });
+        window.onload = () => {
+            this.render();
+            this.scoreBoard.renderFirstGame();
+        }
+    }
 
+    checkGameOver() {
+        if (this.gameState.lives === 0) {
+            clearInterval(this.gameLoopInterval);
+            this.gameLoopInterval = null;
+            this.gameState.status = "over";
+            console.log(this);
+            this.render();
+            this.scoreBoard.renderGameOver();
+        }
     }
 
     pause() {
@@ -85,6 +102,7 @@ export default class Game {
         this.gameState.status = "paused";
         console.log(this);
         this.render();
+        this.scoreBoard.renderPause();
     }
 
     handleKeyDown(event) {
@@ -94,7 +112,6 @@ export default class Game {
                 case ' ':
                     if (this.gameState.status === "over") {
                         this.newGame();
-                        return;
                     }
                     this.gameLoopInterval = setInterval(this.gameLoop, this.gameLoopSpeed);
                     this.gameState.status = "running";
@@ -153,21 +170,20 @@ export default class Game {
         }
     }
 
-    shakeScreen()
-    {
+    shakeScreen() {
         let randX = Math.floor((0.5 - Math.random()) * 20);
         let randY = Math.floor((0.5 - Math.random()) * 12);
-        this.ctx.translate(randX,randY);
+        this.ctx.translate(randX, randY);
     }
 
     render() {
-        this.scoreBoard.render();
         this.ctx.save();
         if (this.shake) {
             this.shakeScreen();
         }
         this.ctx.translate(-this.screenPosition.x, -this.screenPosition.y);
         this.map.render();
+
         this.player.render();
         this.powerups.forEach(powerup => {
             powerup.render();
@@ -176,6 +192,7 @@ export default class Game {
             feature.render();
         });
         this.ctx.restore();
+        this.scoreBoard.render();
         this.renderCounter++;
     }
 
@@ -193,5 +210,6 @@ export default class Game {
     gameLoop() {
         this.update();
         this.render();
+        this.checkGameOver();
     }
 }

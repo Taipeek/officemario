@@ -2,9 +2,9 @@ export default class ScoreBoard {
     constructor(game) {
         this.x = 0;
         this.y = 0;
-        //this.width = width;
         this.height = 20;
         this.game = game;
+        this.width = game.canvas.width;
         this.render = this.render.bind(this);
         this.renderGameOver = this.renderGameOver.bind(this);
         this.renderPause = this.renderPause.bind(this);
@@ -14,76 +14,78 @@ export default class ScoreBoard {
     render() {
         let gameState = this.game.gameState;
         this.game.ctx.save();
-        this.game.ctx.lineWidth = 1;
+        //this.game.ctx.lineWidth = 1;
         this.game.ctx.fillStyle = "white";
         this.game.ctx.font = '18px sans-serif';
         this.game.ctx.fontStyle = 'bold';
-        this.game.ctx.fillText("Score: " + gameState.score, this.x, this.y + 20);
-        this.game.ctx.fillText("Lives: " + gameState.lives, this.x + 50, this.y + 20);
+        this.game.ctx.fillText("Scores: " + gameState.score, this.x + 10, this.y + 20);
+        this.game.ctx.fillText("Lives: " + gameState.lives, this.x + 100, this.y + 20);
+        this.game.ctx.fillText("Level: " + gameState.level, this.x + 190, this.y + 20);
         this.game.ctx.restore();
     }
 
-    renderFirstGame(ctx, gameState) {
-        if (gameState.status !== "new") return;
-        ctx.save();
-        ctx.strokeStyle = 'white';
-        ctx.globalAlpha = 0.8;
-        ctx.fillStyle = "brgba(0, 0, 0, 0.76)";
-        ctx.fillRect(0, 0, this.game.canvas.width, this.game.canvas.height);
-        ctx.globalAlpha = 1;
-        ctx.fillStyle = "white";
-        ctx.font = '40px sans-serif';
-        ctx.fontStyle = 'bold';
-        ctx.fillText("Welcome to asteroids", this.x + 1 / 10 * this.width, this.y - 500);
-        ctx.font = '25px sans-serif';
-        ctx.fillText("Use left/right arrow to steer and up arrow to generate thrust", this.x + 1 / 10 * this.width, this.y - 450);
-        ctx.fillText("Use 'x' key to warp your ship to random place", this.x + 1 / 10 * this.width, this.y - 420);
-        ctx.fillText("Press 'p' key to pause the game", this.x + 1 / 10 * this.width, this.y - 390);
-        ctx.font = '40px sans-serif';
-        ctx.fillText("Press space to start the game", this.x + 1 / 10 * this.width, this.y - 340);
-        ctx.restore();
+    renderFirstGame() {
+        if (this.game.gameState.status !== "new") return;
+        let y = this.game.canvas.height;
+        this.game.ctx.save();
+        this.game.ctx.strokeStyle = 'white';
+        this.game.ctx.globalAlpha = 0.6;
+        this.game.ctx.fillStyle = "brgba(0, 0, 0, 0.76)";
+        this.game.ctx.fillRect(0, 0, this.game.canvas.width, this.game.canvas.height);
+        this.game.ctx.globalAlpha = 1;
+        this.game.ctx.fillStyle = "white";
+        this.game.ctx.font = '40px sans-serif';
+        this.game.ctx.fontStyle = 'bold';
+        this.game.ctx.fillText("Welcome to Office Mario!", this.x + 1 / 10 * this.width, y-300);
+        this.game.ctx.font = '25px sans-serif';
+        this.game.ctx.fillText("Use arrow keys to move and jump", this.x + 1 / 10 * this.width, y - 250);
+        this.game.ctx.fillText("Beware of the bugs and get all the features!", this.x + 1 / 10 * this.width, y - 200);
+        this.game.ctx.fillText("Press p to pause the game", this.x + 1 / 10 * this.width, y - 150);
+        this.game.ctx.font = '40px sans-serif';
+        this.game.ctx.fillText("Press space to start the game", this.x + 1 / 10 * this.width, y - 100);
+        this.game.ctx.restore();
     }
 
-    renderGameOver(ctx, gameState) {
-        if (gameState.status !== "over") return;
-        ctx.save();
-        ctx.strokeStyle = 'white';
-        ctx.globalAlpha = 0.8;
-        ctx.fillStyle = "brgba(0, 0, 0, 0.76)";
-        ctx.fillRect(0, 0, this.game.canvas.width, this.game.canvas.height);
-        ctx.globalAlpha = 1;
-        ctx.fillStyle = "white";
-        ctx.font = '40px sans-serif';
-        ctx.fontStyle = 'bold';
-        ctx.fillText("Game Over!", this.x + 1 / 10 * this.width, this.y - 500);
-        ctx.fillText("Score: " + gameState.score, this.x + 1 / 10 * this.width, this.y - 450);
-        ctx.font = '25px sans-serif';
-        ctx.fillText("Use left/right arrow to steer and up arrow to generate thrust", this.x + 1 / 10 * this.width, this.y - 400);
-        ctx.fillText("Use 'x' key to warp your ship to random place", this.x + 1 / 10 * this.width, this.y - 370);
-        ctx.fillText("Press 'p' key to pause the game", this.x + 1 / 10 * this.width, this.y - 340);
-        ctx.font = '40px sans-serif';
-        ctx.fillText("Press space to start new game", this.x + 1 / 10 * this.width, this.y - 290);
-        ctx.restore();
+    renderGameOver() {
+        if (this.game.gameState.status !== "over") return;
+        let y = this.game.canvas.height;
+        this.game.ctx.save();
+        this.game.ctx.strokeStyle = 'white';
+        this.game.ctx.globalAlpha = 0.6;
+        this.game.ctx.fillStyle = "brgba(0, 0, 0, 0.76)";
+        this.game.ctx.fillRect(0, 0, this.game.canvas.width, this.game.canvas.height);
+        this.game.ctx.globalAlpha = 1;
+        this.game.ctx.fillStyle = "white";
+        this.game.ctx.font = '40px sans-serif';
+        this.game.ctx.fontStyle = 'bold';
+        this.game.ctx.fillText("Game Over!", this.x + 1 / 10 * this.width, y-300);
+        this.game.ctx.font = '25px sans-serif';
+        this.game.ctx.fillText("Score: " + this.game.gameState.score, this.x + 1 / 10 * this.width, y - 250);
+        this.game.ctx.font = '40px sans-serif';
+        this.game.ctx.fillText("Press space to start new game", this.x + 1 / 10 * this.width, y - 100);
+        this.game.ctx.restore();
+
     }
 
-    renderPause(ctx, gameState) {
-        if (gameState.status !== "paused") return;
-        ctx.save();
-        ctx.strokeStyle = 'white';
-        ctx.globalAlpha = 0.8;
-        ctx.fillStyle = "brgba(0, 0, 0, 0.76)";
-        ctx.fillRect(0, 0, this.game.canvas.width, this.game.canvas.height);
-        ctx.globalAlpha = 1;
-        ctx.fillStyle = "white";
-        ctx.font = '40px sans-serif';
-        ctx.fontStyle = 'bold';
-        ctx.fillText("Paused", this.x + 1 / 10 * this.width, this.y - 500);
-        ctx.font = '25px sans-serif';
-        ctx.fillText("Use left/right arrow to steer and up arrow to generate thrust", this.x + 1 / 10 * this.width, this.y - 450);
-        ctx.fillText("Use 'x' key to warp your ship to random place", this.x + 1 / 10 * this.width, this.y - 420);
-        ctx.fillText("Press 'p' key to pause the game", this.x + 1 / 10 * this.width, this.y - 390);
-        ctx.font = '40px sans-serif';
-        ctx.fillText("Press space to resume the game", this.x + 1 / 10 * this.width, this.y - 340);
-        ctx.restore();
+    renderPause() {
+        if (this.game.gameState.status !== "paused") return;
+        let y = this.game.canvas.height;
+        this.game.ctx.save();
+        this.game.ctx.strokeStyle = 'white';
+        this.game.ctx.globalAlpha = 0.6;
+        this.game.ctx.fillStyle = "brgba(0, 0, 0, 0.76)";
+        this.game.ctx.fillRect(0, 0, this.game.canvas.width, this.game.canvas.height);
+        this.game.ctx.globalAlpha = 1;
+        this.game.ctx.fillStyle = "white";
+        this.game.ctx.font = '40px sans-serif';
+        this.game.ctx.fontStyle = 'bold';
+        this.game.ctx.fillText("Paused", this.x + 1 / 10 * this.width, y-300);
+        this.game.ctx.font = '25px sans-serif';
+        this.game.ctx.fillText("Use arrow keys to move and jump", this.x + 1 / 10 * this.width, y - 250);
+        this.game.ctx.fillText("Beware of the bugs and get all the features!", this.x + 1 / 10 * this.width, y - 200);
+        this.game.ctx.fillText("Press p to pause the game", this.x + 1 / 10 * this.width, y - 150);
+        this.game.ctx.font = '40px sans-serif';
+        this.game.ctx.fillText("Press space to resume the game", this.x + 1 / 10 * this.width, y - 100);
+        this.game.ctx.restore();
     }
 }
