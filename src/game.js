@@ -2,6 +2,7 @@ import Player from "./player";
 import LevelMap from "./levelMap";
 import Powerup from "./powerup";
 import Feature from "./feature";
+import ScoreBoard from "./scoreBoard";
 
 export default class Game {
     constructor() {
@@ -56,11 +57,11 @@ export default class Game {
             status: "new",
             score: 0,
             lives: 3,
-            level: 1,
         };
         //Create game objects
         this.map = new LevelMap(this);
         this.player = new Player(this);
+        this.scoreBoard = new ScoreBoard(this);
         this.gameLoopInterval = null;
         this.powerups = [];
         this.features = [];
@@ -159,12 +160,13 @@ export default class Game {
         this.ctx.translate(randX,randY);
     }
 
-    render() {        
+    render() {
+        this.scoreBoard.render();
         this.ctx.save();
-        if (this.shake)
+        if (this.shake) {
             this.shakeScreen();
+        }
         this.ctx.translate(-this.screenPosition.x, -this.screenPosition.y);
-        
         this.map.render();
         this.player.render();
         this.powerups.forEach(powerup => {
