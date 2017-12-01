@@ -10,6 +10,9 @@ export default class Feature {
         this.timeDead = 0;
         this.tileWidth = this.game.map.tileWidth;
         this.tileHeight = this.game.map.tileHeight;
+        this.image=new Image();
+        this.image.src = "img/feature.png";
+        this.falling=false; 
 
 
         let b1 = new Image();
@@ -49,12 +52,15 @@ export default class Feature {
     }
 
     move() {
+        if(!this.falling){
         this.position.x += this.velocity.x;
+     }
         this.position.y += this.velocity.y;
         this.tilePos = this.calcTilePosition(this.position);
     }
 
     checkTileCollisions() {
+        this.falling=false;
         // check collision with tiles below the lower-left and lower-right corner of the tile
         let belowTilePositionL = {x: Math.floor(this.position.x / this.tileWidth), y: this.tilePos.y + 1};
         let belowTileL = this.game.map.tileAt(belowTilePositionL, 0);
@@ -77,14 +83,21 @@ export default class Feature {
         else {
 
         }
+        if(belowTileR && !belowTileR.solid && belowTileL && !belowTileL.solid){
+          this.velocity.y=this.gravity;
+          this.falling=true;
+        }
 
-        if (belowTileR && !belowTileR.solid && ((belowTilePositionR.y * this.tileHeight) - this.position.y - this.tileHeight) <= 3) {
+        else if (belowTileR && !belowTileR.solid && ((belowTilePositionR.y * this.tileHeight) - this.position.y - this.tileHeight) <= 3) {
             this.velocity.x *= -1;
 
         }
         else if (belowTileL && !belowTileL.solid && ((belowTilePositionL.y * this.tileHeight) - this.position.y - this.tileHeight) <= 3) {
             this.velocity.x *= -1;
 
+        }
+        else{
+            this.velocity.y=this.gravity;
         }
 
         // check collision from the left
@@ -158,19 +171,28 @@ export default class Feature {
             this.game.ctx.translate(this.position.x - this.tileWidth * 1.65, this.position.y + this.tileHeight * 0.6);
             this.game.ctx.rotate(Math.PI);
             this.game.ctx.drawImage(this.blood[Math.min(Math.floor(this.timeDead / 1.6), 12)], -this.tileWidth * 3.9, -this.tileHeight * 0.95, this.tileWidth * 3, this.tileHeight);
+            
             this.game.ctx.restore();
+            if(this.timeDead<125){
+            this.game.ctx.save();
+            this.game.ctx.fillStyle = "red";
+            this.game.ctx.font = "20px Comic Sans MS";
+            this.game.ctx.fillText("Oh no! You killed this innocent feature!", this.position.x-150, this.position.y-100);
+            this.game.ctx.restore();
+        }
             //this.game.ctx.drawImage(this.blood[Math.min(Math.floor(this.timeDead/2),12)],this.position.x-this.tileWidth*0.9,this.position.y+this.tileHeight*0.6, this.tileWidth*3, this.tileHeight);
 
 
             return;
         }
-        if (!this.active)
+        if (!this.active){
             return;
+        }
         this.game.ctx.save();
         this.game.ctx.fillStyle = "blue";
         this.game.ctx.fillRect(this.position.x, this.position.y, this.tileWidth, this.tileHeight);
-
-
+        this.game.ctx.drawImage(this.image, this.position.x, this.position.y, this.tileWidth, this.tileHeight);
+        
         this.game.ctx.restore();
     }
 }
