@@ -124,6 +124,7 @@ export default class Powerup {
         this.game.ctx.fillStyle = "white";
         this.game.ctx.fillText(this.type, this.position.x + this.tileWidth / 2 - this.game.ctx.measureText(text).width / 2,
             this.position.y + this.tileHeight / 2);
+
         this.game.ctx.restore();
     }
 }

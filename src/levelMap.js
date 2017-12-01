@@ -136,10 +136,10 @@ export default class LevelMap {
                                     x * this.tileWidth, y * this.tileHeight, this.tileWidth, this.tileHeight // Where to draw the image on-screen
                                 );
                                 //debug
-                                this.game.ctx.strokeStyle = "white";
-                                this.game.ctx.strokeRect(x * this.tileWidth, y * this.tileHeight, this.tileWidth, this.tileHeight);
-                                this.game.ctx.fillStyle = "black";
-                                this.game.ctx.fillText(x + "," + y, x * this.tileWidth + 3, y * this.tileHeight + 30,);
+                                // this.game.ctx.strokeStyle = "white";
+                                // this.game.ctx.strokeRect(x * this.tileWidth, y * this.tileHeight, this.tileWidth, this.tileHeight);
+                                // this.game.ctx.fillStyle = "black";
+                                // this.game.ctx.fillText(x + "," + y, x * this.tileWidth + 3, y * this.tileHeight + 30,);
                             }
                         }
 

@@ -189,6 +189,19 @@ export default class Player {
         if ((upperLeftCurrentTile && upperLeftCurrentTile.solid) || (upperRightCurrentTile && upperRightCurrentTile.solid)) {
             this.velocity.y = 0.000000001; //hack for not jumping again
             this.position.y = this.game.map.tileHeight * (upperLeftTilePosition.y + 1);
+
+            console.log("upperLeftTilePosition.y = "+upperLeftTilePosition.y);
+            console.log("upperLeftTilePosition.x = "+upperLeftTilePosition.x);
+            console.log("upperRightTilePosition.y = "+upperRightTilePosition.y);
+            console.log("upperRightTilePosition.x = "+upperRightTilePosition.x);
+            console.log(this.game.lives[0]);
+            for(var i = 0; i < this.game.lives.length; i++){
+                console.log("lives y = "+this.game.lives[i].position.y);
+                if ((this.game.lives[i].position.y === upperLeftTilePosition.y && this.game.lives[i].position.x === upperLeftTilePosition.x)
+                    || (this.game.lives[i].position.y === upperRightTilePosition.y && this.game.lives[i].position.x === upperRightTilePosition.x)){
+                    this.game.lives[i].findMe();
+                }
+            }
             console.log("top");
         }
 

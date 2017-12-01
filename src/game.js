@@ -2,6 +2,7 @@ import Player from "./player";
 import LevelMap from "./levelMap";
 import Powerup from "./powerup";
 import Feature from "./feature";
+import Life from "./life";
 
 export default class Game {
     constructor() {
@@ -63,8 +64,11 @@ export default class Game {
         this.gameLoopInterval = null;
         this.powerups = [];
         this.features = [];
+        this.lives = [];
         this.powerups.push(new Powerup(this, 13 * this.map.tileWidth, 8 * this.map.tileHeight, 'auto'));
         this.features.push(new Feature(this, 12 * this.map.tileWidth, 10 * this.map.tileHeight));
+        this.lives.push(new Life(this, 40, 9, 'coffee'));
+        console.log(this.lives[0]);
     }
 
     pause() {
@@ -152,6 +156,9 @@ export default class Game {
         this.features.forEach(feature => {
             feature.render();
         });
+        this.lives.forEach(life => {
+            life.render();
+        });
         this.ctx.restore();
     }
 
@@ -164,6 +171,12 @@ export default class Game {
         this.features.forEach(feature => {
             feature.update();
         });
+        for(var i = this.lives.length-1; i > -1; i--) {
+            if (this.lives[i].update() === "out"){
+                this.lives.splice(i, 1);
+                console.log("SPLICED");
+            }
+        }
     }
 
     gameLoop() {
