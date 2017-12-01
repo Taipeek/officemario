@@ -26,7 +26,7 @@ export default class LevelMap {
         this.mapData.tilesets.forEach((tilesetmapData, index) => {
             // Load the tileset image
             let tileset = new Image();
-            tileset.src = tilesetmapData.image;
+            tileset.src = tilesetmapData.imageWalk;
             this.tilesets.push(tileset);
 
             // Create the tileset's tiles
@@ -38,7 +38,7 @@ export default class LevelMap {
             for (let i = 0; i < tileCount; i++) {
                 let tile = {
                     // Reference to the image, shared amongst all tiles in the tileset
-                    image: tileset,
+                    imageWalk: tileset,
                     // Source x position.  i % colCount == col number (as we remove full rows)
                     sx: (i % colCount) * this.tileWidth,
                     // Source y position. i / colWidth (integer division) == row number
@@ -85,11 +85,11 @@ export default class LevelMap {
                     name: layerData.name,
                     x: layerData.offsetx ? layerData.offsetx : 0,
                     y: layerData.offsety ? layerData.offsety : 0,
-                    image: new Image(),
+                    imageWalk: new Image(),
                     visible: layerData.visible,
                     type: layerData.type
                 };
-                layer.image.src = layerData.image;
+                layer.imageWalk.src = layerData.imageWalk;
                 this.layers.push(layer);
             }
         });
@@ -119,7 +119,7 @@ export default class LevelMap {
             if (layer.visible) {
                 if (layer.type === "imagelayer") {
                     this.game.ctx.drawImage(
-                        layer.image, layer.x, layer.y);
+                        layer.imageWalk, layer.x, layer.y);
                     return;
                 }
 
@@ -130,9 +130,9 @@ export default class LevelMap {
                         // tiles with an id of 0 don't exist
                         if (tileId !== 0) {
                             let tile = this.tiles[tileId - 1];
-                            if (tile.image) { // Make sure the image has loaded
+                            if (tile.imageWalk) { // Make sure the image has loaded
                                 this.game.ctx.drawImage(
-                                    tile.image,     // The image to draw
+                                    tile.imageWalk,     // The image to draw
                                     tile.sx, tile.sy, this.tileWidth, this.tileHeight, // The portion of image to draw
                                     x * this.tileWidth, y * this.tileHeight, this.tileWidth, this.tileHeight // Where to draw the image on-screen
                                 );

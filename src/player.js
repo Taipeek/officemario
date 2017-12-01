@@ -11,8 +11,10 @@ export default class Player {
         this.jumpForce = {current: 16, initial: 16};
         this.gravity = {current: 0.7, initial: 0.7};
         this.frictionCoef = {current: 0.98, initial: 0.98, braking: 0.7};
-        this.image = new Image();
-        this.image.src = "img/player_walk_sheet.png";
+        this.imageWalk = new Image();
+        this.imageWalk.src = "img/player_walk_sheet.png";
+        this.imageJump = new Image();
+        this.imageJump.src = "img/Fat_jump_right.png";
         this.lastDirection = "r";
         this.animation = 0;
         this.invincible = false;
@@ -253,12 +255,16 @@ export default class Player {
         } else {
             this.animation = 0;
         }
+
         this.game.ctx.translate(this.position.x + this.width.current / 2, this.position.y + this.height.current / 2);
-        if (this.direction === "l")
+        if (this.direction === "l") {
             this.game.ctx.scale(-1, 1);
-        this.game.ctx.drawImage(this.image, this.width.initial * this.animation, 0, this.width.current, this.height.current, -this.width.current / 2, -this.height.current / 2, this.width.current, this.height.current)
-        // this.game.ctx.fillStyle = "beige";
-        // this.game.ctx.fillRect(this.position.x, this.position.y, this.width.current, this.height.current);
+        }
+        if(this.velocity.y === 0) {
+            this.game.ctx.drawImage(this.imageWalk, this.width.initial * this.animation, 0, this.width.current, this.height.current, -this.width.current / 2, -this.height.current / 2, this.width.current, this.height.current)
+        } else{
+            this.game.ctx.drawImage(this.imageJump, -this.width.current / 2, -this.height.current / 2, this.width.current, this.height.current)
+        }
         this.game.ctx.restore();
     }
 

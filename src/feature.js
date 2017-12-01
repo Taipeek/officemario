@@ -10,8 +10,8 @@ export default class Feature {
         this.timeDead = 0;
         this.tileWidth = this.game.map.tileWidth;
         this.tileHeight = this.game.map.tileHeight;
-        this.image=new Image();
-        this.image.src = "img/feature.png";
+        this.imageWalk=new Image();
+        this.imageWalk.src = "img/feature.png";
         this.falling=false; 
 
 
@@ -191,7 +191,7 @@ export default class Feature {
         this.game.ctx.save();
         this.game.ctx.fillStyle = "blue";
         this.game.ctx.fillRect(this.position.x, this.position.y, this.tileWidth, this.tileHeight);
-        this.game.ctx.drawImage(this.image, this.position.x, this.position.y, this.tileWidth, this.tileHeight);
+        this.game.ctx.drawImage(this.imageWalk, this.position.x, this.position.y, this.tileWidth, this.tileHeight);
         
         this.game.ctx.restore();
     }
