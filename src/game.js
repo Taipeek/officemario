@@ -68,7 +68,7 @@ export default class Game {
         this.gameLoopInterval = null;
         this.powerups = [];
         this.features = [];
-        let objectLayer = this.map.mapData.layers[3];
+        let objectLayer = this.map.mapData.layers[2];
         objectLayer.objects.forEach(item => {
             if (item.type === "playerspawn") {
                 this.player.position.x = item.x;
@@ -170,10 +170,10 @@ export default class Game {
         }
     }
 
-    handleShake() {     
+    handleShake() {
         if (!this.shake.on)
             return;
-                
+
         let randX = (0.5 - Math.random()) * 30; // almost unplayable
         let randY = (0.5 - Math.random()) * 18;
 
