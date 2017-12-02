@@ -15,7 +15,9 @@ export default class Powerup {
             x: (Math.random() < 0.5 ? -1 : 1),
             y: this.gravity,
             max: this.tileHeight/2
-        };        
+        };
+        this.img = new Image();
+        this.img.src = 'img/powerups/' + this.type + '.png';
         //console.log('spawned ' + this.type + ' at ' + this.position.x + ' ' + this.position.y);
     }
 
@@ -182,12 +184,17 @@ export default class Powerup {
         if (!this.active)
             return;
         this.game.ctx.save();
-        this.game.ctx.fillStyle = 'red';
-        this.game.ctx.fillRect(this.position.x, this.position.y, this.tileWidth, this.tileHeight);
-        let text = this.type;
-        this.game.ctx.fillStyle = 'white';
-        this.game.ctx.fillText(this.type, this.position.x + this.tileWidth/2 - this.game.ctx.measureText(text).width/2,
-            this.position.y + this.tileHeight/2);
+        try {
+            this.game.ctx.drawImage(this.img, this.position.x, this.position.y);
+        } catch(e) { // no image found - draw a red box with the powerup type on it
+            //console.log(e);
+            this.game.ctx.fillStyle = 'red';
+            this.game.ctx.fillRect(this.position.x, this.position.y, this.tileWidth, this.tileHeight);
+            let text = this.type;
+            this.game.ctx.fillStyle = 'white';
+            this.game.ctx.fillText(this.type, this.position.x + this.tileWidth/2 - this.game.ctx.measureText(text).width/2,
+                this.position.y + this.tileHeight/2);
+        }
 
         this.game.ctx.restore();
     }
