@@ -26,7 +26,7 @@ export default class LevelMap {
         this.mapData.tilesets.forEach((tilesetmapData, index) => {
             // Load the tileset image
             let tileset = new Image();
-            tileset.src = tilesetmapData.imageWalk;
+            tileset.src = tilesetmapData.image;
             this.tilesets.push(tileset);
 
             // Create the tileset's tiles
@@ -38,7 +38,7 @@ export default class LevelMap {
             for (let i = 0; i < tileCount; i++) {
                 let tile = {
                     // Reference to the image, shared amongst all tiles in the tileset
-                    imageWalk: tileset,
+                    image: tileset,
                     // Source x position.  i % colCount == col number (as we remove full rows)
                     sx: (i % colCount) * this.tileWidth,
                     // Source y position. i / colWidth (integer division) == row number
@@ -85,11 +85,11 @@ export default class LevelMap {
                     name: layerData.name,
                     x: layerData.offsetx ? layerData.offsetx : 0,
                     y: layerData.offsety ? layerData.offsety : 0,
-                    imageWalk: new Image(),
+                    image: new Image(),
                     visible: layerData.visible,
                     type: layerData.type
                 };
-                layer.imageWalk.src = layerData.imageWalk;
+                layer.image.src = layerData.image;
                 this.layers.push(layer);
             }
         });
@@ -102,7 +102,7 @@ export default class LevelMap {
 
     tileAt(pos, layer) {
         // sanity check
-        if (!layer) layer = 2;
+        if (!layer) layer = 1;
         if (layer < 0 || pos.x < 0 || pos.y < 0 || layer >= this.layers.length || pos.x > this.mapWidth || pos.y > this.mapHeight)
             return undefined;
         return this.tiles[this.layers[layer].data[pos.x + pos.y * this.mapWidth] - 1];
@@ -119,7 +119,7 @@ export default class LevelMap {
             if (layer.visible) {
                 if (layer.type === "imagelayer") {
                     this.game.ctx.drawImage(
-                        layer.imageWalk, layer.x, layer.y);
+                        layer.image, layer.x, layer.y);
                     return;
                 }
 
@@ -130,9 +130,9 @@ export default class LevelMap {
                         // tiles with an id of 0 don't exist
                         if (tileId !== 0) {
                             let tile = this.tiles[tileId - 1];
-                            if (tile.imageWalk) { // Make sure the image has loaded
+                            if (tile.image) { // Make sure the image has loaded
                                 this.game.ctx.drawImage(
-                                    tile.imageWalk,     // The image to draw
+                                    tile.image,     // The image to draw
                                     tile.sx, tile.sy, this.tileWidth, this.tileHeight, // The portion of image to draw
                                     x * this.tileWidth, y * this.tileHeight, this.tileWidth, this.tileHeight // Where to draw the image on-screen
                                 );

@@ -1,7 +1,7 @@
 { "height":15,
  "layers":[
         {
-         "imageWalk":"bg.png",
+         "image":"bg.png",
          "name":"bgLayer",
          "opacity":1,
          "type":"imagelayer",
@@ -50,7 +50,7 @@
         {
          "columns":2,
          "firstgid":1,
-         "imageWalk":"tiles.png",
+         "image":"tiles.png",
          "imageheight":64,
          "imagewidth":64,
          "margin":0,
