@@ -1,7 +1,7 @@
 { "height":128,
  "layers":[
         {
-         "image":"level1bg.png",
+         "image":"level1bg.png ",
          "name":"imagelayer",
          "opacity":1,
          "type":"imagelayer",

@@ -1,7 +1,7 @@
 export default class LevelMap {
     constructor(game) {
         this.game = game;
-        this.mapData = require('./level1.json');
+        this.mapData = require('./lvl1.json');
         this.tiles = [];
         this.tilesets = [];
         this.layers = [];
@@ -118,15 +118,18 @@ export default class LevelMap {
             // Only draw layers that are currently visible
             if (layer.visible) {
                 if (layer.type === "imagelayer") {
-                    this.game.ctx.drawImage(
-                        layer.image, layer.x, layer.y);
+                     this.game.ctx.drawImage(layer.image, this.game.screenPosition.x,this.game.screenPosition.y,
+                         this.game.canvas.width,this.game.canvas.height,layer.x+this.game.screenPosition.x, layer.y+this.game.screenPosition.y,this.game.canvas.width,this.game.canvas.height);
                     return;
                 }
 
-                for (let y = 0; y < layer.height; y++) {
-                    for (let x = 0; x < layer.width; x++) {
+                let x0 = Math.max(0, Math.floor((this.game.screenPosition.x) / this.tileWidth - 2));
+                let y0 = Math.max(0, Math.floor((this.game.screenPosition.y) / this.tileHeight - 2));
+                let x1 = Math.min(layer.width, Math.floor((this.game.screenPosition.x + this.game.canvas.width) / this.tileWidth + 2));
+                let y1 = Math.min(layer.height, Math.floor((this.game.screenPosition.y + this.game.canvas.height) / this.tileHeight + 2));
+                for (let y = y0; y < y1; y++) {
+                    for (let x = x0; x < x1; x++) {
                         let tileId = layer.data[x + layer.width * y];
-
                         // tiles with an id of 0 don't exist
                         if (tileId !== 0) {
                             let tile = this.tiles[tileId - 1];
@@ -137,10 +140,10 @@ export default class LevelMap {
                                     x * this.tileWidth, y * this.tileHeight, this.tileWidth, this.tileHeight // Where to draw the image on-screen
                                 );
                                 //debug
-                                // this.game.ctx.strokeStyle = "white";
-                                // this.game.ctx.strokeRect(x * this.tileWidth, y * this.tileHeight, this.tileWidth, this.tileHeight);
-                                // this.game.ctx.fillStyle = "black";
-                                // this.game.ctx.fillText(x + "," + y, x * this.tileWidth + 3, y * this.tileHeight + 30,);
+                                this.game.ctx.strokeStyle = "white";
+                                this.game.ctx.strokeRect(x * this.tileWidth, y * this.tileHeight, this.tileWidth, this.tileHeight);
+                                this.game.ctx.fillStyle = "black";
+                                this.game.ctx.fillText(x + "," + y, x * this.tileWidth + 3, y * this.tileHeight + 30,);
                             }
                         }
 
