@@ -1,7 +1,6 @@
 export default class Bug {
     constructor(game, x, y) {
-        this.game = game;
-        this.active = true;
+        this.game = game;        
         this.position = {x: x, y: y};
         this.gravity = this.game.player.gravity.current;
         this.tilePos = this.calcTilePosition(this.position);
@@ -9,7 +8,11 @@ export default class Bug {
         this.tileWidth = this.game.map.tileWidth;
         this.tileHeight = this.game.map.tileHeight;
         this.falling = false;
-
+        this.imageWalk = new Image();
+        this.imageWalk.src = "img/bug.png";
+        this.imageDead = new Image();
+        this.imageDead.src = "img/bugBlood.png";
+        this.dead=false;
 
     }
 
@@ -113,17 +116,16 @@ export default class Bug {
             this.dead = true;
 
         }
-        else if (leftHit || rightHit && !this.dead) {
-            //feature picked up
-            this.active = false;
+        else if ((leftHit || rightHit) && !this.dead && !this.game.player.hitted) {
+            this.game.player.hitted=true;           
             this.game.gameState.lives--;
         }
     }
 
-
+//
     update() {
 
-        if (!this.active) {
+        if (this.dead) {
             return;
         }
 
@@ -134,14 +136,21 @@ export default class Bug {
     }
 
     render() {
+        if (this.dead){
+           this.game.ctx.save();       
+        
+        this.game.ctx.drawImage(this.imageDead, this.position.x, this.position.y+this.tileHeight*0.85, this.tileWidth, this.tileHeight);
 
-        if (!this.active) {
+        this.game.ctx.restore(); 
+        return;
+        }
+
+        if (this.dead) {
             return;
         }
-        this.game.ctx.save();
-        this.game.ctx.fillStyle = "green";
-        this.game.ctx.fillRect(this.position.x, this.position.y, this.tileWidth, this.tileHeight);
-
+        this.game.ctx.save();       
+        
+        this.game.ctx.drawImage(this.imageWalk, this.position.x, this.position.y, this.tileWidth, this.tileHeight);
 
         this.game.ctx.restore();
     }
