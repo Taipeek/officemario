@@ -26,6 +26,8 @@ export default class Player {
         this.checkTileCollision = this.checkTileCollision.bind(this);
         this.render = this.render.bind(this);
         this.update = this.update.bind(this);
+         this.hitted=false; //when player lost hp, he is immortal for some time
+        this.timeHitted=0;
     }
 
     getTileXY(vertical, horizontal) {
@@ -243,6 +245,9 @@ export default class Player {
 
 
     render() {
+        if(this.timeHitted%10>5){
+           return; 
+        }
         this.game.ctx.save();
         if (this.game.keyBoard['right']) {
             if (!(this.game.renderCounter % 4))
@@ -273,5 +278,12 @@ export default class Player {
         this.move();
         this.applyMovement();
         this.checkTileCollision();
+        if(this.hitted){
+            this.timeHitted++;
+        }
+        if(this.timeHitted>100){
+            this.hitted=false;
+            this.timeHitted=0;
+        }
     }
 }
