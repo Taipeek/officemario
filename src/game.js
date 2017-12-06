@@ -13,7 +13,7 @@ export default class Game {
         document.body.appendChild(this.canvas);
         this.ctx = this.canvas.getContext('2d');
         this.gameState = {};
-        this.gameLoopSpeed = 100 / 3;
+        this.gameLoopSpeed = 100 / 6;
         this.keyBoard = [];
         this.screenPosition = {x: 0, y: 0};
 

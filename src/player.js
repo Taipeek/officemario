@@ -4,12 +4,12 @@ export default class Player {
         this.game = game;
         this.position = {x: 0, y: 0};
         this.velocity = {x: 0, y: 0};
-        this.maxVelocity = {x: 5, y: 5};
+        this.maxVelocity = {x: 3.5, y: 3.5};
         this.width = {current: 32, initial: 32};
         this.height = {current: 64, initial: 64};
-        this.moveForce = {current: 2.5, initial: 2.5};
-        this.jumpForce = {current: 16, initial: 16};
-        this.gravity = {current: 0.7, initial: 0.7};
+        this.moveForce = {current: 1.7, initial: 1.7};
+        this.jumpForce = {current: 11, initial: 11};
+        this.gravity = {current: 0.4, initial: 0.4};
         this.frictionCoef = {current: 0.98, initial: 0.98, braking: 0.7};
         this.imageWalk = new Image();
         this.imageWalk.src = "img/player_walk_sheet.png";
