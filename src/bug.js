@@ -13,6 +13,8 @@ export default class Bug {
         this.imageDead = new Image();
         this.imageDead.src = "img/bugBlood.png";
         this.dead=false;
+        this.text="NullPointException";
+        this.timeDead=0;
 
     }
 
@@ -126,6 +128,7 @@ export default class Bug {
     update() {
 
         if (this.dead) {
+            this.timeDead++;
             return;
         }
 
@@ -140,8 +143,44 @@ export default class Bug {
            this.game.ctx.save();       
         
         this.game.ctx.drawImage(this.imageDead, this.position.x, this.position.y+this.tileHeight*0.85, this.tileWidth, this.tileHeight);
-
+        this.game.ctx.fillStyle = "red";
+        this.game.ctx.font = "20px Comic Sans MS";
+        if(this.timeDead<50){
+        this.game.ctx.fillText(this.text, this.position.x, this.position.y-this.timeDead);
+        }
+        else if(this.timeDead>=50 && this.timeDead<100){
+            var delta=0;
+            if(this.timeDead<60){
+                this.game.ctx.font = "18px Comic Sans MS";
+                delta=5;
+            }
+            else if(this.timeDead<65){
+                this.game.ctx.font = "17px Comic Sans MS";
+                delta=15;
+            }
+            else if(this.timeDead<70){
+                this.game.ctx.font = "15px Comic Sans MS";
+                delta=20;
+            }
+            else if(this.timeDead<80){
+                this.game.ctx.font = "13px Comic Sans MS";
+                delta=30;
+            }
+            else if(this.timeDead<90){
+                this.game.ctx.font = "12px Comic Sans MS";
+                delta=40;
+            }
+            if(this.timeDead<101){
+                this.game.ctx.font = "10px Comic Sans MS";
+                delta=40;
+            }
+            this.game.ctx.translate(this.position.x+delta, this.position.y -this.timeDead);
+            this.game.ctx.rotate(-Math.PI*(this.timeDead-50)/45);
+            this.game.ctx.fillText(this.text, -delta, 0);
+        }
         this.game.ctx.restore(); 
+    
+        
         return;
         }
 
