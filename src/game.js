@@ -38,7 +38,6 @@ export default class Game {
 
     moveScreen(where, step) {
         if (!step) step = 8;
-        console.log(where,step);
         if (where === "right") {
             this.screenPosition.x += step;
             if (this.screenPosition.x + this.canvas.width > this.map.mapWidthPixels) this.screenPosition.x = this.map.mapWidthPixels - this.canvas.width;
