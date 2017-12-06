@@ -174,13 +174,6 @@ export default class Feature {
             this.game.ctx.drawImage(this.blood[Math.min(Math.floor(this.timeDead / 1.6), 12)], -this.tileWidth * 3.9, -this.tileHeight * 0.95, this.tileWidth * 3, this.tileHeight);
 
             this.game.ctx.restore();
-            if (this.timeDead < 125) {
-                this.game.ctx.save();
-                this.game.ctx.fillStyle = "red";
-                this.game.ctx.font = "20px Comic Sans MS";
-                this.game.ctx.fillText("Oh no! You killed this innocent feature!", this.position.x - 150, this.position.y - 100);
-                this.game.ctx.restore();
-            }
             //this.game.ctx.drawImage(this.blood[Math.min(Math.floor(this.timeDead/2),12)],this.position.x-this.tileWidth*0.9,this.position.y+this.tileHeight*0.6, this.tileWidth*3, this.tileHeight);
 
 
