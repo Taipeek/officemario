@@ -4,7 +4,7 @@ export default class Player {
         this.game = game;
         this.position = {x: 0, y: 0};
         this.velocity = {x: 0, y: 0};
-        this.maxVelocity = {x: 3.5, y: 3.5};
+        this.maxVelocity = {x: 4, y: 4};
         this.width = {current: 32, initial: 32};
         this.height = {current: 64, initial: 64};
         this.moveForce = {current: 1.7, initial: 1.7};
@@ -140,7 +140,7 @@ export default class Player {
     }
 
     applyMovement() {
-        this.cameraMove = {x: Math.abs(Math.floor(this.velocity.x)), y: Math.abs(Math.floor(this.velocity.y))};
+        this.cameraMove = {x: Math.abs(Math.ceil(this.velocity.x)), y: Math.abs(Math.ceil(this.velocity.y))};
         this.position.x += this.velocity.x;
         this.position.y += this.velocity.y;
 
