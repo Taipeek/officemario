@@ -77,6 +77,8 @@ export default class Game {
                 this.powerups.push(new Powerup(this, item.x, item.y, 'coffee'));
             } else if (item.type === "enemyspawn") {
                 this.features.push(new Bug(this, item.x, item.y));
+            }else if (item.type === "featurespawn") {
+                this.features.push(new Feature(this, item.x, item.y));
             }
         });
         window.onload = () => {

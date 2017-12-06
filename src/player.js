@@ -266,7 +266,7 @@ export default class Player {
             this.game.ctx.scale(-1, 1);
         }
         if(this.velocity.y === 0) {
-            this.game.ctx.drawImage(this.imageWalk, this.width.initial * this.animation, 0, this.width.current, this.height.current, -this.width.current / 2, -this.height.current / 2, this.width.current, this.height.current)
+            this.game.ctx.drawImage(this.imageWalk, this.width.initial * this.animation, 0, this.width.initial, this.height.initial, -this.width.current / 2, -this.height.current / 2, this.width.current, this.height.current)
         } else{
             this.game.ctx.drawImage(this.imageJump, -this.width.current / 2, -this.height.current / 2, this.width.current, this.height.current)
         }
