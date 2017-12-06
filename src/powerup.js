@@ -13,7 +13,7 @@ export default class Powerup {
         this.tileHeight = this.game.map.tileHeight;
         this.velocity = {
             x: (Math.random() < 0.5 ? -1 : 1),
-            y: this.gravity,
+            y: -10 * this.gravity,
             max: this.tileHeight/2
         };
         this.img = new Image();
@@ -101,6 +101,7 @@ export default class Powerup {
 
     apply() {
         this.applied = true;
+        this.game.gameState.score += 1;
         switch (this.type) {
             case 'debug':
                 this.player.invincible = true;
@@ -112,7 +113,7 @@ export default class Powerup {
             case 'coffee':
                 this.game.gameState.lives++;
                 this.game.shake = {
-                    on: true,
+                    on: (Math.random() < 0.75), // 75% chance that the screen will shake
                     rampdown: false,
                     counter: this.duration
                 };
