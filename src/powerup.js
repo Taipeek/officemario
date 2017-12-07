@@ -1,7 +1,7 @@
 export default class Powerup {
     constructor(game, x, y, type) {
         this.game = game;
-        this.type = type;
+        this.type = (type ? type: 'pizza'); // default type for now
         this.active = true;
         this.applied = false;
         this.timeToLive = Math.floor((5 + Math.random() * 5) * this.game.framerate); // 5 to 10 seconds

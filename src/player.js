@@ -1,4 +1,4 @@
-
+import Powerup from "./powerup";
 export default class Player {
     constructor(game) {
         this.game = game;
@@ -28,6 +28,24 @@ export default class Player {
         this.update = this.update.bind(this);
          this.hitted=false; //when player lost hp, he is immortal for some time
         this.timeHitted=0;
+
+        this.powerupSpawns = [];
+        let objectLayer = this.game.map.mapData.layers[2];
+        
+        objectLayer.objects.forEach(item => {
+            if (item.type === "tilepowerup") {
+                // align x and y coordinates to non-weird values
+                let cleanX = Math.floor(item.x / this.game.map.tileWidth) * this.game.map.tileWidth;
+                let cleanY = Math.floor(item.y / this.game.map.tileHeight) * this.game.map.tileHeight;
+                item.x = cleanX;
+                item.y = cleanY;
+                item.tilePos = {
+                    x: item.x / this.game.map.tileWidth,
+                    y: item.y / this.game.map.tileHeight
+                };
+                this.powerupSpawns.push(item);
+            }
+        });
     }
 
     getTileXY(vertical, horizontal) {
@@ -179,7 +197,7 @@ export default class Player {
         let lowerLeftCurrentTile = this.game.map.tileAt(lowerLeftTilePosition);
         let lowerRightCurrentTile = this.game.map.tileAt(lowerRightTilePosition);
         let upperLeftCurrentTile = this.game.map.tileAt(upperLeftTilePosition);
-        let upperRightCurrentTile = this.game.map.tileAt(upperRightTilePosition);
+        let upperRightCurrentTile = this.game.map.tileAt(upperRightTilePosition);        
 
         // vertical detection bottom
         if ((lowerLeftCurrentTile && lowerLeftCurrentTile.solid) || (lowerRightCurrentTile && lowerRightCurrentTile.solid)) {
@@ -192,6 +210,8 @@ export default class Player {
             this.velocity.y = 0.000000001; //hack for not jumping again
             this.position.y = this.game.map.tileHeight * (upperLeftTilePosition.y + 1);
             console.log("top");
+
+            this.checkPowerupSpawn(upperLeftTilePosition, upperRightTilePosition);            
         }
 
         lowerLeftTilePosition = this.getTileXYHorizontal("lower", "left");
@@ -230,17 +250,27 @@ export default class Player {
                 this.velocity.x = 0;
                 this.position.x = this.game.map.tileWidth * (leftPos.x + 1);
             }
-
-
         }
-
 
         if (!lowerLeftCurrentTile && !lowerRightCurrentTile) {
             this.game.pause();
             console.log('out of map');
         }
+    }
 
+    checkPowerupSpawn(upperLeft, upperRight)
+    {
+        for (let i = 0; i < this.powerupSpawns.length; i++) {
+            let spawn = this.powerupSpawns[i];
 
+            if ( (spawn.tilePos.x === upperLeft.x && spawn.tilePos.y === upperLeft.y) || 
+                 (spawn.tilePos.x === upperRight.x && spawn.tilePos.y === upperRight.y) ) {
+                //console.log('powerup should get spawned, ' + spawn.tilePos.x + ' ' + spawn.tilePos.y);
+                this.game.powerups.push(new Powerup(this.game, spawn.x, spawn.y - this.game.map.tileHeight, null));
+                this.powerupSpawns.splice(i, 1); // "deactivate" the spawnpoint
+                return;
+            }
+        }
     }
 
 
