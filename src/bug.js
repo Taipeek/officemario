@@ -13,7 +13,7 @@ export default class Bug {
         this.imageDead = new Image();
         this.imageDead.src = "img/bugBlood.png";
         this.dead=false;
-        var texts=["NullPointerException","Array index out of bounds","Error: Division by zero",""]
+        var texts=["NullPointerException","Array index out of bounds","Error: Division by zero","EOFError: EOF when reading a line","SyntaxError: invalid syntax","TypeError: Failed to execute 'main'","HTMLImageElement is in 'broken' state"]
         this.text=texts[Math.floor(Math.random()*texts.length)];
         this.timeDead=0;
         
@@ -176,12 +176,12 @@ export default class Bug {
         
         this.game.ctx.drawImage(this.imageDead, this.position.x, this.position.y+this.tileHeight*0.85, this.tileWidth, this.tileHeight);
         this.game.ctx.fillStyle = "red";
-        this.game.ctx.font = "22px Ariel";
-        if(this.timeDead<75){
+        this.game.ctx.font = "19px Consolas";
+        if(this.timeDead<55){
          this.game.ctx.fillStyle = "red";
          this.game.ctx.fillText(this.text, this.position.x, this.position.y-this.timeDead);
         }
-        else if(this.timeDead>75 && this.timeDead<125){
+        else if(this.timeDead>55 && this.timeDead<100){
              if(this.timeDead%10>5){
                   this.game.ctx.fillStyle = "green";
              }
@@ -190,18 +190,18 @@ export default class Bug {
              }
              this.game.ctx.fillText(this.text, this.position.x, this.position.y-this.timeDead);
         }
-        else if(this.timeDead<160){
+        else if(this.timeDead<130){
             this.game.ctx.fillStyle = "green";
              this.game.ctx.fillText(this.text, this.position.x, this.position.y-this.timeDead);
         }
-         else if(this.timeDead<225){
+         else if(this.timeDead<190){
             this.game.ctx.fillStyle = "green";
-             this.game.ctx.fillText(this.text, this.position.x, this.position.y-160);
+             this.game.ctx.fillText(this.text, this.position.x, this.position.y-130);
         }
         var timeStepPoof=5;
-        if(this.timeDead>200 && this.timeDead<200+14*timeStepPoof ){  
+        if(this.timeDead>160 && this.timeDead<160+14*timeStepPoof ){  
             
-                this.game.ctx.drawImage(this.poof[Math.floor((this.timeDead-200)/timeStepPoof)], this.position.x, this.position.y-160-75, 150,150);            
+                this.game.ctx.drawImage(this.poof[Math.floor((this.timeDead-160)/timeStepPoof)], this.position.x+40, this.position.y-130-75, 150,150);            
         }
        
        

@@ -13,8 +13,12 @@ export default class Feature {
         this.image = new Image();
         this.image.src = "img/feature.png";
         this.falling = false;
-
-
+        this.texts=["print('Hello, World')", "System.out.println('Hello, World')", "DISPLAY 'Hello, world!'."," cout << 'Hello, World!' << endl;","alert( 'Hello, world!' );"," Console.WriteLine('Hello, world!');","main = putStrLn 'Hello, world!'","(format t 'Hello, world!~%')","io.write('Hello, world!\n')","disp('Hello, world!'):","echo Hello, world!"];
+        this.text=this.texts[Math.floor(Math.random()*this.texts.length)];
+        this.timePicked=0;
+        this.picked=false;
+        this.star=new Image();
+        this.star.src = "img/star.png";
         let b1 = new Image();
         b1.src = "https://s8.postimg.org/l62ilz6bp/image.png";
         let b2 = new Image();
@@ -148,11 +152,15 @@ export default class Feature {
             //feature picked up
             this.active = false;
             this.game.gameState.score++;
+            this.picked=true;
         }
     }
 
 
     update() {
+        if(this.picked){
+            this.timePicked++;
+        }
         if (this.dead) {
             this.timeDead++;
         }
@@ -178,6 +186,37 @@ export default class Feature {
 
 
             return;
+        }
+        else if(this.picked){
+            this.game.ctx.save();
+            this.game.ctx.fillStyle = "blue";
+            this.game.ctx.font = "18px Consolas";
+            if((this.timePicked<50 && this.timePicked%10>5) || this.timePicked>200|| (this.timePicked>180 &&this.timePicked%10<5)){
+                 this.game.ctx.restore();
+                return;
+            }
+            var starsDelta=5;
+            if(this.timePicked>110+starsDelta){
+              this.game.ctx.drawImage(this.star, this.position.x+this.text.length*0.4, this.position.y-150,35,35);  
+            }
+            if(this.timePicked>110+2*starsDelta){
+              this.game.ctx.drawImage(this.star, this.position.x+this.text.length*4.6, this.position.y-86,35,35);  
+            }
+            if(this.timePicked>110+3*starsDelta){
+              this.game.ctx.drawImage(this.star, this.position.x+this.text.length*8.4, this.position.y-155,35,35);  
+            }
+            if(this.timePicked>110+4*starsDelta){
+              this.game.ctx.drawImage(this.star, this.position.x+this.text.length*0.6, this.position.y-95,35,35);  
+            }
+            if(this.timePicked>110+5*starsDelta){
+              this.game.ctx.drawImage(this.star, this.position.x+this.text.length*4.4, this.position.y-150,35,35);  
+            }
+            if(this.timePicked>110+6*starsDelta){
+              this.game.ctx.drawImage(this.star, this.position.x+this.text.length*8.6, this.position.y-90,35,35);  
+            }
+            
+            this.game.ctx.fillText(this.text,this.position.x,this.position.y-Math.min(this.timePicked,100));
+            this.game.ctx.restore();
         }
         if (!this.active) {
             return;
