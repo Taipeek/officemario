@@ -13,9 +13,41 @@ export default class Bug {
         this.imageDead = new Image();
         this.imageDead.src = "img/bugBlood.png";
         this.dead=false;
-        this.text="NullPointException";
+        var texts=["NullPointerException","Array index out of bounds","Error: Division by zero",""]
+        this.text=texts[Math.floor(Math.random()*texts.length)];
         this.timeDead=0;
-
+        
+        this.poof0 = new Image();
+        this.poof0.src = "img/poof/0.png"; 
+        this.poof1 = new Image();
+        this.poof1.src = "img/poof/1.png"; 
+        this.poof2 = new Image();
+        this.poof2.src = "img/poof/2.png"; 
+        this.poof3 = new Image();
+        this.poof3.src = "img/poof/3.png"; 
+        this.poof4 = new Image();
+        this.poof4.src = "img/poof/4.png"; 
+        this.poof5 = new Image();
+        this.poof5.src = "img/poof/5.png"; 
+        this.poof6 = new Image();
+        this.poof6.src = "img/poof/6.png"; 
+        this.poof7 = new Image();
+        this.poof7.src = "img/poof/7.png"; 
+        this.poof8 = new Image();
+        this.poof8.src = "img/poof/8.png"; 
+        this.poof9 = new Image();
+        this.poof9.src = "img/poof/9.png"; 
+        this.poof10 = new Image();
+        this.poof10.src = "img/poof/10.png"; 
+        this.poof11 = new Image();
+        this.poof11.src = "img/poof/11.png"; 
+        this.poof12 = new Image();
+        this.poof12.src = "img/poof/12.png"; 
+        this.poof13 = new Image();
+        this.poof13.src = "img/poof/13.png"; 
+        this.poof14 = new Image();
+        this.poof14.src = "img/poof/14.png"; 
+        this.poof=[this.poof0,this.poof1,this.poof2,this.poof3,this.poof4,this.poof5,this.poof6,this.poof7,this.poof8,this.poof9,this.poof10,this.poof11,this.poof12,this.poof13,this.poof14];
     }
 
     calcTilePosition(position) {
@@ -144,49 +176,43 @@ export default class Bug {
         
         this.game.ctx.drawImage(this.imageDead, this.position.x, this.position.y+this.tileHeight*0.85, this.tileWidth, this.tileHeight);
         this.game.ctx.fillStyle = "red";
-        this.game.ctx.font = "20px Comic Sans MS";
-        if(this.timeDead<50){
-        this.game.ctx.fillText(this.text, this.position.x, this.position.y-this.timeDead);
+        this.game.ctx.font = "22px Ariel";
+        if(this.timeDead<75){
+         this.game.ctx.fillStyle = "red";
+         this.game.ctx.fillText(this.text, this.position.x, this.position.y-this.timeDead);
         }
-        else if(this.timeDead>=50 && this.timeDead<100){
-            var delta=0;
-            if(this.timeDead<60){
-                this.game.ctx.font = "18px Comic Sans MS";
-                delta=5;
-            }
-            else if(this.timeDead<65){
-                this.game.ctx.font = "17px Comic Sans MS";
-                delta=15;
-            }
-            else if(this.timeDead<70){
-                this.game.ctx.font = "15px Comic Sans MS";
-                delta=20;
-            }
-            else if(this.timeDead<80){
-                this.game.ctx.font = "13px Comic Sans MS";
-                delta=30;
-            }
-            else if(this.timeDead<90){
-                this.game.ctx.font = "12px Comic Sans MS";
-                delta=40;
-            }
-            if(this.timeDead<101){
-                this.game.ctx.font = "10px Comic Sans MS";
-                delta=40;
-            }
-            this.game.ctx.translate(this.position.x+delta, this.position.y -this.timeDead);
-            this.game.ctx.rotate(-Math.PI*(this.timeDead-50)/45);
-            this.game.ctx.fillText(this.text, -delta, 0);
+        else if(this.timeDead>75 && this.timeDead<125){
+             if(this.timeDead%10>5){
+                  this.game.ctx.fillStyle = "green";
+             }
+             else{
+                  this.game.ctx.fillStyle = "red";
+             }
+             this.game.ctx.fillText(this.text, this.position.x, this.position.y-this.timeDead);
         }
+        else if(this.timeDead<160){
+            this.game.ctx.fillStyle = "green";
+             this.game.ctx.fillText(this.text, this.position.x, this.position.y-this.timeDead);
+        }
+         else if(this.timeDead<225){
+            this.game.ctx.fillStyle = "green";
+             this.game.ctx.fillText(this.text, this.position.x, this.position.y-160);
+        }
+        var timeStep=5;
+        if(this.timeDead>200 && this.timeDead<200+14*timeStep ){  
+            
+                this.game.ctx.drawImage(this.poof[Math.floor((this.timeDead-200)/timeStep)], this.position.x, this.position.y-160-75, 150,150);            
+        }
+       
+       
+       
         this.game.ctx.restore(); 
     
         
         return;
         }
 
-        if (this.dead) {
-            return;
-        }
+        
         this.game.ctx.save();       
         
         this.game.ctx.drawImage(this.imageWalk, this.position.x, this.position.y, this.tileWidth, this.tileHeight);
