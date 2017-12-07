@@ -176,7 +176,7 @@ export default class Bug {
         
         this.game.ctx.drawImage(this.imageDead, this.position.x, this.position.y+this.tileHeight*0.85, this.tileWidth, this.tileHeight);
         this.game.ctx.fillStyle = "red";
-        this.game.ctx.font = "19px Consolas";
+        this.game.ctx.font = "15px Consolas";
         if(this.timeDead<55){
          this.game.ctx.fillStyle = "red";
          this.game.ctx.fillText(this.text, this.position.x, this.position.y-this.timeDead);
