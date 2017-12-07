@@ -198,10 +198,10 @@ export default class Bug {
             this.game.ctx.fillStyle = "green";
              this.game.ctx.fillText(this.text, this.position.x, this.position.y-160);
         }
-        var timeStep=5;
-        if(this.timeDead>200 && this.timeDead<200+14*timeStep ){  
+        var timeStepPoof=5;
+        if(this.timeDead>200 && this.timeDead<200+14*timeStepPoof ){  
             
-                this.game.ctx.drawImage(this.poof[Math.floor((this.timeDead-200)/timeStep)], this.position.x, this.position.y-160-75, 150,150);            
+                this.game.ctx.drawImage(this.poof[Math.floor((this.timeDead-200)/timeStepPoof)], this.position.x, this.position.y-160-75, 150,150);            
         }
        
        
