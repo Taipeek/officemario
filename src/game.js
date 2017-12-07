@@ -13,7 +13,8 @@ export default class Game {
         document.body.appendChild(this.canvas);
         this.ctx = this.canvas.getContext('2d');
         this.gameState = {};
-        this.gameLoopSpeed = 100 / 6;
+        this.framerate = 60;
+        this.gameLoopSpeed = 1000 / this.framerate;
         this.keyBoard = [];
         this.screenPosition = {x: 0, y: 0};
 
@@ -181,13 +182,13 @@ export default class Game {
         let randY = (0.5 - Math.random()) * 18;
 
         if (this.shake.rampdown) {
-            randX *= (this.shake.counter / (this.gameLoopSpeed*2));
-            randY *= (this.shake.counter / (this.gameLoopSpeed*2));
+            randX *= (this.shake.counter / (this.framerate*2));
+            randY *= (this.shake.counter / (this.framerate*2));
         }
         this.ctx.translate(Math.floor(randX), Math.floor(randY));
         this.shake.counter--;
 
-        if (this.shake.counter <= 2* this.gameLoopSpeed)
+        if (this.shake.counter <= 2* this.framerate)
             this.shake.rampdown = true;
     }
 

@@ -4,8 +4,8 @@ export default class Powerup {
         this.type = type;
         this.active = true;
         this.applied = false;
-        this.timeToLive = Math.floor((5 + Math.random() * 5) * this.game.gameLoopSpeed); // 5 to 10 seconds
-        this.duration = Math.floor(10 * this.game.gameLoopSpeed); // the effects last for 10 seconds
+        this.timeToLive = Math.floor((5 + Math.random() * 5) * this.game.framerate); // 5 to 10 seconds
+        this.duration = Math.floor(10 * this.game.framerate); // the effects last for 10 seconds
         this.position = {x: x, y: y};
         this.gravity = 0.7;
         this.tilePos = this.calcTilePosition(this.position);
