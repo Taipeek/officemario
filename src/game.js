@@ -71,7 +71,7 @@ export default class Game {
         this.gameLoopInterval = null;
         this.powerups = [];
         this.features = [];
-        this.finalEnemy = new FinalEnemy(this.gameState.level, 33, 31);
+        this.finalEnemy = new FinalEnemy(this, 37 * this.map.tileWidth, 24 * this.map.tileHeight, 'left');
         let objectLayer = this.map.mapData.layers[2];
         objectLayer.objects.forEach(item => {
             if (item.type === "playerspawn") {
@@ -207,6 +207,7 @@ export default class Game {
         this.features.forEach(feature => {
             feature.render();
         });
+        this.finalEnemy.render();
         this.ctx.restore();
         this.scoreBoard.render();
         this.renderCounter++;
