@@ -41,6 +41,37 @@ export default class FinalEnemy {
         return {x: x, y: y};
     }
 
+    checkPlayerCollision() {
+        let player = this.game.player;
+
+        let topHit = (
+            (player.velocity.y > 0)
+            && (this.position.x > player.position.x - this.width)
+            && (this.position.x < player.position.x + this.width)
+            && (this.position.y <= player.position.y + player.height.current)
+            && (this.position.y + 1/4*this.position.y > player.position.y + player.height.current)
+        );
+
+        let sideHit = (
+            (this.position.x < player.position.x + player.width.current)
+            && (this.position.x > player.position.x - this.width)
+            && (this.position.y > player.position.y - this.height)
+            && (this.position.y < player.position.y + player.height.current)
+        );
+
+        if (topHit) {	//bullet destroyed
+            if(this.lives === 1) {
+                console.log("KILLED");
+            }
+            this.lives--;
+        }
+
+        else if (sideHit && !this.game.player.hitted) {
+            this.game.player.hitted=true;
+            this.game.gameState.lives--;
+        }
+    }
+
     isOnCamera (vertBeyond, horBeyond) {
         var camera = {
             x: this.game.screenPosition.x,
@@ -63,6 +94,9 @@ export default class FinalEnemy {
 
         if (this.isOnCamera(1, 1.5)){
             this.visible = true;
+
+            this.checkPlayerCollision();
+
             if(this.lastShot < 0){
                 this.bullets.push(new Bullet(this.game));
                 this.lastShot = this.shootInterval;
