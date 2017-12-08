@@ -225,7 +225,7 @@ export default class Game {
         this.handleShake();
         this.ctx.translate(-this.screenPosition.x, -this.screenPosition.y);
         this.map.render();
-        this.deadline.render();
+        //this.deadline.render();
         this.player.render();
         this.powerups.forEach(powerup => {
             powerup.render();
@@ -246,7 +246,7 @@ export default class Game {
     update() {
         this.map.update();
         this.player.update();
-        this.deadline.update();
+        //this.deadline.update();
         this.powerups.forEach(powerup => {
             powerup.update();
         });
