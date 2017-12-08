@@ -142,7 +142,6 @@ export default class Bug {
         this.game.ctx.fillStyle = "green";
         this.game.ctx.fillRect(this.position.x, this.position.y, this.tileWidth, this.tileHeight);
 
-
         this.game.ctx.restore();
     }
 }

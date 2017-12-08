@@ -2,6 +2,7 @@ import Player from "./player";
 import LevelMap from "./levelMap";
 import Powerup from "./powerup";
 import Feature from "./feature";
+import FinalEnemy from"./finalEnemy"
 import ScoreBoard from "./scoreBoard";
 import Bug from "./bug";
 
@@ -68,6 +69,7 @@ export default class Game {
         this.gameLoopInterval = null;
         this.powerups = [];
         this.features = [];
+        this.finalEnemy = new FinalEnemy(this.gameState.level, 33, 31);
         let objectLayer = this.map.mapData.layers[2];
         objectLayer.objects.forEach(item => {
             if (item.type === "playerspawn") {
@@ -215,6 +217,7 @@ export default class Game {
         this.features.forEach(feature => {
             feature.update();
         });
+        this.finalEnemy.update();
     }
 
     gameLoop() {
