@@ -1,5 +1,6 @@
 export default class Bullet {
     constructor (game) {
+        this.id = Math.random();
         this.game = game;
         this.position = {
             x: game.finalEnemy.orientation === 'right' ? (game.finalEnemy.position.x + 4*game.map.tileWidth) : (game.finalEnemy.position.x - game.map.tileWidth),

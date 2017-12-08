@@ -37,8 +37,8 @@ export default class FinalEnemy {
     }
 
     calcTilePosition(position) {
-        let x = Math.floor((position.x + this.tileWidth / 2) / this.tileWidth);
-        let y = Math.floor((position.y + this.tileHeight / 2) / this.tileHeight);
+        let x = Math.floor((position.x + this.game.map.tileWidth / 2) / this.game.map.tileWidth);
+        let y = Math.floor((position.y + this.game.map.tileHeight / 2) / this.game.map.tileHeight);
         return {x: x, y: y};
     }
 
@@ -50,7 +50,7 @@ export default class FinalEnemy {
             && (this.position.x > player.position.x - this.width)
             && (this.position.x < player.position.x + this.width)
             && (this.position.y <= player.position.y + player.height.current)
-            && (this.position.y + 1/4*this.position.y > player.position.y + player.height.current)
+            && (this.position.y + 1 / 4 * this.position.y > player.position.y + player.height.current)
         );
 
         let sideHit = (
@@ -61,19 +61,19 @@ export default class FinalEnemy {
         );
 
         if (topHit) {	//bullet destroyed
-            if(this.lives === 1) {
+            if (this.lives === 1) {
                 console.log("KILLED");
             }
             this.lives--;
         }
 
         else if (sideHit && !this.game.player.hitted) {
-            this.game.player.hitted=true;
+            this.game.player.hitted = true;
             this.game.gameState.lives--;
         }
     }
 
-    isOnCamera (vertBeyond, horBeyond) {
+    isOnCamera(vertBeyond, horBeyond) {
         let camera = {
             x: this.game.screenPosition.x,
             y: this.game.screenPosition.y
@@ -90,31 +90,32 @@ export default class FinalEnemy {
         return false;
     }
 
-    update() {
+    update(){
         //if enemy is very close to camera
-        if (this.isOnCamera(1, 1.5)) {
+
+        if (this.isOnCamera(1, 1.5)){
             this.visible = true;
-            if (this.lastShot < 0) {
-                this.checkPlayerCollision();
-                if (this.lastShot < 0) {
-                    this.bullets.push(new Bullet(this.game));
-                    this.lastShot = this.shootInterval;
-                }
-                this.lastShot--;
 
-                for (let i = this.bullets.length - 1; i > -1; i--) {
-                    if (this.bullets[i].update() === 'out') {
-                        this.bullets.splice(i, 1);
-                    }
-                }
+            this.checkPlayerCollision();
 
-            } else {
-                this.visible = false;
+            if(this.lastShot < 0){
+                this.bullets.push(new Bullet(this.game));
+                this.lastShot = this.shootInterval;
             }
+            this.lastShot--;
+
+            for(let i = this.bullets.length-1; i > -1; i--) {
+                if (this.bullets[i].update() === 'out'){
+                    this.bullets.splice(i, 1);
+                }
+            }
+
+        } else {
+            this.visible = false;
         }
     }
 
-    render(){
+    render() {
         if (!this.visible) {
             return;
         }
