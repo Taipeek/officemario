@@ -1,13 +1,14 @@
 export default class Bullet {
-    constructor (game) {
+    constructor(game, orientation) {
         this.id = Math.random();
         this.game = game;
         this.position = {
-            x: game.finalEnemy.orientation === 'right' ? (game.finalEnemy.position.x + 4*game.map.tileWidth) : (game.finalEnemy.position.x - game.map.tileWidth),
-            y: game.finalEnemy.position.y + 2*game.map.tileHeight
-        };
+            x: orientation === 'right' ? (game.finalEnemy.position.x + 4 * game.map.tileWidth) : (game.finalEnemy.position.x - game.map.tileWidth),
+            y: game.finalEnemy.position.y + game.finalEnemy.height / 2
+        }
+        ;
         this.velocity = {
-            x: game.finalEnemy.orientation === 'right' ? 3 : -3,
+            x: orientation === 'right' ? 3 : -3,
             y: 0
         };
         this.width = game.map.tileWidth;
@@ -16,34 +17,41 @@ export default class Bullet {
         this.update = this.update.bind(this);
         this.render = this.render.bind(this);
         this.isOnCamera = this.isOnCamera.bind(this);
+        this.calcTilePosition = this.calcTilePosition.bind(this);
     }
 
-    isOnCamera (vertBeyond, horBeyond) {
-        var camera = {
+    calcTilePosition(position) {
+        let x = Math.floor((position.x + this.width / 2) / this.game.map.tileWidth);
+        let y = Math.floor((position.y + this.height / 2) / this.game.map.tileHeight);
+        return {x: x, y: y};
+    }
+
+    isOnCamera(vertBeyond, horBeyond) {
+        let camera = {
             x: this.game.screenPosition.x,
             y: this.game.screenPosition.y
         };
 
-        if (
-            ((camera.x + this.game.canvas.width * horBeyond) > this.position.x)
+        return ((camera.x + this.game.canvas.width * horBeyond) > this.position.x)
             && ((camera.x - this.game.canvas.width * (horBeyond - 1)) < this.position.x)
             && ((camera.y + this.game.canvas.height * vertBeyond) > this.position.y)
-            && ((camera.y - this.game.canvas.height * (vertBeyond -1)) < this.position.y)
-        ) {
-            return true;
-        }
-        return false;
+            && ((camera.y - this.game.canvas.height * (vertBeyond - 1)) < this.position.y);
+
     }
 
     checkPlayerCollision() {
+        let tile = this.game.map.tileAt(this.calcTilePosition(this.position));
+        if (tile && tile.solid) return 'out';
+
         let player = this.game.player;
 
         let topHit = (
-            (player.velocity.y > 0)
-            && (this.position.x > player.position.x - this.width)
-            && (this.position.x < player.position.x + this.width)
-            && (this.position.y <= player.position.y + player.height.current)
-            && (this.position.y + 1/4*this.position.y > player.position.y + player.height.current)
+
+            player.velocity.y > 0
+            && (player.position.x < this.position.x + this.width)
+            && (player.position.x + player.width.current > this.position.x)
+            && (player.position.y + player.height.current > this.position.y)
+            && (player.position.y +player.height.current/2 < this.position.y)
         );
 
         let sideHit = (
@@ -54,17 +62,18 @@ export default class Bullet {
         );
 
         if (topHit) {	//bullet destroyed
+            console.log("top");
             return 'out';
         }
 
         else if (sideHit && !this.game.player.hitted) {
-            this.game.player.hitted=true;
+            this.game.player.hitted = true;
             this.game.gameState.lives--;
         }
     }
 
-    update(){
-        if(this.checkPlayerCollision() === 'out'){
+    update() {
+        if (this.checkPlayerCollision() === 'out') {
             return 'out';
         }
 
@@ -76,7 +85,7 @@ export default class Bullet {
         }
     }
 
-    render(){
+    render() {
         var tileHeight = this.game.map.tileHeight;
         var tileWidth = this.game.map.tileWidth;
 

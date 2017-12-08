@@ -8,6 +8,7 @@ export default class FinalEnemy {
             x: x,
             y: y
         };
+        this.dead = false;
         this.level = properties.lvl;
         this.calcTilePosition = this.calcTilePosition.bind(this);
         this.tilePos = this.calcTilePosition(this.position);
@@ -31,7 +32,7 @@ export default class FinalEnemy {
         this.bullets = [];
         this.width = properties.width;
         this.height = properties.height;
-        console.log("width, height: "+this.width+", "+this.height);
+        console.log("width, height: " + this.width + ", " + this.height);
 
         this.update = this.update.bind(this);
         this.render = this.render.bind(this);
@@ -48,11 +49,10 @@ export default class FinalEnemy {
         let player = this.game.player;
 
         let topHit = (
-            (player.velocity.y > player.gravity.current)
-            && (this.position.x > player.position.x - this.width)
-            && (this.position.x < player.position.x + this.width)
-            && (this.position.y <= player.position.y - player.gravity.current + player.height.current)
-            && (this.position.y + 1 / 4 * this.position.y > player.position.y + player.height.current)
+            ((player.position.x < this.position.x + this.width)
+                && (player.position.x + player.width.current > this.position.x))
+            && (player.position.y + player.height.current > this.position.y)
+            && (player.position.y  < this.position.y)
         );
 
         let sideHit = (
@@ -62,17 +62,22 @@ export default class FinalEnemy {
             && (this.position.y < player.position.y - player.gravity.current + player.height.current)
         );
 
-        if (topHit) {	//bullet destroyed
-            if (this.lives === 1) {
-                console.log("BOSS KILLED");
+        if (topHit) {
+
+            if (player.velocity.y > 2) {
+                this.lives--;
+                this.height-=this.game.map.tileHeight;
+                this.position.y+=this.game.map.tileHeight;
+                console.log(player.velocity.y, "AUCH, BOSS LOST A LIFE");
+                if (this.lives === 0) {
+                    console.log("BOSS KILLED");
+                    this.dead = true;
+                }
             }
-            this.lives--;
-            console.log("AUCH, BOSS LOST A LIFE");
             player.velocity.y = 0;
-            player.position.y = this.position.y - player.height.current;
+            player.position.y = this.position.y - player.height.current + 1;
             sideHit = false;
         }
-
         else if (sideHit && !this.game.player.hitted) {
             this.game.player.hitted = true;
             this.game.gameState.lives--;
@@ -85,33 +90,30 @@ export default class FinalEnemy {
             y: this.game.screenPosition.y
         };
 
-        if (
-            ((camera.x + this.game.canvas.width * horBeyond) > this.position.x)
+        return ((camera.x + this.game.canvas.width * horBeyond) > this.position.x)
             && ((camera.x - this.game.canvas.width * (horBeyond - 1)) < this.position.x)
             && ((camera.y + this.game.canvas.height * vertBeyond) > this.position.y)
-            && ((camera.y - this.game.canvas.height * (vertBeyond - 1)) < this.position.y)
-        ) {
-            return true;
-        }
-        return false;
+            && ((camera.y - this.game.canvas.height * (vertBeyond - 1)) < this.position.y);
+
     }
 
-    update(){
+    update() {
         //if enemy is very close to camera
 
-        if (this.isOnCamera(1, 1.5)){
+        if (!this.dead && this.isOnCamera(1, 1.5)) {
             this.visible = true;
 
             this.checkPlayerCollision();
 
-            if(this.lastShot < 0){
-                this.bullets.push(new Bullet(this.game));
+            if (this.lastShot < 0) {
+                this.bullets.push(new Bullet(this.game,'left'));
+                this.bullets.push(new Bullet(this.game,'right'));
                 this.lastShot = this.shootInterval;
             }
             this.lastShot--;
 
-            for(let i = this.bullets.length-1; i > -1; i--) {
-                if (this.bullets[i].update() === 'out'){
+            for (let i = this.bullets.length - 1; i > -1; i--) {
+                if (this.bullets[i].update() === 'out') {
                     this.bullets.splice(i, 1);
                 }
             }
@@ -130,7 +132,7 @@ export default class FinalEnemy {
         /* TODO use img of the final enemy */
         this.game.ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
 
-        let text = "not yet ready final enemy";
+        let text = "final enemy: " + this.dead;
         this.game.ctx.fillStyle = "white";
         this.game.ctx.fillText(text, this.position.x + this.width / 2 - this.game.ctx.measureText(text).width / 2,
             this.position.y + this.height / 2);

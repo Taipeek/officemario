@@ -118,7 +118,7 @@ export default class Game {
 
     checkNextLevel() {
         let playerPos = this.player.position;
-        if (playerPos.x >= this.levelEnd.position.x && playerPos.x + this.player.width.current <= this.levelEnd.position.x + this.levelEnd.width
+        if (this.finalEnemy.dead && playerPos.x >= this.levelEnd.position.x && playerPos.x + this.player.width.current <= this.levelEnd.position.x + this.levelEnd.width
             && playerPos.y >= this.levelEnd.position.y && playerPos.y + this.player.height.current <= this.levelEnd.position.y + this.levelEnd.height) {
             this.screenPosition = {x: 0, y: 0};
             this.gameState.level++;
