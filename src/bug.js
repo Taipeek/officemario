@@ -133,6 +133,7 @@ export default class Bug {
             ((this.position.y <= (player.position.y + player.height.current)
                 && this.position.y >= ( player.position.y + 0.8 * player.height.current)
                 && this.position.x + this.tileWidth >= player.position.x
+                && player.velocity.y>0
                 && this.position.x + this.tileWidth <= (player.position.x + player.width.current))));
 
         let leftHit = (this.position.y + this.tileHeight >= player.position.y

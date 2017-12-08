@@ -127,6 +127,7 @@ export default class Feature {
         let topHit = ((this.position.y <= (player.position.y + player.height.current)
             && this.position.y >= ( player.position.y + 0.8 * player.height.current)
             && this.position.x >= player.position.x
+            && player.velocity.y>0
             && this.position.x <= (player.position.x + player.width.current)) ||
             ((this.position.y <= (player.position.y + player.height.current)
                 && this.position.y >= ( player.position.y + 0.8 * player.height.current)

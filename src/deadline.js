@@ -5,9 +5,9 @@ export default class Deadline {
         this.position = {x: 0};
        
         
-        this.velocity = {x: 2.0,};
-        this.tileWidth = this.game.map.tileWidth;
-        this.tileHeight = this.game.map.tileHeight;
+        this.velocity = {x: 2.0};
+       // this.tileWidth = this.game.map.tileWidth;
+        //this.tileHeight = this.game.map.tileHeight;
         
        
     }
@@ -29,7 +29,7 @@ export default class Deadline {
     render() {
          this.game.ctx.save();   
          this.game.ctx.fillStyle = "black";
-         this.game.ctx.fillRect(0,0,this.position.x,1000);
+         this.game.ctx.fillRect(this.position.x-5000,0,5000,10000);
          
           this.game.ctx.restore(); 
                                          }

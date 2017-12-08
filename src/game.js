@@ -5,6 +5,7 @@ import Feature from "./feature";
 import FinalEnemy from"./finalEnemy"
 import ScoreBoard from "./scoreBoard";
 import Bug from "./bug";
+import Deadline from "./deadline";
 
 export default class Game {
     constructor() {
@@ -31,7 +32,7 @@ export default class Game {
         this.gameLoop = this.gameLoop.bind(this);
         this.renderCounter = 0;
         this.shake = {on: false};
-
+        this.deadline=new Deadline(this);
         // key handlers
         window.onkeydown = this.handleKeyDown;
         window.onkeyup = this.handleKeyUp;
@@ -201,7 +202,7 @@ export default class Game {
         this.handleShake();
         this.ctx.translate(-this.screenPosition.x, -this.screenPosition.y);
         this.map.render();
-
+        this.deadline.render();
         this.player.render();
         this.powerups.forEach(powerup => {
             powerup.render();
@@ -212,12 +213,14 @@ export default class Game {
         this.finalEnemy.render();
         this.ctx.restore();
         this.scoreBoard.render();
+        
         this.renderCounter++;
     }
 
     update() {
         this.map.update();
         this.player.update();
+        this.deadline.update();
         this.powerups.forEach(powerup => {
             powerup.update();
         });
