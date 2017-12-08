@@ -1,16 +1,17 @@
 import Bullet from "./bullet";
 
 export default class FinalEnemy {
-    constructor (game, x, y, orientation) {
+    constructor(game, x, y, orientation, properties) {
         this.game = game;
         this.position = {
             x: x,
             y: y
         };
+        this.level = properties.lvl;
         this.calcTilePosition = this.calcTilePosition.bind(this);
         this.tilePos = this.calcTilePosition(this.position);
         this.orientation = orientation;
-        switch (this.game.gameState.level) {
+        switch (this.level) {
             case 1:
                 this.img = "TODO blue screen"; //TODO image of blue screen
                 this.bulletImg = "TODO bullet img"; //TODO image of bullets
@@ -27,8 +28,8 @@ export default class FinalEnemy {
         this.visible = false;
         this.lastShot = -1;
         this.bullets = [];
-        this.width = this.game.map.tileWidth*4;
-        this.height = this.game.map.tileHeight*4;
+        this.width = this.game.map.tileWidth * 2;
+        this.height = this.game.map.tileHeight * 2;
 
         this.update = this.update.bind(this);
         this.render = this.render.bind(this);
@@ -41,8 +42,8 @@ export default class FinalEnemy {
         return {x: x, y: y};
     }
 
-    isOnCamera (vertBeyond, horBeyond) {
-        var camera = {
+    isOnCamera(vertBeyond, horBeyond) {
+        let camera = {
             x: this.game.screenPosition.x,
             y: this.game.screenPosition.y
         };
@@ -51,26 +52,25 @@ export default class FinalEnemy {
             ((camera.x + this.game.canvas.width * horBeyond) > this.position.x)
             && ((camera.x - this.game.canvas.width * (horBeyond - 1)) < this.position.x)
             && ((camera.y + this.game.canvas.height * vertBeyond) > this.position.y)
-            && ((camera.y - this.game.canvas.height * (vertBeyond -1)) < this.position.y)
+            && ((camera.y - this.game.canvas.height * (vertBeyond - 1)) < this.position.y)
         ) {
             return true;
         }
         return false;
     }
 
-    update(){
+    update() {
         //if enemy is very close to camera
-
-        if (this.isOnCamera(1, 1.5)){
+        if (this.isOnCamera(1, 1.5)) {
             this.visible = true;
-            if(this.lastShot < 0){
+            if (this.lastShot < 0) {
                 this.bullets.push(new Bullet(this.game));
                 this.lastShot = this.shootInterval;
             }
             this.lastShot--;
 
-            for(let i = this.bullets.length-1; i > -1; i--) {
-                if (this.bullets[i].update() === 'out'){
+            for (let i = this.bullets.length - 1; i > -1; i--) {
+                if (this.bullets[i].update() === 'out') {
                     this.bullets.splice(i, 1);
                 }
             }
@@ -91,12 +91,12 @@ export default class FinalEnemy {
 
         let text = "not yet ready final enemy";
         this.game.ctx.fillStyle = "white";
-        this.game.ctx.fillText(text, this.position.x + this.width/2 - this.game.ctx.measureText(text).width/2,
-            this.position.y + this.height/2);
+        this.game.ctx.fillText(text, this.position.x + this.width / 2 - this.game.ctx.measureText(text).width / 2,
+            this.position.y + this.height / 2);
 
         this.game.ctx.restore();
 
-        for(let i = this.bullets.length-1; i > -1; i--) {
+        for (let i = this.bullets.length - 1; i > -1; i--) {
             this.bullets[i].render();
         }
     }

@@ -71,7 +71,6 @@ export default class Game {
         this.gameLoopInterval = null;
         this.powerups = [];
         this.features = [];
-        this.finalEnemy = new FinalEnemy(this, 37 * this.map.tileWidth, 24 * this.map.tileHeight, 'left');
         this.shake = {on: false};
         let objectLayer = this.map.mapData.layers[2];
         objectLayer.objects.forEach(item => {
@@ -84,6 +83,8 @@ export default class Game {
                 this.features.push(new Bug(this, item.x, item.y));
             }else if (item.type === "featurespawn") {
                 this.features.push(new Feature(this, item.x, item.y));
+            }else if (item.type === "bossspawn") {
+                this.finalEnemy = new FinalEnemy(this, item.x, item.y, 'left', item.properties);
             }
         });
         window.onload = () => {
