@@ -15,6 +15,7 @@ export default class Deadline {
     checkPlayerCollision() {
         let player = this.game.player;
         if (player.position.x<this.position.x){
+            this.game.gameState.lives--;
             //player is dead
         }
     }

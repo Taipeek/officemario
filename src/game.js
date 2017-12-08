@@ -72,6 +72,7 @@ export default class Game {
         this.gameLoopInterval = null;
         this.powerups = [];
         this.features = [];
+        this.deadline=new Deadline(this);
         this.shake = {on: false};
         let objectLayer = this.map.mapData.layers[2];
         objectLayer.objects.forEach(item => {
