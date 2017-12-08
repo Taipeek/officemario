@@ -14,7 +14,8 @@ export default class Game {
         document.body.appendChild(this.canvas);
         this.ctx = this.canvas.getContext('2d');
         this.gameState = {};
-        this.gameLoopSpeed = 100 / 3;
+        this.framerate = 60;
+        this.gameLoopSpeed = 1000 / this.framerate;
         this.keyBoard = [];
         this.screenPosition = {x: 0, y: 0};
 
@@ -62,6 +63,7 @@ export default class Game {
             lives: 1,
             level: 1
         };
+        this.screenPosition = {x: 0, y: 0};
         //Create game objects
         this.map = new LevelMap(this);
         this.player = new Player(this);
@@ -79,6 +81,8 @@ export default class Game {
                 this.powerups.push(new Powerup(this, item.x, item.y, 'coffee'));
             } else if (item.type === "enemyspawn") {
                 this.features.push(new Bug(this, item.x, item.y));
+            }else if (item.type === "featurespawn") {
+                this.features.push(new Feature(this, item.x, item.y));
             }
         });
         window.onload = () => {
@@ -180,13 +184,13 @@ export default class Game {
         let randY = (0.5 - Math.random()) * 18;
 
         if (this.shake.rampdown) {
-            randX *= (this.shake.counter / (this.gameLoopSpeed*2));
-            randY *= (this.shake.counter / (this.gameLoopSpeed*2));
+            randX *= (this.shake.counter / (this.framerate*2));
+            randY *= (this.shake.counter / (this.framerate*2));
         }
         this.ctx.translate(Math.floor(randX), Math.floor(randY));
         this.shake.counter--;
 
-        if (this.shake.counter <= 2* this.gameLoopSpeed)
+        if (this.shake.counter <= 2* this.framerate)
             this.shake.rampdown = true;
     }
 

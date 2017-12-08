@@ -1,6 +1,6 @@
 export default class Bug {
     constructor(game, x, y) {
-        this.game = game;
+        this.game = game;        
         this.position = {x: x, y: y};
         this.gravity = this.game.player.gravity.current;
         this.tilePos = this.calcTilePosition(this.position);
@@ -16,37 +16,37 @@ export default class Bug {
         var texts=["NullPointerException","Array index out of bounds","Error: Division by zero","EOFError: EOF when reading a line","SyntaxError: invalid syntax","TypeError: Failed to execute 'main'","HTMLImageElement is in 'broken' state"]
         this.text=texts[Math.floor(Math.random()*texts.length)];
         this.timeDead=0;
-
+        
         this.poof0 = new Image();
-        this.poof0.src = "img/poof/0.png";
+        this.poof0.src = "img/poof/0.png"; 
         this.poof1 = new Image();
-        this.poof1.src = "img/poof/1.png";
+        this.poof1.src = "img/poof/1.png"; 
         this.poof2 = new Image();
-        this.poof2.src = "img/poof/2.png";
+        this.poof2.src = "img/poof/2.png"; 
         this.poof3 = new Image();
-        this.poof3.src = "img/poof/3.png";
+        this.poof3.src = "img/poof/3.png"; 
         this.poof4 = new Image();
-        this.poof4.src = "img/poof/4.png";
+        this.poof4.src = "img/poof/4.png"; 
         this.poof5 = new Image();
-        this.poof5.src = "img/poof/5.png";
+        this.poof5.src = "img/poof/5.png"; 
         this.poof6 = new Image();
-        this.poof6.src = "img/poof/6.png";
+        this.poof6.src = "img/poof/6.png"; 
         this.poof7 = new Image();
-        this.poof7.src = "img/poof/7.png";
+        this.poof7.src = "img/poof/7.png"; 
         this.poof8 = new Image();
-        this.poof8.src = "img/poof/8.png";
+        this.poof8.src = "img/poof/8.png"; 
         this.poof9 = new Image();
-        this.poof9.src = "img/poof/9.png";
+        this.poof9.src = "img/poof/9.png"; 
         this.poof10 = new Image();
-        this.poof10.src = "img/poof/10.png";
+        this.poof10.src = "img/poof/10.png"; 
         this.poof11 = new Image();
-        this.poof11.src = "img/poof/11.png";
+        this.poof11.src = "img/poof/11.png"; 
         this.poof12 = new Image();
-        this.poof12.src = "img/poof/12.png";
+        this.poof12.src = "img/poof/12.png"; 
         this.poof13 = new Image();
-        this.poof13.src = "img/poof/13.png";
+        this.poof13.src = "img/poof/13.png"; 
         this.poof14 = new Image();
-        this.poof14.src = "img/poof/14.png";
+        this.poof14.src = "img/poof/14.png"; 
         this.poof=[this.poof0,this.poof1,this.poof2,this.poof3,this.poof4,this.poof5,this.poof6,this.poof7,this.poof8,this.poof9,this.poof10,this.poof11,this.poof12,this.poof13,this.poof14];
     }
 
@@ -151,7 +151,7 @@ export default class Bug {
 
         }
         else if ((leftHit || rightHit) && !this.dead && !this.game.player.hitted) {
-            this.game.player.hitted=true;
+            this.game.player.hitted=true;           
             this.game.gameState.lives--;
         }
     }
@@ -172,8 +172,8 @@ export default class Bug {
 
     render() {
         if (this.dead){
-           this.game.ctx.save();
-
+           this.game.ctx.save();       
+        
         this.game.ctx.drawImage(this.imageDead, this.position.x, this.position.y+this.tileHeight*0.85, this.tileWidth, this.tileHeight);
         this.game.ctx.fillStyle = "red";
         this.game.ctx.font = "15px Consolas";
@@ -199,22 +199,22 @@ export default class Bug {
              this.game.ctx.fillText(this.text, this.position.x, this.position.y-130);
         }
         var timeStepPoof=5;
-        if(this.timeDead>160 && this.timeDead<160+14*timeStepPoof ){
-
-                this.game.ctx.drawImage(this.poof[Math.floor((this.timeDead-160)/timeStepPoof)], this.position.x+40, this.position.y-130-75, 150,150);
+        if(this.timeDead>160 && this.timeDead<160+14*timeStepPoof ){  
+            
+                this.game.ctx.drawImage(this.poof[Math.floor((this.timeDead-160)/timeStepPoof)], this.position.x+40, this.position.y-130-75, 150,150);            
         }
-
-
-
-        this.game.ctx.restore();
-
-
+       
+       
+       
+        this.game.ctx.restore(); 
+    
+        
         return;
         }
 
-
-        this.game.ctx.save();
-
+        
+        this.game.ctx.save();       
+        
         this.game.ctx.drawImage(this.imageWalk, this.position.x, this.position.y, this.tileWidth, this.tileHeight);
 
         this.game.ctx.restore();
