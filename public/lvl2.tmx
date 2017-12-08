@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="240" height="37" tilewidth="32" tileheight="32" nextobjectid="22">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="240" height="37" tilewidth="32" tileheight="32" nextobjectid="23">
  <tileset firstgid="1" name="tiles" tilewidth="32" tileheight="32" tilecount="4" columns="2">
   <image source="tiles.png" width="64" height="64"/>
   <tile id="0">
@@ -96,5 +96,10 @@
   <object id="19" name="powerupspawn4" type="powerupspawn" x="5022.93" y="902.533" width="34.3643" height="36.6552"/>
   <object id="20" name="levelend1" type="levelend" x="6568.2" y="583.516" width="14.5879" height="178.702"/>
   <object id="21" name="levelend2" type="levelend" x="7304.9" y="583.507" width="14.5879" height="178.702"/>
+  <object id="22" name="bossspawn1" type="bossspawn" x="6135.37" y="683.406" width="45.8515" height="45.8515">
+   <properties>
+    <property name="lvl" type="int" value="2"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>

@@ -72,6 +72,7 @@ export default class Game {
         this.powerups = [];
         this.features = [];
         this.finalEnemy = new FinalEnemy(this, 37 * this.map.tileWidth, 24 * this.map.tileHeight, 'left');
+        this.shake = {on: false};
         let objectLayer = this.map.mapData.layers[2];
         objectLayer.objects.forEach(item => {
             if (item.type === "playerspawn") {
