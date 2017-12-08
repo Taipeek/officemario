@@ -1,16 +1,41 @@
 export default class Bullet {
-    constructor(game, orientation) {
+    constructor(game, orientation,num) {
         this.id = Math.random();
         this.game = game;
-        this.position = {
-            x: orientation === 'right' ? (game.finalEnemy.position.x + 4 * game.map.tileWidth) : (game.finalEnemy.position.x - game.map.tileWidth),
-            y: game.finalEnemy.position.y + game.finalEnemy.height / 2
+        switch (orientation){
+            case 'left':
+                this.position = {
+                    x: (game.finalEnemy.position.x - game.map.tileWidth),
+                    y: game.finalEnemy.position.y + game.finalEnemy.height / 2
+                };
+                this.velocity = {
+                    x:  -3,
+                    y: 0
+                };
+                break;
+            case 'right':
+                this.position = {
+                    x: (game.finalEnemy.position.x + 4 * game.map.tileWidth) ,
+                    y: game.finalEnemy.position.y + game.finalEnemy.height / 2
+                };
+                this.velocity = {
+                    x: 3,
+                    y: 0
+                };
+                break;
+            case 'top':
+                this.position = {
+                    x: (game.finalEnemy.position.x + num * game.map.tileWidth) ,
+                    y: game.finalEnemy.position.y
+                };
+                this.velocity = {
+                    x: 0,
+                    y: -3
+                };
+                break;
+
         }
-        ;
-        this.velocity = {
-            x: orientation === 'right' ? 3 : -3,
-            y: 0
-        };
+
         this.width = game.map.tileWidth;
         this.height = game.map.tileHeight;
 

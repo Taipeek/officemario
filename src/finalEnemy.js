@@ -8,6 +8,14 @@ export default class FinalEnemy {
             x: x,
             y: y
         };
+
+        function* idMaker() {
+            let index = 0;
+            while (true)
+                yield index++;
+        }
+
+        this.gen = idMaker();
         this.dead = false;
         this.level = properties.lvl;
         this.calcTilePosition = this.calcTilePosition.bind(this);
@@ -17,7 +25,7 @@ export default class FinalEnemy {
             case 1:
                 this.img = "TODO blue screen"; //TODO image of blue screen
                 this.bulletImg = "TODO bullet img"; //TODO image of bullets
-                this.shootInterval = 200;
+                this.shootInterval = 70;
                 this.lives = 4;
                 break;
             case 2:
@@ -52,7 +60,7 @@ export default class FinalEnemy {
             ((player.position.x < this.position.x + this.width)
                 && (player.position.x + player.width.current > this.position.x))
             && (player.position.y + player.height.current > this.position.y)
-            && (player.position.y  < this.position.y)
+            && (player.position.y < this.position.y)
         );
 
         let sideHit = (
@@ -66,8 +74,8 @@ export default class FinalEnemy {
 
             if (player.velocity.y > 2) {
                 this.lives--;
-                this.height-=this.game.map.tileHeight;
-                this.position.y+=this.game.map.tileHeight;
+                this.height -= this.game.map.tileHeight;
+                this.position.y += this.game.map.tileHeight;
                 console.log(player.velocity.y, "AUCH, BOSS LOST A LIFE");
                 if (this.lives === 0) {
                     console.log("BOSS KILLED");
@@ -106,8 +114,10 @@ export default class FinalEnemy {
             this.checkPlayerCollision();
 
             if (this.lastShot < 0) {
-                this.bullets.push(new Bullet(this.game,'left'));
-                this.bullets.push(new Bullet(this.game,'right'));
+                this.bullets.push(new Bullet(this.game, 'left'));
+                this.bullets.push(new Bullet(this.game, 'right'));
+                this.bullets.push(new Bullet(this.game, 'top', this.gen.next().value % 4));
+                this.bullets.push(new Bullet(this.game, 'top', this.gen.next().value % 4));
                 this.lastShot = this.shootInterval;
             }
             this.lastShot--;
