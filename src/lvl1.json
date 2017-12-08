@@ -212,12 +212,14 @@
                  "y":232.558
                 },
                 {
-                 "height":84.0336,
+                 "height":128,
                  "id":22,
                  "name":"bossspawn1",
                  "properties":
                     {
-                     "lvl":1
+                     "lvl":1,
+                      "width":128,
+                      "height":128
                     },
                  "propertytypes":
                     {
@@ -226,9 +228,9 @@
                  "rotation":0,
                  "type":"bossspawn",
                  "visible":true,
-                 "width":88.7021,
-                 "x":1151.56015851401,
-                 "y":790.985107874636
+                 "width":128,
+                 "x":1248,
+                 "y":768
                 }],
          "opacity":1,
          "type":"objectgroup",

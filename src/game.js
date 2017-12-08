@@ -32,7 +32,7 @@ export default class Game {
         this.gameLoop = this.gameLoop.bind(this);
         this.renderCounter = 0;
         this.shake = {on: false};
-        this.deadline=new Deadline(this);
+        // this.deadline=new Deadline(this);
         // key handlers
         window.onkeydown = this.handleKeyDown;
         window.onkeyup = this.handleKeyUp;
@@ -72,7 +72,7 @@ export default class Game {
         this.gameLoopInterval = null;
         this.powerups = [];
         this.features = [];
-        this.deadline=new Deadline(this);
+        // this.deadline=new Deadline(this);
         this.shake = {on: false};
         let objectLayer = this.map.mapData.layers[2];
         objectLayer.objects.forEach(item => {
@@ -203,7 +203,7 @@ export default class Game {
         this.handleShake();
         this.ctx.translate(-this.screenPosition.x, -this.screenPosition.y);
         this.map.render();
-        this.deadline.render();
+        // this.deadline.render();
         this.player.render();
         this.powerups.forEach(powerup => {
             powerup.render();
@@ -221,7 +221,7 @@ export default class Game {
     update() {
         this.map.update();
         this.player.update();
-        this.deadline.update();
+        // this.deadline.update();
         this.powerups.forEach(powerup => {
             powerup.update();
         });

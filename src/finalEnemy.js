@@ -2,6 +2,7 @@ import Bullet from "./bullet";
 
 export default class FinalEnemy {
     constructor(game, x, y, orientation, properties) {
+        console.log(properties);
         this.game = game;
         this.position = {
             x: x,
@@ -28,8 +29,9 @@ export default class FinalEnemy {
         this.visible = false;
         this.lastShot = -1;
         this.bullets = [];
-        this.width = this.game.map.tileWidth * 2;
-        this.height = this.game.map.tileHeight * 2;
+        this.width = properties.width;
+        this.height = properties.height;
+        console.log("width, height: "+this.width+", "+this.height);
 
         this.update = this.update.bind(this);
         this.render = this.render.bind(this);
@@ -46,10 +48,10 @@ export default class FinalEnemy {
         let player = this.game.player;
 
         let topHit = (
-            (player.velocity.y > 0)
+            (player.velocity.y > player.gravity.current)
             && (this.position.x > player.position.x - this.width)
             && (this.position.x < player.position.x + this.width)
-            && (this.position.y <= player.position.y + player.height.current)
+            && (this.position.y <= player.position.y - player.gravity.current + player.height.current)
             && (this.position.y + 1 / 4 * this.position.y > player.position.y + player.height.current)
         );
 
@@ -57,14 +59,18 @@ export default class FinalEnemy {
             (this.position.x < player.position.x + player.width.current)
             && (this.position.x > player.position.x - this.width)
             && (this.position.y > player.position.y - this.height)
-            && (this.position.y < player.position.y + player.height.current)
+            && (this.position.y < player.position.y - player.gravity.current + player.height.current)
         );
 
         if (topHit) {	//bullet destroyed
             if (this.lives === 1) {
-                console.log("KILLED");
+                console.log("BOSS KILLED");
             }
             this.lives--;
+            console.log("AUCH, BOSS LOST A LIFE");
+            player.velocity.y = 0;
+            player.position.y = this.position.y - player.height.current;
+            sideHit = false;
         }
 
         else if (sideHit && !this.game.player.hitted) {
