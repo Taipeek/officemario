@@ -190,14 +190,14 @@
                  "y":1030.5
                 },
                 {
-                 "height":96,
+                 "height":128,
                  "id":19,
                  "name":"levelend1",
                  "rotation":0,
                  "type":"levelend",
                  "visible":true,
-                 "width":128,
-                 "x":7000,
+                 "width":96,
+                 "x":6800,
                  "y":227
                 },
                 {

@@ -9,6 +9,8 @@ export default class LevelEnd {
         };
         this.width = width;
         this.height= height;
+        this.image = new Image();
+        this.image.src = "img/mainframe.png";
 
         this.render = this.render.bind(this);
     }
@@ -17,14 +19,7 @@ export default class LevelEnd {
 
     render() {
         this.game.ctx.save();
-        this.game.ctx.fillStyle = "blue";
-        /* TODO use img of the final enemy */
-        this.game.ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
-
-        let text = "next level";
-        this.game.ctx.fillStyle = "white";
-        this.game.ctx.fillText(text, this.position.x + this.width / 2 - this.game.ctx.measureText(text).width / 2,
-            this.position.y + this.height / 2);
+        this.game.ctx.drawImage(this.image,this.position.x, this.position.y, this.width, this.height);
         this.game.ctx.restore();
     }
 }
