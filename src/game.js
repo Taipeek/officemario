@@ -2,10 +2,11 @@ import Player from "./player";
 import LevelMap from "./levelMap";
 import Powerup from "./powerup";
 import Feature from "./feature";
-import FinalEnemy from "./finalEnemy"
+import FinalEnemy from"./finalEnemy"
 import ScoreBoard from "./scoreBoard";
 import Bug from "./bug";
 import LevelEnd from "./levelEnd";
+import Deadline from "./deadline";
 
 export default class Game {
     constructor() {
@@ -19,7 +20,6 @@ export default class Game {
         this.gameLoopSpeed = 1000 / this.framerate;
         this.keyBoard = [];
         this.screenPosition = {x: 0, y: 0};
-
 
         //binds
         this.moveScreen = this.moveScreen.bind(this);
@@ -35,7 +35,7 @@ export default class Game {
         this.gameLoop = this.gameLoop.bind(this);
         this.renderCounter = 0;
         this.shake = {on: false};
-
+        this.deadline=new Deadline(this);
         // key handlers
         window.onkeydown = this.handleKeyDown;
         window.onkeyup = this.handleKeyUp;
@@ -63,6 +63,8 @@ export default class Game {
     spawnObjects() {
         this.powerups = [];
         this.features = [];
+        this.deadline=new Deadline(this);
+        this.shake = {on: false};
         let objectLayer = this.map.mapData.layers[2];
         objectLayer.objects.forEach(item => {
             if (item.type === "playerspawn") {
@@ -72,9 +74,9 @@ export default class Game {
                 this.powerups.push(new Powerup(this, item.x, item.y, 'coffee'));
             } else if (item.type === "enemyspawn") {
                 this.features.push(new Bug(this, item.x, item.y));
-            } else if (item.type === "featurespawn") {
+            }else if (item.type === "featurespawn") {
                 this.features.push(new Feature(this, item.x, item.y));
-            } else if (item.type === "bossspawn") {
+            }else if (item.type === "bossspawn") {
                 this.finalEnemy = new FinalEnemy(this, item.x, item.y, 'left', item.properties);
             } else if (item.type === "levelend") {
                 this.levelEnd = new LevelEnd(this, item.x, item.y, item.width, item.height);
@@ -98,7 +100,6 @@ export default class Game {
         this.shake = {on: false};
         this.spawnObjects();
         window.onload = () => {
-            console.log(this.map);
             this.render();
             this.scoreBoard.renderFirstGame();
         }
@@ -209,13 +210,13 @@ export default class Game {
         let randY = (0.5 - Math.random()) * 18;
 
         if (this.shake.rampdown) {
-            randX *= (this.shake.counter / (this.framerate * 2));
-            randY *= (this.shake.counter / (this.framerate * 2));
+            randX *= (this.shake.counter / (this.framerate*2));
+            randY *= (this.shake.counter / (this.framerate*2));
         }
         this.ctx.translate(Math.floor(randX), Math.floor(randY));
         this.shake.counter--;
 
-        if (this.shake.counter <= 2 * this.framerate)
+        if (this.shake.counter <= 2* this.framerate)
             this.shake.rampdown = true;
     }
 
@@ -224,7 +225,7 @@ export default class Game {
         this.handleShake();
         this.ctx.translate(-this.screenPosition.x, -this.screenPosition.y);
         this.map.render();
-
+        this.deadline.render();
         this.player.render();
         this.powerups.forEach(powerup => {
             powerup.render();
@@ -238,12 +239,14 @@ export default class Game {
         this.finalEnemy.render();
         this.ctx.restore();
         this.scoreBoard.render();
+
         this.renderCounter++;
     }
 
     update() {
         this.map.update();
         this.player.update();
+        this.deadline.update();
         this.powerups.forEach(powerup => {
             powerup.update();
         });
