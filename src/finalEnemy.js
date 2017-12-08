@@ -95,27 +95,26 @@ export default class FinalEnemy {
         if (this.isOnCamera(1, 1.5)) {
             this.visible = true;
             if (this.lastShot < 0) {
-
-            this.checkPlayerCollision();
-
-            if(this.lastShot < 0){
-                this.bullets.push(new Bullet(this.game));
-                this.lastShot = this.shootInterval;
-            }
-            this.lastShot--;
-
-            for (let i = this.bullets.length - 1; i > -1; i--) {
-                if (this.bullets[i].update() === 'out') {
-                    this.bullets.splice(i, 1);
+                this.checkPlayerCollision();
+                if (this.lastShot < 0) {
+                    this.bullets.push(new Bullet(this.game));
+                    this.lastShot = this.shootInterval;
                 }
-            }
+                this.lastShot--;
 
-        } else {
-            this.visible = false;
+                for (let i = this.bullets.length - 1; i > -1; i--) {
+                    if (this.bullets[i].update() === 'out') {
+                        this.bullets.splice(i, 1);
+                    }
+                }
+
+            } else {
+                this.visible = false;
+            }
         }
     }
 
-    render() {
+    render(){
         if (!this.visible) {
             return;
         }
