@@ -20,7 +20,7 @@ export default class Deadline {
         }
     }
     
-      update() {      
+      update() {
 
         
         this.checkPlayerCollision();
