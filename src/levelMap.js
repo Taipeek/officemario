@@ -1,7 +1,7 @@
 export default class LevelMap {
     constructor(game) {
         this.game = game;
-        this.mapData = require('./lvl1.json');
+        this.mapData = require('./lvl'+game.gameState.level+'.json');
         this.tiles = [];
         this.tilesets = [];
         this.layers = [];
