@@ -49,8 +49,7 @@ export default class FinalEnemy {
         this.prepareSounds();
     }
 
-    prepareSounds()
-    {
+    prepareSounds() {
         this.sounds = [];
         this.game.maxVolume = 0.5;
         // good ol' Windows XP
@@ -66,8 +65,7 @@ export default class FinalEnemy {
         });
     }
 
-    playSound()
-    {
+    playSound() {
         let soundIndex = Math.floor(Math.random() * this.sounds.length);
         let volume = Math.abs(this.game.player.position.x - this.position.x);
 

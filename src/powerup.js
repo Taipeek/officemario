@@ -24,14 +24,12 @@ export default class Powerup {
         //console.log('spawned ' + this.type + ' at ' + this.position.x + ' ' + this.position.y);
     }
 
-    prepareSounds()
-    {
+    prepareSounds() {
         // https://www.sounds-resource.com/pc_computer/terraria/sound/2890/
         // we probably need free sounds, consider these placeholders
 
         let soundpath;
-        switch(this.type)
-        {
+        switch(this.type) {
             case 'pizza':
                 soundpath = 'crunch';
                 break;
@@ -48,10 +46,8 @@ export default class Powerup {
         this.sound.volume = this.game.maxVolume;
     }
 
-    playSound()
-    {
-        if (this.sound)
-        {
+    playSound() {
+        if (this.sound) {
             this.sound.volume = this.game.maxVolume;
             this.sound.play();
         }

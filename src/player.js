@@ -32,17 +32,14 @@ export default class Player {
         this.prepareSounds();
     }
 
-    playHitSound()
-    {
-        if (this.game.gameState.lives > 0)
-        {
+    playHitSound() {
+        if (this.game.gameState.lives > 0) {
             this.sound.volume = this.game.maxVolume;
             this.sound.play();
         }
     }
 
-    prepareSounds()
-    {
+    prepareSounds() {
         // https://opengameart.org/content/male-gruntyelling-sounds
         // 3grunt1.wav, shortened in the beginning
         this.sound = new Audio('sounds/yell.wav');

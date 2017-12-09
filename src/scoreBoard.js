@@ -9,6 +9,8 @@ export default class ScoreBoard {
         this.renderGameOver = this.renderGameOver.bind(this);
         this.renderPause = this.renderPause.bind(this);
         this.renderFirstGame = this.renderFirstGame.bind(this);
+        this.mute = new Image();
+        this.mute.src = 'img/mute-icon.png';
     }
 
     render() {
@@ -21,6 +23,15 @@ export default class ScoreBoard {
         this.game.ctx.fillText("Scores: " + gameState.score, this.x + 10, this.y + 20);
         this.game.ctx.fillText("Lives: " + gameState.lives, this.x + 100, this.y + 20);
         this.game.ctx.fillText("Level: " + gameState.level, this.x + 190, this.y + 20);
+
+        if (this.game.maxVolume === 0) {
+            try {
+                this.game.ctx.drawImage(this.mute, this.x + 275, this.y + 5, 18, 18);
+            }
+            catch(e) {
+                this.game.ctx.fillText("Muted", this.x + 275, this.y + 20);
+            }
+        }
         this.game.ctx.restore();
     }
 
