@@ -18,6 +18,7 @@ export default class Game {
         this.gameState = {};
         this.framerate = 60;
         this.gameLoopSpeed = 1000 / this.framerate;
+        this.maxVolume = 0.5;
         this.keyBoard = [];
         this.screenPosition = {x: 0, y: 0};
 
@@ -171,6 +172,10 @@ export default class Game {
             case 's':
             case 'ArrowDown':
                 this.keyBoard["down"] = true;
+                break;
+            // mute sounds
+            case 'm':
+                this.maxVolume = (this.maxVolume === 0 ? 0.5 : 0);
                 break;
         }
 

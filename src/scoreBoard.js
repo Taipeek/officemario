@@ -41,8 +41,9 @@ export default class ScoreBoard {
         this.game.ctx.fillText("Use arrow keys to move and jump", this.x + 1 / 10 * this.width, y - 250);
         this.game.ctx.fillText("Beware of the bugs and get all the features!", this.x + 1 / 10 * this.width, y - 200);
         this.game.ctx.fillText("Press p to pause the game", this.x + 1 / 10 * this.width, y - 150);
+        this.game.ctx.fillText("Press m to mute all sounds", this.x + 1 / 10 * this.width, y - 100);
         this.game.ctx.font = '40px sans-serif';
-        this.game.ctx.fillText("Press space to start the game", this.x + 1 / 10 * this.width, y - 100);
+        this.game.ctx.fillText("Press space to start the game", this.x + 1 / 10 * this.width, y - 50);
         this.game.ctx.restore();
     }
 

@@ -45,6 +45,37 @@ export default class FinalEnemy {
         this.update = this.update.bind(this);
         this.render = this.render.bind(this);
         this.isOnCamera = this.isOnCamera.bind(this);
+
+        this.prepareSounds();
+    }
+
+    prepareSounds()
+    {
+        this.sounds = [];
+        this.game.maxVolume = 0.5;
+        let paths = ['xp_critical_stop', 'xp_ding', 'xp_error', 'xp_exclamation'];
+        paths.forEach(path => {
+            try {
+                let a = new Audio('sounds/' + path + '.wav');
+            a.volume = this.game.maxVolume / 2;
+            a.load();
+            this.sounds.push(a);
+            }
+            catch(e)
+            {}
+        });
+    }
+
+    playSound()
+    {
+        let soundIndex = Math.floor(Math.random() * this.sounds.length);
+        let volume = Math.abs(this.game.player.position.x - this.position.x);
+
+        // the enemy gets louder the closer you are
+        volume = ((volume > 800) ? 0 : (1 - volume/800) * this.game.maxVolume);
+        //console.log(volume);
+        this.sounds[soundIndex].volume = volume;
+        this.sounds[soundIndex].play();
     }
 
     calcTilePosition(position) {
@@ -119,6 +150,8 @@ export default class FinalEnemy {
                 this.bullets.push(new Bullet(this.game, 'top', this.gen.next().value % 4));
                 this.bullets.push(new Bullet(this.game, 'top', this.gen.next().value % 4));
                 this.lastShot = this.shootInterval;
+
+                this.playSound();
             }
             this.lastShot--;
 
