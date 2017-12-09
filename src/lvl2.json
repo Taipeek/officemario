@@ -250,7 +250,9 @@
                  "name":"bossspawn1",
                  "properties":
                     {
-                     "lvl":2
+                     "lvl":1,
+                      "width":128,
+                      "height":128
                     },
                  "propertytypes":
                     {
@@ -261,7 +263,7 @@
                  "visible":true,
                  "width":45.8515283842789,
                  "x":6135.3711790393,
-                 "y":683.406113537118
+                 "y":640
                 }],
          "opacity":1,
          "type":"objectgroup",
