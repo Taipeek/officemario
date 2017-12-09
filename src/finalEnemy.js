@@ -31,8 +31,8 @@ export default class FinalEnemy {
                 this.lives = 4;
                 break;
             case 2:
-                this.img = "TODO level 2 enemy"; //TODO image of blue screen
-                this.bulletImg = "TODO bullet img of level 2 enemy"; //TODO image of bullets
+                this.img = null; // "TODO level 2 enemy"; //TODO image of blue screen
+                this.bulletImg = null; // "TODO bullet img of level 2 enemy"; //TODO image of bullets
                 this.shootInterval = 90;
                 this.lives = 5;
                 break;
