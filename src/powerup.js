@@ -1,7 +1,7 @@
 export default class Powerup {
     constructor(game, x, y, type) {
         this.game = game;
-        this.type = (type ? type: 'pizza'); // default type for now
+        this.type = (type ? type: this.randomType()); // default type for now
         this.active = true;
         this.applied = false;
         this.timeToLive = Math.floor((5 + Math.random() * 5) * this.game.framerate); // 5 to 10 seconds
@@ -22,6 +22,11 @@ export default class Powerup {
         this.prepareSounds();
         
         //console.log('spawned ' + this.type + ' at ' + this.position.x + ' ' + this.position.y);
+    }
+
+    randomType()
+    {
+        return ['pizza', 'coffee', 'auto', 'debug'][Math.floor(Math.random() * 4)]
     }
 
     prepareSounds() {
@@ -136,7 +141,7 @@ export default class Powerup {
         this.game.gameState.score += 1;
         switch (this.type) {
             case 'debug':
-                this.player.invincible = true;
+                this.game.player.hitted = true;
                 break;
             case 'auto':
                 //this.game.player.maxVelocity.x *= 2;
@@ -167,7 +172,7 @@ export default class Powerup {
         this.applied = false;
         switch (this.type) {
             case 'debug':
-                this.player.invincible = false;
+                this.game.player.hitted = false;
                 break;
             case 'auto':
                 //this.game.player.maxVelocity.x /= 2;
@@ -228,7 +233,7 @@ export default class Powerup {
             this.game.ctx.fillRect(this.position.x, this.position.y, this.tileWidth, this.tileHeight);
             let text = this.type;
             this.game.ctx.fillStyle = 'white';
-            this.game.ctx.fillText(this.type, this.position.x + this.tileWidth/2 - this.game.ctx.measureText(text).width/2,
+            this.game.ctx.fillText(text, this.position.x + this.tileWidth/2 - this.game.ctx.measureText(text).width/2,
                 this.position.y + this.tileHeight/2);
         }
 

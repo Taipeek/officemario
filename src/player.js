@@ -2,22 +2,15 @@ import Powerup from "./powerup";
 export default class Player {
     constructor(game) {
         this.game = game;
-        this.position = {x: 0, y: 0};
-        this.velocity = {x: 0, y: 0};
-        this.maxVelocity = {x: 5, y: 4};
+        this.position = {x: 0, y: 0};        
         this.width = {current: 32, initial: 32};
         this.height = {current: 64, initial: 64};
-        this.moveForce = {current: 1.7, initial: 1.7};
-        this.jumpForce = {current: 11, initial: 11};
-        this.gravity = {current: 0.4, initial: 0.4};
-        this.frictionCoef = {current: 0.98, initial: 0.98, braking: 0.7};
         this.imageWalk = new Image();
         this.imageWalk.src = "img/player_walk_sheet.png";
         this.imageJump = new Image();
         this.imageJump.src = "img/Fat_jump_right.png";
         this.lastDirection = "r";
         this.animation = 0;
-        this.invincible = false;
         this.getTileXY = this.getTileXY.bind(this);
         this.getTileXYHorizontal = this.getTileXYHorizontal.bind(this);
         this.jumpCrouch = this.jumpCrouch.bind(this);
@@ -25,11 +18,22 @@ export default class Player {
         this.applyMovement = this.applyMovement.bind(this);
         this.checkTileCollision = this.checkTileCollision.bind(this);
         this.render = this.render.bind(this);
-        this.update = this.update.bind(this);
-        this.hitted=false; //when player lost hp, he is immortal for some time
-        this.timeHitted=0;
-        this.prepareSpawnpoints();
+        this.update = this.update.bind(this);        
         this.prepareSounds();
+        this.initialize();
+    }
+
+    initialize() {
+        this.velocity = {x: 0, y: 0};
+        this.maxVelocity = {x: 10, y: 4};
+        this.moveForce = {current: 1.7, initial: 1.7};
+        this.jumpForce = {current: 11, initial: 11};
+        this.gravity = {current: 0.4, initial: 0.4};
+        this.frictionCoef = {current: 0.98, initial: 0.98, braking: 0.7};
+        this.invincible = false;
+        this.hitted = false; // when player loses hp, he is immortal for some time
+        this.timeHitted = 0;
+        this.prepareSpawnpoints()
     }
 
     playHitSound() {
