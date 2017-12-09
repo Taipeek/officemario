@@ -18,7 +18,43 @@ export default class Powerup {
         };
         this.img = new Image();
         this.img.src = 'img/powerups/' + this.type + '.png';
+
+        this.prepareSounds();
+        
         //console.log('spawned ' + this.type + ' at ' + this.position.x + ' ' + this.position.y);
+    }
+
+    prepareSounds()
+    {
+        // https://www.sounds-resource.com/pc_computer/terraria/sound/2890/
+        // we probably need free sounds, consider these placeholders
+
+        let soundpath;
+        switch(this.type)
+        {
+            case 'pizza':
+                soundpath = 'crunch';
+                break;
+            case 'coffee':
+                soundpath = 'gulp';
+                break;
+            default:
+                this.sound = null;
+                return;
+        }
+        //console.log(soundpath);
+        this.sound = new Audio('sounds/' + soundpath + '.wav');
+        this.sound.load();
+        this.sound.volume = this.game.maxVolume;
+    }
+
+    playSound()
+    {
+        if (this.sound)
+        {
+            this.sound.volume = this.game.maxVolume;
+            this.sound.play();
+        }
     }
 
     calcTilePosition(position) {
@@ -107,8 +143,9 @@ export default class Powerup {
                 this.player.invincible = true;
                 break;
             case 'auto':
-                this.game.player.maxVelocity.x *= 2;
-                this.game.player.maxVelocity.y *= 2;
+                //this.game.player.maxVelocity.x *= 2;
+                //this.game.player.maxVelocity.y *= 2;
+                this.game.player.jumpForce.current = 14;
                 break;
             case 'coffee':
                 this.game.gameState.lives++;
@@ -126,6 +163,7 @@ export default class Powerup {
                 console.log("unknown powerup type: " + this.type);
                 return;
         }
+        this.playSound();
     }
 
     wearoff()
@@ -136,8 +174,9 @@ export default class Powerup {
                 this.player.invincible = false;
                 break;
             case 'auto':
-                this.game.player.maxVelocity.x /= 2;
-                this.game.player.maxVelocity.y /= 2;
+                //this.game.player.maxVelocity.x /= 2;
+                //this.game.player.maxVelocity.y /= 2;
+                this.game.player.jumpForce.current = this.game.player.jumpForce.initial;
                 break;
             case 'coffee':
                 this.game.shake.on = false;

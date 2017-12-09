@@ -72,7 +72,7 @@ export default class Game {
                 this.player.position.x = item.x;
                 this.player.position.y = item.y;
             } else if (item.type === "powerupspawn") {
-                this.powerups.push(new Powerup(this, item.x, item.y, 'coffee'));
+                this.powerups.push(new Powerup(this, item.x, item.y, 'auto'));
             } else if (item.type === "enemyspawn") {
                 this.features.push(new Bug(this, item.x, item.y));
             }else if (item.type === "featurespawn") {

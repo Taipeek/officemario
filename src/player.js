@@ -26,14 +26,37 @@ export default class Player {
         this.checkTileCollision = this.checkTileCollision.bind(this);
         this.render = this.render.bind(this);
         this.update = this.update.bind(this);
-         this.hitted=false; //when player lost hp, he is immortal for some time
+        this.hitted=false; //when player lost hp, he is immortal for some time
         this.timeHitted=0;
+        this.prepareSpawnpoints();
+        this.prepareSounds();
+    }
 
+    playHitSound()
+    {
+        if (this.game.gameState.lives > 0)
+        {
+            this.sound.volume = this.game.maxVolume;
+            this.sound.play();
+        }
+    }
+
+    prepareSounds()
+    {
+        // https://opengameart.org/content/male-gruntyelling-sounds
+        // 3grunt1.wav, shortened in the beginning
+        this.sound = new Audio('sounds/yell.wav');
+        this.sound.load();
+        this.sound.volume = this.game.maxVolume;
+    }
+
+    prepareSpawnpoints()
+    {
         this.powerupSpawns = [];
         let objectLayer = this.game.map.mapData.layers[2];
         
         objectLayer.objects.forEach(item => {
-            if (item.type === "tilepowerup") {
+            if (item.type === 'tilepowerup') {
                 // align x and y coordinates to non-weird values
                 let cleanX = Math.floor(item.x / this.game.map.tileWidth) * this.game.map.tileWidth;
                 let cleanY = Math.floor(item.y / this.game.map.tileHeight) * this.game.map.tileHeight;
