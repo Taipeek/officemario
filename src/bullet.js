@@ -2,6 +2,7 @@ export default class Bullet {
     constructor(game, orientation,num) {
         this.id = Math.random();
         this.game = game;
+        this.img = game.finalEnemy.bulletImg;
         switch (orientation){
             case 'left':
                 this.position = {
@@ -36,7 +37,7 @@ export default class Bullet {
 
         }
 
-        this.width = game.map.tileWidth;
+        this.width = 2*game.map.tileWidth;
         this.height = game.map.tileHeight;
 
         this.update = this.update.bind(this);
@@ -117,9 +118,13 @@ export default class Bullet {
 
         this.game.ctx.save();
 
-        this.game.ctx.fillStyle = "orange";
-        this.game.ctx.fillRect(this.position.x, this.position.y, tileWidth, tileHeight);
+        if(this.img) {
+            this.game.ctx.drawImage(this.img, this.position.x, this.position.y, this.width, this.height);
+        } else {
 
+            this.game.ctx.fillStyle = "orange";
+            this.game.ctx.fillRect(this.position.x, this.position.y, tileWidth, tileHeight);
+        }
         this.game.ctx.restore();
     }
 }

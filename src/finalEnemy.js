@@ -23,8 +23,10 @@ export default class FinalEnemy {
         this.orientation = orientation;
         switch (this.level) {
             case 1:
-                this.img = "TODO blue screen"; //TODO image of blue screen
-                this.bulletImg = "TODO bullet img"; //TODO image of bullets
+                this.img = new Image();
+                this.img.src = 'img/Blue_Screen_sad.png';
+                this.bulletImg = new Image();
+                this.bulletImg.src = 'img/error_window.png';
                 this.shootInterval = 70;
                 this.lives = 4;
                 break;
@@ -170,12 +172,16 @@ export default class FinalEnemy {
         this.game.ctx.save();
         this.game.ctx.fillStyle = "blue";
         /* TODO use img of the final enemy */
-        this.game.ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
-
-        let text = "final enemy: " + this.dead;
-        this.game.ctx.fillStyle = "white";
-        this.game.ctx.fillText(text, this.position.x + this.width / 2 - this.game.ctx.measureText(text).width / 2,
-            this.position.y + this.height / 2);
+        if(this.img) {
+            this.game.ctx.drawImage(this.img, this.position.x, this.position.y, this.width, this.height);
+        } else {
+            this.game.ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
+            let text = "final enemy: " + this.dead;
+            this.game.ctx.fillStyle = "white";
+            this.game.ctx.fillText(text, this.position.x + this.width / 2 - this.game.ctx.measureText(text).width / 2,
+                this.position.y + this.height / 2);
+  
+        }
 
         this.game.ctx.restore();
 

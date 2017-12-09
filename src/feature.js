@@ -198,24 +198,24 @@ export default class Feature {
             }
             var starsDelta=5;
             if(this.timePicked>110+starsDelta){
-              this.game.ctx.drawImage(this.star, this.position.x+this.text.length*0.4, this.position.y-150,28,28);  
+              this.game.ctx.drawImage(this.star, this.position.x+this.text.length*0.4, this.position.y-150,28,28);
             }
             if(this.timePicked>110+2*starsDelta){
-              this.game.ctx.drawImage(this.star, this.position.x+this.text.length*3.6, this.position.y-86,28,28);  
+              this.game.ctx.drawImage(this.star, this.position.x+this.text.length*3.6, this.position.y-86,28,28);
             }
             if(this.timePicked>110+3*starsDelta){
-              this.game.ctx.drawImage(this.star, this.position.x+this.text.length*6.4, this.position.y-155,28,28);  
+              this.game.ctx.drawImage(this.star, this.position.x+this.text.length*6.4, this.position.y-155,28,28);
             }
             if(this.timePicked>110+4*starsDelta){
-              this.game.ctx.drawImage(this.star, this.position.x+this.text.length*0.6, this.position.y-95,28,28);  
+              this.game.ctx.drawImage(this.star, this.position.x+this.text.length*0.6, this.position.y-95,28,28);
             }
             if(this.timePicked>110+5*starsDelta){
-              this.game.ctx.drawImage(this.star, this.position.x+this.text.length*3.4, this.position.y-150,28,28);  
+              this.game.ctx.drawImage(this.star, this.position.x+this.text.length*3.4, this.position.y-150,28,28);
             }
             if(this.timePicked>110+6*starsDelta){
-              this.game.ctx.drawImage(this.star, this.position.x+this.text.length*6.6, this.position.y-90,28,28);  
+              this.game.ctx.drawImage(this.star, this.position.x+this.text.length*6.6, this.position.y-90,28,28);
             }
-            
+
             this.game.ctx.fillText(this.text,this.position.x,this.position.y-Math.min(this.timePicked,100));
             this.game.ctx.restore();
         }
@@ -223,8 +223,6 @@ export default class Feature {
             return;
         }
         this.game.ctx.save();
-        this.game.ctx.fillStyle = "blue";
-        this.game.ctx.fillRect(this.position.x, this.position.y, this.tileWidth, this.tileHeight);
         this.game.ctx.drawImage(this.image, this.position.x, this.position.y, this.tileWidth, this.tileHeight);
 
         this.game.ctx.restore();
