@@ -47,6 +47,18 @@ export default class Feature {
         b13.src = "https://s8.postimg.org/5d25iz651/image.png";
 
         this.blood = [b1, b2, b3, b4, b5, b6, b7, b8, b9, b10, b11, b12, b13];
+
+        this.prepareSounds();
+    }
+
+    prepareSounds()
+    {
+        this.sounds = {
+            pickup: new Audio('sounds/feature.wav'),
+            death: new Audio('sounds/splat.wav')
+        };
+        this.sounds.pickup.load();
+        this.sounds.death.load();
     }
 
     calcTilePosition(position) {
@@ -147,13 +159,16 @@ export default class Feature {
 
         if (topHit && !this.dead) {	//feature killed
             this.dead = true;
-
+            this.sounds.death.volume = this.game.maxVolume / 2;
+            this.sounds.death.play();
         }
         else if (leftHit || rightHit && !this.dead) {
             //feature picked up
             this.active = false;
             this.game.gameState.score++;
             this.picked=true;
+            this.sounds.pickup.volume = this.game.maxVolume / 3;
+            this.sounds.pickup.play();
         }
     }
 

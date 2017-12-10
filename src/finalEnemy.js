@@ -120,6 +120,7 @@ export default class FinalEnemy {
         else if (sideHit && !this.game.player.hitted) {
             this.game.player.hitted = true;
             this.game.gameState.lives--;
+            this.game.player.playHitSound();
         }
     }
 

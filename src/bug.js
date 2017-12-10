@@ -48,6 +48,8 @@ export default class Bug {
         this.poof14 = new Image();
         this.poof14.src = "img/poof/14.png";
         this.poof=[this.poof0,this.poof1,this.poof2,this.poof3,this.poof4,this.poof5,this.poof6,this.poof7,this.poof8,this.poof9,this.poof10,this.poof11,this.poof12,this.poof13,this.poof14];
+    	this.sound = new Audio('sounds/splat.wav');
+    	this.sound.load();
     }
 
     calcTilePosition(position) {
@@ -149,7 +151,8 @@ export default class Bug {
 
         if (topHit && !this.dead) {	//bug killed
             this.dead = true;
-
+            this.sound.volume = this.game.maxVolume / 2;
+            this.sound.play();
         }
         else if ((leftHit || rightHit) && !this.dead && !this.game.player.hitted) {
             this.game.player.hitted=true;
