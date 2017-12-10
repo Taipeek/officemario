@@ -27,7 +27,7 @@ export default class FinalEnemy {
                 this.img.src = 'img/Blue_Screen_sad.png';
                 this.bulletImg = new Image();
                 this.bulletImg.src = 'img/error_window.png';
-                this.shootInterval = 70;
+                this.shootInterval = 200;
                 this.lives = 4;
                 break;
             case 2:
@@ -38,6 +38,7 @@ export default class FinalEnemy {
                 break;
         }
         this.visible = false;
+        this.fireworksCountDown = 260;
         this.lastShot = -1;
         this.bullets = [];
         this.width = properties.width;
@@ -161,6 +162,9 @@ export default class FinalEnemy {
             }
 
         } else {
+            if (this.fireworksCountDown > 0) {
+                return;
+            }
             this.visible = false;
         }
     }
@@ -181,6 +185,13 @@ export default class FinalEnemy {
             this.game.ctx.fillText(text, this.position.x + this.width / 2 - this.game.ctx.measureText(text).width / 2,
                 this.position.y + this.height / 2);
   
+        }
+
+        if (this.dead && this.fireworksCountDown > 0){
+            let image = new Image();
+            image.src = "img/fireworks/"+Math.floor(this.fireworksCountDown/10)+".png";
+            this.game.ctx.drawImage(image, this.position.x, this.position.y-250, 150,150);
+            this.fireworksCountDown--;
         }
 
         this.game.ctx.restore();
