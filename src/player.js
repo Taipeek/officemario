@@ -38,17 +38,30 @@ export default class Player {
 
     playHitSound() {
         if (this.game.gameState.lives > 0) {
-            this.sound.volume = this.game.maxVolume;
-            this.sound.play();
+            this.sounds.hit.volume = this.game.maxVolume;
+            this.sounds.hit.play();
         }
     }
 
     prepareSounds() {
         // https://opengameart.org/content/male-gruntyelling-sounds
         // 3grunt1.wav, shortened in the beginning
-        this.sound = new Audio('sounds/yell.wav');
-        this.sound.load();
-        this.sound.volume = this.game.maxVolume;
+        this.sounds = {
+            hit: null, 
+            jump: null,
+            pspawn: null};
+
+        this.sounds.hit = new Audio('sounds/yell.wav');
+        this.sounds.hit.load();
+        this.sounds.hit.volume = this.game.maxVolume;
+        // bfxr
+        this.sounds.jump = new Audio('sounds/jump.wav');
+        this.sounds.jump.load();
+        this.sounds.jump.volume = this.game.maxVolume;
+        // bfxr
+        this.sounds.pspawn = new Audio('sounds/pspawn.wav');
+        this.sounds.pspawn.load();
+        this.sounds.pspawn.volume = this.game.maxVolume;
     }
 
     prepareSpawnpoints()
@@ -150,8 +163,12 @@ export default class Player {
 
     jumpCrouch() {
         //jump
-        if (this.velocity.y === 0 && this.game.keyBoard['up']) //not sure if this will work correctly
+        if (this.velocity.y === 0 && this.game.keyBoard['up']) {//not sure if this will work correctly
             this.velocity.y = -this.jumpForce.current;
+
+            this.sounds.jump.volume = this.game.maxVolume / 3;
+            this.sounds.jump.play();
+        }
 
         //crouch
         if (this.game.keyBoard['down']) {
@@ -291,6 +308,9 @@ export default class Player {
                  (spawn.tilePos.x === upperRight.x && spawn.tilePos.y === upperRight.y) ) {
                 //console.log('powerup should get spawned, ' + spawn.tilePos.x + ' ' + spawn.tilePos.y);
                 this.game.powerups.push(new Powerup(this.game, spawn.x, spawn.y - this.game.map.tileHeight, null));
+                
+                this.sounds.pspawn.volume = this.game.maxVolume / 3;
+                this.sounds.pspawn.play();
                 this.powerupSpawns.splice(i, 1); // "deactivate" the spawnpoint
                 return;
             }
