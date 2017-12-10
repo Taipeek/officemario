@@ -141,7 +141,7 @@ export default class Powerup {
         this.game.gameState.score += 1;
         switch (this.type) {
             case 'debug':
-                this.game.player.hitted = true;
+                this.game.player.invincible = true;
                 break;
             case 'auto':
                 //this.game.player.maxVelocity.x *= 2;
@@ -172,7 +172,7 @@ export default class Powerup {
         this.applied = false;
         switch (this.type) {
             case 'debug':
-                this.game.player.hitted = false;
+                this.game.player.invincible = false;
                 break;
             case 'auto':
                 //this.game.player.maxVelocity.x /= 2;
