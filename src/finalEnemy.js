@@ -190,7 +190,7 @@ export default class FinalEnemy {
 
         if (this.dead && this.fireworksCountDown > 0){
             let image = new Image();
-            image.src = "img/fireworks/"+Math.floor(this.fireworksCountDown/10)+".png";
+            image.src = "img/fireworks/"+Math.floor(26 - this.fireworksCountDown/10)+".png";
             this.game.ctx.drawImage(image, this.position.x, this.position.y-250, 150,150);
             this.fireworksCountDown--;
         }
