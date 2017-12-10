@@ -32,7 +32,7 @@ export default class Player {
         this.frictionCoef = {current: 0.98, initial: 0.98, braking: 0.7};
         this.invincible = false;
         this.hitted = false; // when player loses hp, he is immortal for some time
-        this.timeHitted = 0;
+        this.timeHitted = 0;        
         this.prepareSpawnpoints()
     }
 
@@ -62,6 +62,13 @@ export default class Player {
         this.sounds.pspawn = new Audio('sounds/pspawn.wav');
         this.sounds.pspawn.load();
         this.sounds.pspawn.volume = this.game.maxVolume;
+
+        this.moonwalk = {on: false, music: null, start: 0};
+        this.moonwalk.music = new Audio('sounds/smooth.wav');
+        this.moonwalk.music.load();
+        this.moonwalk.music.loop = true;
+        this.moonwalk.music.volume = this.game.maxVolume / 10;
+        this.moonwalk.music.currentTime = 0;
     }
 
     prepareSpawnpoints()
@@ -198,10 +205,28 @@ export default class Player {
 
     }
 
+    triggerMusic()
+    {
+        if (this.moonwalk.on) {
+            this.moonwalk.music.volume = this.game.maxVolume / 10;
+            this.moonwalk.music.currentTime = this.moonwalk.start;
+            this.moonwalk.music.play();
+        }
+        else {
+            this.moonwalk.start = this.moonwalk.music.currentTime;
+            this.moonwalk.music.pause();
+        }
+    }
+
     applyMovement() {
         this.cameraMove = {x: Math.abs(Math.ceil(this.velocity.x)), y: Math.abs(Math.ceil(this.velocity.y))};
         this.position.x += this.velocity.x;
         this.position.y += this.velocity.y;
+
+        if (this.moonwalk.on !== (this.game.keyBoard["right"] && this.game.keyBoard["left"])) {
+            this.moonwalk.on = (this.game.keyBoard["right"] && this.game.keyBoard["left"]);
+            this.triggerMusic();
+        }
 
         if (!this.game.keyBoard["right"] && !this.game.keyBoard["left"]) {
             this.velocity.x *= this.frictionCoef.braking;
@@ -295,6 +320,7 @@ export default class Player {
 
         if (!lowerLeftCurrentTile && !lowerRightCurrentTile) {
             this.game.pause();
+            this.moonwalk.music.pause();
             console.log('out of map');
         }
     }
