@@ -140,6 +140,12 @@ export default class FinalEnemy {
     update() {
         //if enemy is very close to camera
 
+        // should happen everytime
+        for (let i = this.bullets.length - 1; i > -1; i--) {
+            if (this.bullets[i].update() === 'out') {
+                this.bullets.splice(i, 1);
+            }
+        }
         if (!this.dead && this.isOnCamera(1, 1.5)) {
             this.visible = true;
 
@@ -156,12 +162,6 @@ export default class FinalEnemy {
             }
             this.lastShot--;
 
-            for (let i = this.bullets.length - 1; i > -1; i--) {
-                if (this.bullets[i].update() === 'out') {
-                    this.bullets.splice(i, 1);
-                }
-            }
-
         } else {
             if (this.fireworksCountDown > 0) {
                 return;
@@ -170,7 +170,7 @@ export default class FinalEnemy {
         }
     }
 
-    render() {
+    render() {        
         if (!this.visible) {
             return;
         }
