@@ -180,23 +180,14 @@
                 },
                 {
                  "height":128,
-<<<<<<< HEAD
                  "id":19,
-=======
-                 "id":20,
->>>>>>> 7f140b20719db9f8f5d5ffbd90d4ff0136b646e5
                  "name":"levelend1",
                  "rotation":0,
                  "type":"levelend",
                  "visible":true,
                  "width":96,
-<<<<<<< HEAD
-                 "x":6539.51622242817,
-                 "y":256
-=======
                  "x":6564,
                  "y":192
->>>>>>> 7f140b20719db9f8f5d5ffbd90d4ff0136b646e5
                 },
                 {
                  "height":128,
