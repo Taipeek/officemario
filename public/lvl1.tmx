@@ -90,11 +90,12 @@
   <object id="14" name="tilepowerup3" type="tilepowerup" x="6694.05" y="645.97" width="19.8893" height="19.8893"/>
   <object id="16" name="tilepowerup2" type="tilepowerup" x="2052.98" y="645.507" width="19.8893" height="19.8893"/>
   <object id="17" name="tilepowerup1" type="tilepowerup" x="1253.95" y="1030.5" width="19.8893" height="19.8893"/>
-  <object id="19" name="levelend1" type="levelend" x="7046.1" y="229.294" width="20.3998" height="150.143"/>
-  <object id="20" name="levelend2" type="levelend" x="6499.39" y="232.558" width="24.4798" height="145.247"/>
-  <object id="22" name="bossspawn1" type="bossspawn" x="1172.75" y="783.923" width="88.7021" height="84.0336">
+  <object id="19" name="levelend1" type="levelend" x="6539.52" y="256" width="96" height="128"/>
+  <object id="22" name="bossspawn1" type="bossspawn" x="1150" y="768" width="128" height="128">
    <properties>
+    <property name="height" type="int" value="128"/>
     <property name="lvl" type="int" value="1"/>
+    <property name="width" type="int" value="128"/>
    </properties>
   </object>
   <object id="23" name="powerupspawn4" type="powerupspawn" x="666.224" y="276.018" width="36.7342" height="35.5492"/>

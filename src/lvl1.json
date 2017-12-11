@@ -179,26 +179,15 @@
                  "y":1030.5
                 },
                 {
-                 "height":150.143,
+                 "height":128,
                  "id":19,
                  "name":"levelend1",
                  "rotation":0,
                  "type":"levelend",
                  "visible":true,
-                 "width":20.3998,
-                 "x":7046.1,
-                 "y":229.294
-                },
-                {
-                 "height":145.247,
-                 "id":20,
-                 "name":"levelend2",
-                 "rotation":0,
-                 "type":"levelend",
-                 "visible":true,
-                 "width":24.4798,
-                 "x":6499.39,
-                 "y":232.558
+                 "width":96,
+                 "x":6539.51622242817,
+                 "y":256
                 },
                 {
                  "height":128,
@@ -206,13 +195,15 @@
                  "name":"bossspawn1",
                  "properties":
                     {
+                     "height":128,
                      "lvl":1,
-                     "width":128,
-                     "height":128
+                     "width":128
                     },
                  "propertytypes":
                     {
-                     "lvl":"int"
+                     "height":"int",
+                     "lvl":"int",
+                     "width":"int"
                     },
                  "rotation":0,
                  "type":"bossspawn",
@@ -493,8 +484,8 @@
                  "type":"enemyspawn",
                  "visible":true,
                  "width":36.7342,
-                 "x":2196.72434404083,
-                 "y":1075.17136325428
+                 "x":2196.72,
+                 "y":1075.17
                 },
                 {
                  "height":35.5492,
@@ -625,8 +616,8 @@
                  "type":"enemyspawn",
                  "visible":true,
                  "width":36.7342,
-                 "x":2434.34980183128,
-                 "y":1076.49138619033
+                 "x":2434.35,
+                 "y":1076.49
                 }],
          "opacity":1,
          "type":"objectgroup",
