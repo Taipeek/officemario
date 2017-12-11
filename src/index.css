@@ -17,7 +17,7 @@ canvas {
 
 @font-face {
     font-family: 'amatic';
-    src: url('./amatic.ttf') format('truetype'); /* Chrome 4+, Firefox 3.5, Opera 10+, Safari 3—5 */
+    src: url('./amatic-bold.ttf') format('truetype'); /* Chrome 4+, Firefox 3.5, Opera 10+, Safari 3—5 */
 }
 h1{
     font-family: amatic;
