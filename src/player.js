@@ -295,7 +295,7 @@ export default class Player {
         if ((upperLeftCurrentTile && upperLeftCurrentTile.solid) || (upperRightCurrentTile && upperRightCurrentTile.solid)) {
             this.velocity.y = 0.000000001; //hack for not jumping again
             this.position.y = this.game.map.tileHeight * (upperLeftTilePosition.y + 1);
-            console.log("top");
+            // console.log("top");
 
             this.checkPowerupSpawn(upperLeftTilePosition, upperRightTilePosition);
         }

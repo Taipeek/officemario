@@ -21,22 +21,14 @@ export default class FinalEnemy {
         this.calcTilePosition = this.calcTilePosition.bind(this);
         this.tilePos = this.calcTilePosition(this.position);
         this.orientation = orientation;
-        switch (this.level) {
-            case 1:
-                this.img = new Image();
-                this.img.src = 'img/Blue_Screen_sad.png';
-                this.bulletImg = new Image();
-                this.bulletImg.src = 'img/error_window.png';
-                this.shootInterval = 80;
-                this.lives = 4;
-                break;
-            case 2:
-                this.img = null; // "TODO level 2 enemy"; //TODO image of blue screen
-                this.bulletImg = null; // "TODO bullet img of level 2 enemy"; //TODO image of bullets
-                this.shootInterval = 90;
-                this.lives = 5;
-                break;
-        }
+
+        this.img = new Image();
+        this.img.src = 'img/Blue_Screen_sad.png';
+        this.bulletImg = new Image();
+        this.bulletImg.src = 'img/error_window.png';
+        this.shootInterval = 80;
+        this.lives = 4;
+
         this.visible = false;
         this.fireworksCountDown = 130;
         this.lastShot = -1;
@@ -64,7 +56,8 @@ export default class FinalEnemy {
                 a.load();
                 this.sounds.shoot.push(a);
             }
-            catch(e) {}
+            catch (e) {
+            }
         });
 
         this.sounds.death = new Audio('sounds/tada.wav');
@@ -78,7 +71,7 @@ export default class FinalEnemy {
             let volume = Math.abs(this.game.player.position.x - this.position.x);
 
             // the enemy gets louder the closer you are
-            volume = ((volume > 800) ? 0 : (1 - volume/800) * this.game.maxVolume);
+            volume = ((volume > 800) ? 0 : (1 - volume / 800) * this.game.maxVolume);
             this.sounds.shoot[soundIndex].volume = volume;
             this.sounds.shoot[soundIndex].play();
         }
@@ -117,9 +110,9 @@ export default class FinalEnemy {
                 this.lives--;
                 this.height -= this.game.map.tileHeight;
                 this.position.y += this.game.map.tileHeight;
-                console.log(player.velocity.y, "AUCH, BOSS LOST A LIFE");
+                // console.log(player.velocity.y, "AUCH, BOSS LOST A LIFE");
                 if (this.lives === 0) {
-                    console.log("BOSS KILLED");
+                    // console.log("BOSS KILLED");
                     this.dead = true;
                     this.playSound('death');
                 }
@@ -180,14 +173,14 @@ export default class FinalEnemy {
         }
     }
 
-    render() {        
+    render() {
         if (!this.visible) {
             return;
         }
         this.game.ctx.save();
         this.game.ctx.fillStyle = "blue";
         /* TODO use img of the final enemy */
-        if(this.img) {
+        if (this.img) {
             this.game.ctx.drawImage(this.img, this.position.x, this.position.y, this.width, this.height);
         } else {
             this.game.ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
@@ -195,13 +188,13 @@ export default class FinalEnemy {
             this.game.ctx.fillStyle = "white";
             this.game.ctx.fillText(text, this.position.x + this.width / 2 - this.game.ctx.measureText(text).width / 2,
                 this.position.y + this.height / 2);
-  
+
         }
 
-        if (this.dead && this.fireworksCountDown > 0){
+        if (this.dead && this.fireworksCountDown > 0) {
             let image = new Image();
-            image.src = "img/fireworks/"+Math.floor(26 - this.fireworksCountDown/5)+".png";
-            this.game.ctx.drawImage(image, this.position.x, this.position.y-250, 150,150);
+            image.src = "img/fireworks/" + Math.floor(26 - this.fireworksCountDown / 5) + ".png";
+            this.game.ctx.drawImage(image, this.position.x, this.position.y - 250, 150, 150);
             this.fireworksCountDown--;
         }
 
