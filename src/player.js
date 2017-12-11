@@ -285,7 +285,7 @@ export default class Player {
         if ((upperLeftCurrentTile && upperLeftCurrentTile.solid) || (upperRightCurrentTile && upperRightCurrentTile.solid)) {
             this.velocity.y = 0.000000001; //hack for not jumping again
             this.position.y = this.game.map.tileHeight * (upperLeftTilePosition.y + 1);
-            //console.log("top");
+            console.log("top");
 
             this.checkPowerupSpawn(upperLeftTilePosition, upperRightTilePosition);            
         }
@@ -302,13 +302,13 @@ export default class Player {
         if ((lowerLeftCurrentTile && lowerLeftCurrentTile.solid) || (upperLeftCurrentTile && upperLeftCurrentTile.solid)) {
             this.velocity.x = 0;
             this.position.x = this.game.map.tileWidth * (lowerLeftTilePosition.x + 1);
-            //console.log("left");
+            // console.log("left");
         }
         // horizontal detection right
         if ((lowerRightCurrentTile && lowerRightCurrentTile.solid) || (upperRightCurrentTile && upperRightCurrentTile.solid)) {
             this.velocity.x = 0;
             this.position.x = this.game.map.tileWidth * (upperRightTilePosition.x) - this.width.current;
-            //console.log("right");
+            // console.log("right");
         }
         // horizontal detection middle
         if (lowerLeftTilePosition.y - upperLeftTilePosition.y > 1) {
@@ -316,15 +316,16 @@ export default class Player {
             let rightPos = {x: upperRightTilePosition.x, y: upperRightTilePosition.y + 1};
             let rightTile = this.game.map.tileAt(rightPos);
             let leftPos = {x: upperLeftTilePosition.x, y: upperLeftTilePosition.y + 1};
-            let leftTile = this.game.map.tileAt(rightPos);
-            // console.log(rightPos,leftPos,rightTile,leftTile);
+            let leftTile = this.game.map.tileAt(leftPos);
 
             if (rightTile && rightTile.solid) {
                 this.velocity.x = 0;
                 this.position.x = this.game.map.tileWidth * (rightPos.x) - this.width.current;
+                // console.log("right_m");
             } else if (leftTile && leftTile.solid) {
                 this.velocity.x = 0;
                 this.position.x = this.game.map.tileWidth * (leftPos.x + 1);
+                // console.log("left_m");
             }
         }
 
