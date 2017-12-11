@@ -27,7 +27,7 @@ export default class FinalEnemy {
                 this.img.src = 'img/Blue_Screen_sad.png';
                 this.bulletImg = new Image();
                 this.bulletImg.src = 'img/error_window.png';
-                this.shootInterval = 200;
+                this.shootInterval = 80;
                 this.lives = 4;
                 break;
             case 2:
@@ -165,8 +165,7 @@ export default class FinalEnemy {
             if (this.lastShot < 0) {
                 this.bullets.push(new Bullet(this.game, 'left'));
                 this.bullets.push(new Bullet(this.game, 'right'));
-                this.bullets.push(new Bullet(this.game, 'top', this.gen.next().value % 4));
-                this.bullets.push(new Bullet(this.game, 'top', this.gen.next().value % 4));
+                this.bullets.push(new Bullet(this.game, 'top', this.gen.next().value % 3));
                 this.lastShot = this.shootInterval;
 
                 this.playSound('shoot');

@@ -1,22 +1,22 @@
 export default class Bullet {
-    constructor(game, orientation,num) {
+    constructor(game, orientation, num) {
         this.id = Math.random();
         this.game = game;
         this.img = game.finalEnemy.bulletImg;
-        switch (orientation){
+        switch (orientation) {
             case 'left':
                 this.position = {
                     x: (game.finalEnemy.position.x - game.map.tileWidth),
                     y: game.finalEnemy.position.y + game.finalEnemy.height / 2
                 };
                 this.velocity = {
-                    x:  -3,
+                    x: -3,
                     y: 0
                 };
                 break;
             case 'right':
                 this.position = {
-                    x: (game.finalEnemy.position.x + 4 * game.map.tileWidth) ,
+                    x: (game.finalEnemy.position.x + 4 * game.map.tileWidth),
                     y: game.finalEnemy.position.y + game.finalEnemy.height / 2
                 };
                 this.velocity = {
@@ -26,7 +26,7 @@ export default class Bullet {
                 break;
             case 'top':
                 this.position = {
-                    x: (game.finalEnemy.position.x + num * game.map.tileWidth) ,
+                    x: (game.finalEnemy.position.x + num * game.map.tileWidth),
                     y: game.finalEnemy.position.y
                 };
                 this.velocity = {
@@ -37,7 +37,7 @@ export default class Bullet {
 
         }
 
-        this.width = 2*game.map.tileWidth;
+        this.width = 2 * game.map.tileWidth;
         this.height = game.map.tileHeight;
 
         this.update = this.update.bind(this);
@@ -72,12 +72,12 @@ export default class Bullet {
         let player = this.game.player;
 
         let topHit = (
-
+            this.velocity.y === 0 &&
             player.velocity.y > 0
             && (player.position.x < this.position.x + this.width)
             && (player.position.x + player.width.current > this.position.x)
             && (player.position.y + player.height.current > this.position.y)
-            && (player.position.y +player.height.current/2 < this.position.y)
+            && (player.position.y + player.height.current / 2 < this.position.y)
         );
 
         let sideHit = (
@@ -118,7 +118,7 @@ export default class Bullet {
 
         this.game.ctx.save();
 
-        if(this.img) {
+        if (this.img) {
             this.game.ctx.drawImage(this.img, this.position.x, this.position.y, this.width, this.height);
         } else {
 
