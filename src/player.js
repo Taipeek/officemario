@@ -198,11 +198,11 @@ export default class Player {
                 this.velocity.x -= this.moveForce.current;
         }
         else if (this.game.keyBoard['right']) {
-            if (this.position.y < 0)
-                this.velocity.y = 0;
-            else
                 this.velocity.x += this.moveForce.current;
         }
+
+        if (this.position.y < 0)
+                this.velocity.y = 0;
 
         if (Math.abs(this.velocity.x) > this.maxVelocity.x)
             this.velocity.x = Math.sign(this.velocity.x) * this.maxVelocity.x;
@@ -385,6 +385,7 @@ export default class Player {
     }
 
     update() {
+        console.log(this.position);
         this.jumpCrouch();
         this.move();
         this.applyMovement();
