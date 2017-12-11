@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="240" height="37" tilewidth="32" tileheight="32" nextobjectid="12">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="240" height="37" tilewidth="32" tileheight="32" nextobjectid="15">
  <tileset firstgid="1" name="tiles" tilewidth="32" tileheight="32" tilecount="4" columns="2">
   <image source="tiles.png" width="64" height="64"/>
   <tile id="0">
@@ -83,6 +83,9 @@
   <object id="7" name="featurespawn2" type="featurespawn" x="5559.49" y="658.228" width="50.6329" height="48.1013"/>
   <object id="8" name="powerupspawn1" type="powerupspawn" x="1506.33" y="1002.53" width="50.6329" height="58.2278"/>
   <object id="9" name="powerupspawn2" type="powerupspawn" x="4911.39" y="891.139" width="40.5063" height="35.443"/>
-  <object id="11" name="levelend1" type="levelend" x="7558.09" y="364.787" width="19.9883" height="203.215"/>
+  <object id="11" name="levelend1" type="levelend" x="7430.31" y="448" width="96" height="128"/>
+  <object id="12" name="enemyspawn4" type="enemyspawn" x="2320.63" y="1055.2" width="37.9747" height="43.038"/>
+  <object id="13" name="enemyspawn5" type="enemyspawn" x="4343.96" y="860.042" width="37.9747" height="43.038"/>
+  <object id="14" name="enemyspawn6" type="enemyspawn" x="6885.45" y="476.462" width="37.9747" height="43.038"/>
  </objectgroup>
 </map>

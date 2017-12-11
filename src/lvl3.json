@@ -25,92 +25,125 @@
          "name":"objectlayer",
          "objects":[
                 {
-                 "height":71.4285714285714,
+                 "height":71.4286,
                  "id":1,
                  "name":"playerspawn",
                  "rotation":0,
                  "type":"playerspawn",
                  "visible":true,
-                 "width":59.5238095238095,
-                 "x":92.8571428571429,
-                 "y":1002.38095238095
+                 "width":59.5238,
+                 "x":92.8571,
+                 "y":1002.38
                 },
                 {
-                 "height":63.2911392405064,
+                 "height":63.2911,
                  "id":2,
                  "name":"enemyspawn1",
                  "rotation":0,
                  "type":"enemyspawn",
                  "visible":true,
-                 "width":65.8227848101266,
-                 "x":863.291139240506,
-                 "y":1020.25316455696
+                 "width":65.8228,
+                 "x":863.291,
+                 "y":1020.25
                 },
                 {
-                 "height":43.0379746835443,
+                 "height":43.038,
                  "id":3,
                  "name":"featurespawn1",
                  "rotation":0,
                  "type":"featurespawn",
                  "visible":true,
-                 "width":43.0379746835442,
-                 "x":3825.3164556962,
-                 "y":860.759493670886
+                 "width":43.038,
+                 "x":3825.32,
+                 "y":860.759
                 },
                 {
-                 "height":43.0379746835443,
+                 "height":43.038,
                  "id":4,
                  "name":"enemyspawn2",
                  "rotation":0,
                  "type":"enemyspawn",
                  "visible":true,
-                 "width":37.9746835443038,
-                 "x":6478.48101265823,
-                 "y":448.101265822785
+                 "width":37.9747,
+                 "x":6478.48,
+                 "y":448.101
                 },
                 {
-                 "height":48.1012658227849,
+                 "height":48.1013,
                  "id":7,
                  "name":"featurespawn2",
                  "rotation":0,
                  "type":"featurespawn",
                  "visible":true,
-                 "width":50.6329113924057,
-                 "x":5559.49367088608,
-                 "y":658.227848101266
+                 "width":50.6329,
+                 "x":5559.49,
+                 "y":658.228
                 },
                 {
-                 "height":58.2278481012659,
+                 "height":58.2278,
                  "id":8,
                  "name":"powerupspawn1",
                  "rotation":0,
                  "type":"powerupspawn",
                  "visible":true,
-                 "width":50.632911392405,
-                 "x":1506.32911392405,
-                 "y":1002.53164556962
+                 "width":50.6329,
+                 "x":1506.33,
+                 "y":1002.53
                 },
                 {
-                 "height":35.4430379746835,
+                 "height":35.443,
                  "id":9,
                  "name":"powerupspawn2",
                  "rotation":0,
                  "type":"powerupspawn",
                  "visible":true,
-                 "width":40.506329113924,
-                 "x":4911.39240506329,
-                 "y":891.139240506329
+                 "width":40.5063,
+                 "x":4911.39,
+                 "y":891.139
                 },
                 {
-                 "height":203.2147913717,
+                 "height":128,
                  "id":11,
                  "name":"levelend1",
                  "rotation":0,
                  "type":"levelend",
                  "visible":true,
-                 "width":19.9883401349216,
-                 "x":7558.09111351711,
-                 "y":364.787207462314
+                 "width":96,
+                 "x":7430.30905305191,
+                 "y":448
+                },
+                {
+                 "height":43.038,
+                 "id":12,
+                 "name":"enemyspawn4",
+                 "rotation":0,
+                 "type":"enemyspawn",
+                 "visible":true,
+                 "width":37.9747,
+                 "x":2320.62682676088,
+                 "y":1055.19701615074
+                },
+                {
+                 "height":43.038,
+                 "id":13,
+                 "name":"enemyspawn5",
+                 "rotation":0,
+                 "type":"enemyspawn",
+                 "visible":true,
+                 "width":37.9747,
+                 "x":4343.95567377748,
+                 "y":860.042238223419
+                },
+                {
+                 "height":43.038,
+                 "id":14,
+                 "name":"enemyspawn6",
+                 "rotation":0,
+                 "type":"enemyspawn",
+                 "visible":true,
+                 "width":37.9747,
+                 "x":6885.45410356662,
+                 "y":476.462157469717
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -118,7 +151,7 @@
          "x":0,
          "y":0
         }],
- "nextobjectid":12,
+ "nextobjectid":15,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.0.3",
