@@ -146,7 +146,7 @@ export default class Powerup {
             case 'auto':
                 this.game.player.maxVelocity.x += 2;
                 this.game.player.maxVelocity.y += 2;
-                this.game.player.jumpForce.current = 14.001;
+                this.game.player.jumpForce.current = 14.1;
                 break;
             case 'coffee':
                 this.game.gameState.lives++;
@@ -158,7 +158,7 @@ export default class Powerup {
                 break;
             case 'pizza': 
                 this.game.gameState.lives++;               
-                this.game.player.maxVelocity.x *= 0.5;
+                this.game.player.maxVelocity.x -= 2;
                 break;
             default:
                 console.log("unknown powerup type: " + this.type);
@@ -183,7 +183,7 @@ export default class Powerup {
                 this.game.shake.on = false;
                 break;
             case 'pizza':                
-                this.game.player.maxVelocity.x /= 0.5;
+                this.game.player.maxVelocity.x += 2;
                 break;
             default:
                 console.log("unknown powerup type: " + this.type);
