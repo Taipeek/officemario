@@ -118,7 +118,7 @@ export default class Bug {
         }
         let rightTilePosition = {x: this.tilePos.x + 1, y: this.tilePos.y};
         let rightTile = this.game.map.tileAt(rightTilePosition, 0);
-        if (rightTile && rightTile.solid && ((rightTilePosition.x * this.tileWidth) - (this.position.x + this.tileWidth)) < 0) {
+        if (this.position.x<0 ||(rightTile && rightTile.solid && ((rightTilePosition.x * this.tileWidth) - (this.position.x + this.tileWidth)) < 0)) {
             //console.log("colliding from the right side with " + rightTilePosition.x + " " + rightTilePosition.y);
             this.velocity.x *= -1;
             return;
@@ -138,19 +138,19 @@ export default class Bug {
                 && player.velocity.y>0
                 && this.position.x + this.tileWidth <= (player.position.x + player.width.current))));
 */
-        let topHit = (            
+  let topHit = (            
             player.velocity.y > 0
             //left point
             &&((player.position.x < this.position.x
             &&player.position.x + player.width.current > this.position.x
             &&player.position.y + player.height.current > this.position.y-this.tileHeight*0.5
-            &&player.position.y + player.height.current*0.65 < this.position.y-this.tileHeight*0.5
+            &&player.position.y + player.height.current*0.70 < this.position.y-this.tileHeight*0.5
             )
             //right point
             ||(player.position.x < this.position.x+this.tileWidth
             &&player.position.x + player.width.current > this.position.x+this.tileWidth
             &&player.position.y + player.height.current > this.position.y-this.tileHeight*0.5
-            &&player.position.y + player.height.current*0.65 < this.position.y-this.tileHeight*0.5)) 
+            &&player.position.y + player.height.current*0.70 < this.position.y-this.tileHeight*0.5)) 
         );
     
         let sideHit = (
@@ -163,7 +163,7 @@ export default class Bug {
             &&player.position.y + player.height.current > this.position.y
             &&player.position.y< this.position.y)
         );
-        if ( (topHit || (sideHit && this.game.player.invincible)) && !this.dead) {	//bug killed
+        if ((topHit ||(this.game.player.invincible && sideHit)) && !this.dead) {	//bug killed
             this.dead = true;
             this.game.gameState.score += 1;
             this.sound.volume = this.game.maxVolume / 2;
@@ -196,7 +196,7 @@ export default class Bug {
 
         this.game.ctx.drawImage(this.imageDead, this.position.x, this.position.y+this.tileHeight*0.85, this.tileWidth, this.tileHeight);
         this.game.ctx.fillStyle = "red";
-        this.game.ctx.font = "15px Consolas";
+        this.game.ctx.font = "bold 18px Consolas";
         if(this.timeDead<55){
          this.game.ctx.fillStyle = "red";
          this.game.ctx.fillText(this.text, this.position.x, this.position.y-this.timeDead);
