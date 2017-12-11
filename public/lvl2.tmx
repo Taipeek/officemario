@@ -94,11 +94,12 @@
   <object id="17" name="powerupspawn2" type="powerupspawn" x="3549.56" y="517.777" width="34.3643" height="36.6552"/>
   <object id="18" name="powerupspawn3" type="powerupspawn" x="4780.41" y="508.66" width="34.3643" height="36.6552"/>
   <object id="19" name="powerupspawn4" type="powerupspawn" x="5022.93" y="902.533" width="34.3643" height="36.6552"/>
-  <object id="20" name="levelend1" type="levelend" x="6568.2" y="583.516" width="14.5879" height="178.702"/>
-  <object id="21" name="levelend2" type="levelend" x="7304.9" y="583.507" width="14.5879" height="178.702"/>
-  <object id="22" name="bossspawn1" type="bossspawn" x="6135.37" y="683.406" width="45.8515" height="45.8515">
+  <object id="20" name="levelend1" type="levelend" x="7179.52" y="638" width="96" height="128"/>
+  <object id="22" name="bossspawn1" type="bossspawn" x="6094.26" y="640" width="128" height="128">
    <properties>
+    <property name="height" type="int" value="128"/>
     <property name="lvl" type="int" value="2"/>
+    <property name="width" type="int" value="128"/>
    </properties>
   </object>
   <object id="23" name="enemyspawn10" type="enemyspawn" x="1059.05" y="492.883" width="34.3643" height="36.6552"/>
