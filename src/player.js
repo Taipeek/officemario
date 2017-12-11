@@ -42,6 +42,10 @@ export default class Player {
             this.sounds.hit.volume = this.game.maxVolume;
             this.sounds.hit.play();
         }
+        else {
+            this.sounds.death.volume = this.game.maxVolume;
+            this.sounds.death.play();
+        }
     }
 
     prepareSounds() {
@@ -51,7 +55,8 @@ export default class Player {
             hit: null,
             jump: null,
             crouch: null,
-            pspawn: null
+            pspawn: null,
+            death: null
         };
 
         this.sounds.hit = new Audio('sounds/yell.wav');
@@ -76,6 +81,10 @@ export default class Player {
         this.sounds.crouch = new Audio('sounds/fart.wav');
         this.sounds.crouch.load();
         this.sounds.crouch.volume = this.game.maxVolume;
+
+        this.sounds.death = new Audio('sounds/death.wav');
+        this.sounds.death.load();
+        this.sounds.death.volume = this.game.maxVolume;
     }
 
     prepareSpawnpoints() {
