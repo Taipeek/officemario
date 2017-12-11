@@ -53,7 +53,7 @@ export default class FinalEnemy {
     }
 
     prepareSounds() {
-        this.sounds = [];
+        this.sounds = {shoot: [], death: null};
         this.game.maxVolume = 0.5;
         // good ol' Windows XP
         let paths = ['xp_critical_stop', 'xp_ding', 'xp_error', 'xp_exclamation'];
@@ -62,20 +62,30 @@ export default class FinalEnemy {
                 let a = new Audio('sounds/' + path + '.wav');
                 a.volume = this.game.maxVolume / 2;
                 a.load();
-                this.sounds.push(a);
+                this.sounds.shoot.push(a);
             }
             catch(e) {}
         });
+
+        this.sounds.death = new Audio('sounds/tada.wav');
+        this.sounds.death.volume = this.game.maxVolume / 2;
+        this.sounds.death.load();
     }
 
-    playSound() {
-        let soundIndex = Math.floor(Math.random() * this.sounds.length);
-        let volume = Math.abs(this.game.player.position.x - this.position.x);
+    playSound(type) {
+        if (type === 'shoot') {
+            let soundIndex = Math.floor(Math.random() * this.sounds.shoot.length);
+            let volume = Math.abs(this.game.player.position.x - this.position.x);
 
-        // the enemy gets louder the closer you are
-        volume = ((volume > 800) ? 0 : (1 - volume/800) * this.game.maxVolume);
-        this.sounds[soundIndex].volume = volume;
-        this.sounds[soundIndex].play();
+            // the enemy gets louder the closer you are
+            volume = ((volume > 800) ? 0 : (1 - volume/800) * this.game.maxVolume);
+            this.sounds.shoot[soundIndex].volume = volume;
+            this.sounds.shoot[soundIndex].play();
+        }
+        else if (type === 'death') {
+            this.sounds.death.volume = this.game.maxVolume / 2;
+            this.sounds.death.play();
+        }
     }
 
     calcTilePosition(position) {
@@ -111,6 +121,7 @@ export default class FinalEnemy {
                 if (this.lives === 0) {
                     console.log("BOSS KILLED");
                     this.dead = true;
+                    this.playSound('death');
                 }
             }
             player.velocity.y = 0;
@@ -140,6 +151,12 @@ export default class FinalEnemy {
     update() {
         //if enemy is very close to camera
 
+        // should happen everytime
+        for (let i = this.bullets.length - 1; i > -1; i--) {
+            if (this.bullets[i].update() === 'out') {
+                this.bullets.splice(i, 1);
+            }
+        }
         if (!this.dead && this.isOnCamera(1, 1.5)) {
             this.visible = true;
 
@@ -152,15 +169,9 @@ export default class FinalEnemy {
                 this.bullets.push(new Bullet(this.game, 'top', this.gen.next().value % 4));
                 this.lastShot = this.shootInterval;
 
-                this.playSound();
+                this.playSound('shoot');
             }
             this.lastShot--;
-
-            for (let i = this.bullets.length - 1; i > -1; i--) {
-                if (this.bullets[i].update() === 'out') {
-                    this.bullets.splice(i, 1);
-                }
-            }
 
         } else {
             if (this.fireworksCountDown > 0) {
@@ -170,7 +181,7 @@ export default class FinalEnemy {
         }
     }
 
-    render() {
+    render() {        
         if (!this.visible) {
             return;
         }

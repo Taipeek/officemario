@@ -10,26 +10,31 @@ export default class ScoreBoard {
         this.renderPause = this.renderPause.bind(this);
         this.renderFirstGame = this.renderFirstGame.bind(this);
         this.mute = new Image();
-        this.mute.src = 'img/mute-icon.png';
+        this.mute.src = 'img/mute-icon_gray.png';
     }
 
     render() {
         let gameState = this.game.gameState;
         this.game.ctx.save();
         //this.game.ctx.lineWidth = 1;
-        this.game.ctx.fillStyle = "white";
-        this.game.ctx.font = '18px sans-serif';
+        this.game.ctx.fillStyle = "#656565";
+        //this.game.ctx.strokeStyle = "black";
+        this.game.ctx.font = '18px Consolas';
         this.game.ctx.fontStyle = 'bold';
-        this.game.ctx.fillText("Scores: " + gameState.score, this.x + 10, this.y + 20);
-        this.game.ctx.fillText("Lives: " + gameState.lives, this.x + 100, this.y + 20);
-        this.game.ctx.fillText("Level: " + gameState.level, this.x + 190, this.y + 20);
+        let score = "Score: " + gameState.score;
+        let lives = "Lives: " + gameState.lives;
+        let level = "Level: " + gameState.level;
+        let text = score + '  ' + lives + '  ' + level;
+        let width = this.game.ctx.measureText(text).width;
+        this.game.ctx.fillText(text, this.x + 10, this.y + 20);
+        //this.game.ctx.strokeText(text, this.x + 10, this.y + 20);
 
         if (this.game.maxVolume === 0) {
             try {
-                this.game.ctx.drawImage(this.mute, this.x + 275, this.y + 5, 18, 18);
+                this.game.ctx.drawImage(this.mute, width + 25, this.y + 5, 18, 18);
             }
             catch(e) {
-                this.game.ctx.fillText("Muted", this.x + 275, this.y + 20);
+                this.game.ctx.fillText("Muted", width + 25, this.y + 20);
             }
         }
         this.game.ctx.restore();

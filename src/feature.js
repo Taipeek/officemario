@@ -165,8 +165,8 @@ export default class Feature {
         else if (leftHit || rightHit && !this.dead) {
             //feature picked up
             this.active = false;
-            this.game.gameState.score++;
-            this.picked=true;
+            this.picked = true;
+            this.game.gameState.score += 1;
             this.sounds.pickup.volume = this.game.maxVolume / 3;
             this.sounds.pickup.play();
         }

@@ -151,6 +151,7 @@ export default class Bug {
 
         if (topHit && !this.dead) {	//bug killed
             this.dead = true;
+            this.game.gameState.score += 1;
             this.sound.volume = this.game.maxVolume / 2;
             this.sound.play();
         }
