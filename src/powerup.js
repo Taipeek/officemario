@@ -144,9 +144,9 @@ export default class Powerup {
                 this.game.player.invincible = true;
                 break;
             case 'auto':
-                //this.game.player.maxVelocity.x *= 2;
-                //this.game.player.maxVelocity.y *= 2;
-                this.game.player.jumpForce.current = 14.1;
+                this.game.player.maxVelocity.x += 2;
+                this.game.player.maxVelocity.y += 2;
+                this.game.player.jumpForce.current = 14.001;
                 break;
             case 'coffee':
                 this.game.gameState.lives++;
@@ -175,8 +175,8 @@ export default class Powerup {
                 this.game.player.invincible = false;
                 break;
             case 'auto':
-                //this.game.player.maxVelocity.x /= 2;
-                //this.game.player.maxVelocity.y /= 2;
+                this.game.player.maxVelocity.x -= 2;
+                this.game.player.maxVelocity.y -= 2;
                 this.game.player.jumpForce.current = this.game.player.jumpForce.initial;
                 break;
             case 'coffee':

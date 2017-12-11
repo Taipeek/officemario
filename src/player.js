@@ -386,7 +386,7 @@ export default class Player {
     }
 
     update() {
-        console.log(this.position);
+        //console.log(this.position);
         this.jumpCrouch();
         this.move();
         this.applyMovement();
