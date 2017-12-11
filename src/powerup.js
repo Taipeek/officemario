@@ -146,7 +146,7 @@ export default class Powerup {
             case 'auto':
                 //this.game.player.maxVelocity.x *= 2;
                 //this.game.player.maxVelocity.y *= 2;
-                this.game.player.jumpForce.current = 14;
+                this.game.player.jumpForce.current = 14.1;
                 break;
             case 'coffee':
                 this.game.gameState.lives++;
