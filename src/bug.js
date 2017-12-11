@@ -163,7 +163,7 @@ export default class Bug {
             &&player.position.y + player.height.current > this.position.y
             &&player.position.y< this.position.y)
         );
-        if (topHit && !this.dead) {	//bug killed
+        if ((topHit ||(this.game.player.invincible && sideHit)) && !this.dead) {	//bug killed
             this.dead = true;
             this.game.gameState.score += 1;
             this.sound.volume = this.game.maxVolume / 2;
