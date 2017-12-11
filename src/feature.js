@@ -20,34 +20,34 @@ export default class Feature {
         this.star=new Image();
         this.star.src = "img/star.png";
         let b1 = new Image();
-        b1.src = "https://s8.postimg.org/l62ilz6bp/image.png";
+        b1.src = "img/blood/3.png";
         let b2 = new Image();
-        b2.src = "https://s8.postimg.org/gk6edn085/image.png";
+        b2.src = "img/blood/4.png";
         let b3 = new Image();
-        b3.src = "https://s8.postimg.org/uqm58w5yd/image.png";
+        b3.src = "img/blood/5.png";
         let b4 = new Image();
-        b4.src = "https://s8.postimg.org/k529wc21h/image.png";
+        b4.src = "img/blood/6.png";
         let b5 = new Image();
-        b5.src = "https://s8.postimg.org/4wcciknsl/image.png";
+        b5.src = "img/blood/7.png";
         let b6 = new Image();
-        b6.src = "https://s8.postimg.org/mz5f9srd1/image.png";
+        b6.src = "img/blood/8.png";
         let b7 = new Image();
-        b7.src = "https://s8.postimg.org/fj65o0qt1/image.png";
+        b7.src = "img/blood/9.png";
         let b8 = new Image();
-        b8.src = "https://s8.postimg.org/tcuid2ytx/image.png";
+        b8.src = "img/blood/10.png";
         let b9 = new Image();
-        b9.src = "https://s8.postimg.org/etndbol4l/image.png";
+        b9.src = "img/blood/11.png";
         let b10 = new Image();
-        b10.src = "https://s8.postimg.org/4wccin0o5/image.png";
+        b10.src = "img/blood/12.png";
         let b11 = new Image();
-        b11.src = "https://s8.postimg.org/u2daph9o5/image.png";
+        b11.src = "img/blood/13.png";
         let b12 = new Image();
-        b12.src = "https://s8.postimg.org/w6xnqkqqd/image.png";
+        b12.src = "img/blood/14.png";
         let b13 = new Image();
-        b13.src = "https://s8.postimg.org/5d25iz651/image.png";
-
+        b13.src = "img/blood/15.png";
+        
         this.blood = [b1, b2, b3, b4, b5, b6, b7, b8, b9, b10, b11, b12, b13];
-
+        this.timeBounced=999;
         this.prepareSounds();
     }
 
@@ -73,6 +73,7 @@ export default class Feature {
         }
         this.position.y += this.velocity.y;
         this.tilePos = this.calcTilePosition(this.position);
+        this.timeBounced++;
     }
 
     checkTileCollisions() {
@@ -119,16 +120,18 @@ export default class Feature {
         // check collision from the left
         let leftTilePosition = {x: this.tilePos.x - 1, y: this.tilePos.y};
         let leftTile = this.game.map.tileAt(leftTilePosition, 0);
-        if (leftTile && leftTile.solid && (this.position.x - ((leftTilePosition.x + 1) * this.tileWidth)) < 0) {
+        if (this.timeBounced>50 && leftTile && leftTile.solid && (this.position.x - ((leftTilePosition.x + 1) * this.tileWidth)) < 0) {
             //console.log("colliding from the left side with " + leftTilePosition.x + " " + leftTilePosition.y);
             this.velocity.x *= -1;
+            this.timeBounced=0;
             return;
         }
         let rightTilePosition = {x: this.tilePos.x + 1, y: this.tilePos.y};
         let rightTile = this.game.map.tileAt(rightTilePosition, 0);
-        if (rightTile && rightTile.solid && ((rightTilePosition.x * this.tileWidth) - (this.position.x + this.tileWidth)) < 0) {
+        if (this.position.x<0 || (this.timeBounced>50 && rightTile && rightTile.solid && ((rightTilePosition.x * this.tileWidth) - (this.position.x + this.tileWidth)) < 0)) {
             //console.log("colliding from the right side with " + rightTilePosition.x + " " + rightTilePosition.y);
             this.velocity.x *= -1;
+            this.timeBounced=0;
             return;
         }
     }
@@ -136,33 +139,38 @@ export default class Feature {
     checkPlayerCollision() {
         let player = this.game.player;
 
-        let topHit = ((this.position.y <= (player.position.y + player.height.current)
-            && this.position.y >= ( player.position.y + 0.8 * player.height.current)
-            && this.position.x >= player.position.x
-            && player.velocity.y>0
-            && this.position.x <= (player.position.x + player.width.current)) ||
-            ((this.position.y <= (player.position.y + player.height.current)
-                && this.position.y >= ( player.position.y + 0.8 * player.height.current)
-                && this.position.x + this.tileWidth >= player.position.x
-                && this.position.x + this.tileWidth <= (player.position.x + player.width.current))));
-
-        let leftHit = (this.position.y + this.tileHeight >= player.position.y
-            && this.position.y <= player.position.y + player.height.current
-            && this.position.x <= player.position.x + player.width.current
-            && this.position.x >= player.position.x);
-
-
-        let rightHit = (this.position.y + this.tileHeight >= player.position.y
-            && this.position.y <= player.position.y + player.height.current
-            && this.position.x <= player.position.x
-            && this.position.x + this.tileWidth >= player.position.x);
+        let topHit = (            
+            player.velocity.y > 0
+            //left point
+            &&((player.position.x < this.position.x
+            &&player.position.x + player.width.current > this.position.x
+            &&player.position.y + player.height.current > this.position.y-this.tileHeight*0.5
+            &&player.position.y + player.height.current*0.65 < this.position.y-this.tileHeight*0.5
+            )
+            //right point
+            ||(player.position.x < this.position.x+this.tileWidth
+            &&player.position.x + player.width.current > this.position.x+this.tileWidth
+            &&player.position.y + player.height.current > this.position.y-this.tileHeight*0.5
+            &&player.position.y + player.height.current*0.65 < this.position.y-this.tileHeight*0.5)) 
+        );
+    
+        let sideHit = (
+            (player.position.x < this.position.x
+            &&player.position.x + player.width.current > this.position.x
+            &&player.position.y + player.height.current > this.position.y
+            &&player.position.y < this.position.y
+            )||(player.position.x < this.position.x+this.tileWidth
+            &&player.position.x + player.width.current > this.position.x+this.tileWidth
+            &&player.position.y + player.height.current > this.position.y
+            &&player.position.y< this.position.y)
+        );
 
         if (topHit && !this.dead) {	//feature killed
             this.dead = true;
             this.sounds.death.volume = this.game.maxVolume / 2;
             this.sounds.death.play();
         }
-        else if (leftHit || rightHit && !this.dead) {
+        else if (sideHit && !this.dead) {
             //feature picked up
             this.active = false;
             this.picked = true;
@@ -206,29 +214,29 @@ export default class Feature {
         else if(this.picked){
             this.game.ctx.save();
             this.game.ctx.fillStyle = "blue";
-            this.game.ctx.font = "15px Consolas";
+            this.game.ctx.font = "bold 18px Consolas";
             if((this.timePicked<50 && this.timePicked%10>5) || this.timePicked>200|| (this.timePicked>180 &&this.timePicked%10<5)){
                  this.game.ctx.restore();
                 return;
             }
             var starsDelta=5;
             if(this.timePicked>110+starsDelta){
-              this.game.ctx.drawImage(this.star, this.position.x+this.text.length*0.4, this.position.y-150,28,28);
+              this.game.ctx.drawImage(this.star, this.position.x+this.text.length*0.2, this.position.y-150,28,28);
             }
             if(this.timePicked>110+2*starsDelta){
-              this.game.ctx.drawImage(this.star, this.position.x+this.text.length*3.6, this.position.y-86,28,28);
+              this.game.ctx.drawImage(this.star, this.position.x+this.text.length*4.0, this.position.y-90,28,28);
             }
             if(this.timePicked>110+3*starsDelta){
-              this.game.ctx.drawImage(this.star, this.position.x+this.text.length*6.4, this.position.y-155,28,28);
+              this.game.ctx.drawImage(this.star, this.position.x+this.text.length*8.2, this.position.y-150,28,28);
             }
             if(this.timePicked>110+4*starsDelta){
-              this.game.ctx.drawImage(this.star, this.position.x+this.text.length*0.6, this.position.y-95,28,28);
+              this.game.ctx.drawImage(this.star, this.position.x+this.text.length*0.2, this.position.y-90,28,28);
             }
             if(this.timePicked>110+5*starsDelta){
-              this.game.ctx.drawImage(this.star, this.position.x+this.text.length*3.4, this.position.y-150,28,28);
+              this.game.ctx.drawImage(this.star, this.position.x+this.text.length*4.0, this.position.y-150,28,28);
             }
             if(this.timePicked>110+6*starsDelta){
-              this.game.ctx.drawImage(this.star, this.position.x+this.text.length*6.6, this.position.y-90,28,28);
+              this.game.ctx.drawImage(this.star, this.position.x+this.text.length*8.2, this.position.y-90,28,28);
             }
 
             this.game.ctx.fillText(this.text,this.position.x,this.position.y-Math.min(this.timePicked,100));
@@ -238,7 +246,7 @@ export default class Feature {
             return;
         }
         this.game.ctx.save();
-        this.game.ctx.drawImage(this.image, this.position.x, this.position.y, this.tileWidth, this.tileHeight);
+        this.game.ctx.drawImage(this.image, this.position.x, this.position.y-0.5*this.tileHeight, this.tileWidth, this.tileHeight*1.5);
 
         this.game.ctx.restore();
     }

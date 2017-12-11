@@ -1,8 +1,9 @@
 import Powerup from "./powerup";
+
 export default class Player {
     constructor(game) {
         this.game = game;
-        this.position = {x: 0, y: 0};        
+        this.position = {x: 0, y: 0};
         this.width = {current: 32, initial: 32};
         this.height = {current: 64, initial: 64};
         this.imageWalk = new Image();
@@ -18,7 +19,7 @@ export default class Player {
         this.applyMovement = this.applyMovement.bind(this);
         this.checkTileCollision = this.checkTileCollision.bind(this);
         this.render = this.render.bind(this);
-        this.update = this.update.bind(this);        
+        this.update = this.update.bind(this);
         this.prepareSounds();
         this.initialize();
     }
@@ -32,7 +33,7 @@ export default class Player {
         this.frictionCoef = {current: 0.98, initial: 0.98, braking: 0.7};
         this.invincible = false;
         this.hitted = false; // when player loses hp, he is immortal for some time
-        this.timeHitted = 0;        
+        this.timeHitted = 0;
         this.prepareSpawnpoints()
     }
 
@@ -47,9 +48,11 @@ export default class Player {
         // https://opengameart.org/content/male-gruntyelling-sounds
         // 3grunt1.wav, shortened in the beginning
         this.sounds = {
-            hit: null, 
+            hit: null,
             jump: null,
-            pspawn: null};
+            crouch: null,
+            pspawn: null
+        };
 
         this.sounds.hit = new Audio('sounds/yell.wav');
         this.sounds.hit.load();
@@ -69,13 +72,16 @@ export default class Player {
         this.moonwalk.music.loop = true;
         this.moonwalk.music.volume = this.game.maxVolume / 10;
         this.moonwalk.music.currentTime = 0;
+
+        this.sounds.crouch = new Audio('sounds/fart.wav');
+        this.sounds.crouch.load();
+        this.sounds.crouch.volume = this.game.maxVolume;
     }
 
-    prepareSpawnpoints()
-    {
+    prepareSpawnpoints() {
         this.powerupSpawns = [];
         let objectLayer = this.game.map.mapData.layers[2];
-        
+
         objectLayer.objects.forEach(item => {
             if (item.type === 'tilepowerup') {
                 // align x and y coordinates to non-weird values
@@ -180,6 +186,11 @@ export default class Player {
         //crouch
         if (this.game.keyBoard['down']) {
             if (this.height.current === this.height.initial) {
+                this.sounds.crouch.currentTime=0;
+                this.sounds.crouch.volume = this.game.maxVolume / 3;
+                this.sounds.crouch.play();
+            }
+            if (this.height.current === this.height.initial) {
                 this.height.current = this.height.initial / 2;
                 this.position.y += this.height.current;
             }
@@ -198,11 +209,11 @@ export default class Player {
                 this.velocity.x -= this.moveForce.current;
         }
         else if (this.game.keyBoard['right']) {
-                this.velocity.x += this.moveForce.current;
+            this.velocity.x += this.moveForce.current;
         }
 
         if (this.position.y < 0)
-                this.velocity.y = 0;
+            this.velocity.y = 0;
 
         if (Math.abs(this.velocity.x) > this.maxVelocity.x)
             this.velocity.x = Math.sign(this.velocity.x) * this.maxVelocity.x;
@@ -211,8 +222,7 @@ export default class Player {
 
     }
 
-    triggerMusic()
-    {
+    triggerMusic() {
         this.moonwalk.on = (this.game.keyBoard["right"] && this.game.keyBoard["left"]);
         if (this.moonwalk.on && this.velocity.y === this.gravity.current) {
             this.moonwalk.music.volume = this.game.maxVolume / 10;
@@ -226,15 +236,15 @@ export default class Player {
     }
 
     applyMovement() {
-        if (Math.abs(this.velocity.x) < 1e-3) 
+        if (Math.abs(this.velocity.x) < 1e-3)
             this.velocity.x = 0;
-        if (Math.abs(this.velocity.y) < 1e-3) 
+        if (Math.abs(this.velocity.y) < 1e-3)
             this.velocity.y = 0;
         this.cameraMove = {x: Math.abs(Math.ceil(this.velocity.x)), y: Math.abs(Math.ceil(this.velocity.y))};
         this.position.x += this.velocity.x;
         this.position.y += this.velocity.y;
 
-        if (this.moonwalk.on !== (this.game.keyBoard["right"] && this.game.keyBoard["left"])) {            
+        if (this.moonwalk.on !== (this.game.keyBoard["right"] && this.game.keyBoard["left"])) {
             this.triggerMusic();
         }
 
@@ -273,7 +283,7 @@ export default class Player {
         let lowerLeftCurrentTile = this.game.map.tileAt(lowerLeftTilePosition);
         let lowerRightCurrentTile = this.game.map.tileAt(lowerRightTilePosition);
         let upperLeftCurrentTile = this.game.map.tileAt(upperLeftTilePosition);
-        let upperRightCurrentTile = this.game.map.tileAt(upperRightTilePosition);        
+        let upperRightCurrentTile = this.game.map.tileAt(upperRightTilePosition);
 
         // vertical detection bottom
         if ((lowerLeftCurrentTile && lowerLeftCurrentTile.solid) || (lowerRightCurrentTile && lowerRightCurrentTile.solid)) {
@@ -287,7 +297,7 @@ export default class Player {
             this.position.y = this.game.map.tileHeight * (upperLeftTilePosition.y + 1);
             console.log("top");
 
-            this.checkPowerupSpawn(upperLeftTilePosition, upperRightTilePosition);            
+            this.checkPowerupSpawn(upperLeftTilePosition, upperRightTilePosition);
         }
 
         lowerLeftTilePosition = this.getTileXYHorizontal("lower", "left");
@@ -337,16 +347,15 @@ export default class Player {
         }
     }
 
-    checkPowerupSpawn(upperLeft, upperRight)
-    {
+    checkPowerupSpawn(upperLeft, upperRight) {
         for (let i = 0; i < this.powerupSpawns.length; i++) {
             let spawn = this.powerupSpawns[i];
 
-            if ( (spawn.tilePos.x === upperLeft.x && spawn.tilePos.y === upperLeft.y) || 
-                 (spawn.tilePos.x === upperRight.x && spawn.tilePos.y === upperRight.y) ) {
+            if ((spawn.tilePos.x === upperLeft.x && spawn.tilePos.y === upperLeft.y) ||
+                (spawn.tilePos.x === upperRight.x && spawn.tilePos.y === upperRight.y)) {
                 //console.log('powerup should get spawned, ' + spawn.tilePos.x + ' ' + spawn.tilePos.y);
                 this.game.powerups.push(new Powerup(this.game, spawn.x, spawn.y - this.game.map.tileHeight, null));
-                
+
                 this.sounds.pspawn.volume = this.game.maxVolume / 3;
                 this.sounds.pspawn.play();
                 this.powerupSpawns.splice(i, 1); // "deactivate" the spawnpoint
@@ -357,8 +366,8 @@ export default class Player {
 
 
     render() {
-        if(this.timeHitted%10>5){
-           return; 
+        if (this.timeHitted % 10 > 5) {
+            return;
         }
         this.game.ctx.save();
         if (this.game.keyBoard['right']) {
@@ -377,9 +386,9 @@ export default class Player {
         if (this.direction === "l") {
             this.game.ctx.scale(-1, 1);
         }
-        if(this.velocity.y === 0) {
+        if (this.velocity.y === 0) {
             this.game.ctx.drawImage(this.imageWalk, this.width.initial * this.animation, 0, this.width.initial, this.height.initial, -this.width.current / 2, -this.height.current / 2, this.width.current, this.height.current)
-        } else{
+        } else {
             this.game.ctx.drawImage(this.imageJump, -this.width.current / 2, -this.height.current / 2, this.width.current, this.height.current)
         }
         this.game.ctx.restore();
@@ -391,12 +400,12 @@ export default class Player {
         this.move();
         this.applyMovement();
         this.checkTileCollision();
-        if(this.hitted){
+        if (this.hitted) {
             this.timeHitted++;
         }
-        if(this.timeHitted>100){
-            this.hitted=false;
-            this.timeHitted=0;
+        if (this.timeHitted > 100) {
+            this.hitted = false;
+            this.timeHitted = 0;
         }
     }
 }
