@@ -31,10 +31,10 @@ export default class ScoreBoard {
 
         if (this.game.maxVolume === 0) {
             try {
-                this.game.ctx.drawImage(this.mute, width + 25, this.y + 5, 18, 18);
+                this.game.ctx.drawImage(this.mute, width + 25, this.y + 10, 18, 18);
             }
             catch(e) {
-                this.game.ctx.fillText("Muted", width + 25, this.y + 20);
+                this.game.ctx.fillText("Muted", width + 25, this.y + 30);
             }
         }
         this.game.ctx.restore();
