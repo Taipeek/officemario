@@ -84,7 +84,7 @@
   <object id="7" name="enemyspawn5" type="enemyspawn" x="6444.48" y="1068.85" width="36.7342" height="35.5492"/>
   <object id="9" name="powerupspawn2" type="powerupspawn" x="3632.37" y="867.679" width="36.7342" height="35.5492"/>
   <object id="10" name="powerupspawn3" type="powerupspawn" x="4082.12" y="874.706" width="36.7342" height="35.5492"/>
-  <object id="11" name="featurespawn1" type="featurespawn" x="1386.99" y="959.095" width="36.7342" height="35.5492"/>
+  <object id="11" name="featurespawn1" type="featurespawn" x="1076.66" y="957.361" width="36.7342" height="35.5492"/>
   <object id="12" name="featurespawn2" type="featurespawn" x="3698.1" y="1059.93" width="36.7342" height="35.5492"/>
   <object id="13" name="featurespawn3" type="featurespawn" x="5291.53" y="965.112" width="36.7342" height="35.5492"/>
   <object id="14" name="tilepowerup3" type="tilepowerup" x="6694.05" y="645.97" width="19.8893" height="19.8893"/>
