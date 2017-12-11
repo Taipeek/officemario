@@ -92,7 +92,7 @@ export default class Bullet {
             return 'out';
         }
 
-        else if (sideHit && !this.game.player.hitted) {
+        else if (sideHit && !this.game.player.hitted && !this.game.player.invincible) {
             this.game.player.hitted = true;
             this.game.gameState.lives--;
             this.game.player.playHitSound();
