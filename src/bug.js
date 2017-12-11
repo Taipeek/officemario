@@ -138,7 +138,7 @@ export default class Bug {
                 && player.velocity.y>0
                 && this.position.x + this.tileWidth <= (player.position.x + player.width.current))));
 */
-  let topHit = (            
+        let topHit = (            
             player.velocity.y > 0
             //left point
             &&((player.position.x < this.position.x
@@ -163,7 +163,7 @@ export default class Bug {
             &&player.position.y + player.height.current > this.position.y
             &&player.position.y< this.position.y)
         );
-        if (topHit && !this.dead) {	//bug killed
+        if ( (topHit || (sideHit && this.game.player.invincible)) && !this.dead) {	//bug killed
             this.dead = true;
             this.game.gameState.score += 1;
             this.sound.volume = this.game.maxVolume / 2;
