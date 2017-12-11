@@ -42,8 +42,8 @@ export default class Powerup {
                 soundpath = 'gulp';
                 break;
             default:
-                this.sound = null;
-                return;
+                soundpath = 'ppickup';
+                break;
         }
         //console.log(soundpath);
         this.sound = new Audio('sounds/' + soundpath + '.wav');

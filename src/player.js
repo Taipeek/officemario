@@ -6,10 +6,12 @@ export default class Player {
         this.position = {x: 0, y: 0};
         this.width = {current: 32, initial: 32};
         this.height = {current: 64, initial: 64};
-        this.imageWalk = new Image();
-        this.imageWalk.src = "img/player_walk_sheet.png";
-        this.imageJump = new Image();
-        this.imageJump.src = "img/Fat_jump_right.png";
+        this.imageWalk = {normal: new Image(), invincible: new Image()};
+        this.imageWalk.normal.src = "img/player_walk_sheet.png";
+        this.imageWalk.invincible.src = "img/player_walk_sheet_godmode.png";
+        this.imageJump = {normal: new Image(), invincible: new Image()};
+        this.imageJump.normal.src = "img/Fat_jump_right.png";
+        this.imageJump.invincible.src = "img/Fat_jump_right_godmode.png";
         this.lastDirection = "r";
         this.animation = 0;
         this.getTileXY = this.getTileXY.bind(this);
@@ -396,9 +398,9 @@ export default class Player {
             this.game.ctx.scale(-1, 1);
         }
         if (this.velocity.y === 0) {
-            this.game.ctx.drawImage(this.imageWalk, this.width.initial * this.animation, 0, this.width.initial, this.height.initial, -this.width.current / 2, -this.height.current / 2, this.width.current, this.height.current)
+            this.game.ctx.drawImage((this.invincible ? this.imageWalk.invincible :this.imageWalk.normal), this.width.initial * this.animation, 0, this.width.initial, this.height.initial, -this.width.current / 2, -this.height.current / 2, this.width.current, this.height.current)
         } else {
-            this.game.ctx.drawImage(this.imageJump, -this.width.current / 2, -this.height.current / 2, this.width.current, this.height.current)
+            this.game.ctx.drawImage((this.invincible ? this.imageJump.invincible :this.imageJump.normal), -this.width.current / 2, -this.height.current / 2, this.width.current, this.height.current)
         }
         this.game.ctx.restore();
     }
