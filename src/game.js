@@ -182,8 +182,9 @@ export default class Game {
         }
 
         if (event.key === "v") {
-            let xy = this.player.getTileXY();
-            console.log(xy, this.map.tileAt(xy.x, xy.y, 0))
+            console.log('what is this?');
+            //let xy = this.player.getTileXY();
+            //console.log(xy, this.map.tileAt(xy.x, xy.y, 0))
         }
     }
 
