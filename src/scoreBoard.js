@@ -17,16 +17,16 @@ export default class ScoreBoard {
         let gameState = this.game.gameState;
         this.game.ctx.save();
         //this.game.ctx.lineWidth = 1;
-        this.game.ctx.fillStyle = "#656565";
+        this.game.ctx.fillStyle = "#000000";
         //this.game.ctx.strokeStyle = "black";
-        this.game.ctx.font = '18px Consolas';
+        this.game.ctx.font = '30px amatic';
         this.game.ctx.fontStyle = 'bold';
         let score = "Score: " + gameState.score;
         let lives = "Lives: " + gameState.lives;
         let level = "Level: " + gameState.level;
         let text = score + '  ' + lives + '  ' + level;
         let width = this.game.ctx.measureText(text).width;
-        this.game.ctx.fillText(text, this.x + 10, this.y + 20);
+        this.game.ctx.fillText(text, this.x + 10, this.y + 30);
         //this.game.ctx.strokeText(text, this.x + 10, this.y + 20);
 
         if (this.game.maxVolume === 0) {
@@ -50,16 +50,16 @@ export default class ScoreBoard {
         this.game.ctx.fillRect(0, 0, this.game.canvas.width, this.game.canvas.height);
         this.game.ctx.globalAlpha = 1;
         this.game.ctx.fillStyle = "white";
-        this.game.ctx.font = '40px sans-serif';
+        this.game.ctx.font = "50px amatic";
         this.game.ctx.fontStyle = 'bold';
         this.game.ctx.fillText("Welcome to Office Mario!", this.x + 1 / 10 * this.width, y-300);
-        this.game.ctx.font = '25px sans-serif';
+        this.game.ctx.font = "35px amatic";
         this.game.ctx.fillText("Use arrow keys to move and jump", this.x + 1 / 10 * this.width, y - 250);
         this.game.ctx.fillText("Beware of the bugs and get all the features!", this.x + 1 / 10 * this.width, y - 200);
         this.game.ctx.fillText("Press p to pause the game", this.x + 1 / 10 * this.width, y - 150);
         this.game.ctx.fillText("Press m to mute all sounds", this.x + 1 / 10 * this.width, y - 100);
-        this.game.ctx.font = '40px sans-serif';
-        this.game.ctx.fillText("Press space to start the game", this.x + 1 / 10 * this.width, y - 50);
+        this.game.ctx.font = "60px amatic";
+        this.game.ctx.fillText("Press space to start the game", this.x + 1 / 10 * this.width, y - 40);
         this.game.ctx.restore();
     }
 
@@ -73,12 +73,12 @@ export default class ScoreBoard {
         this.game.ctx.fillRect(0, 0, this.game.canvas.width, this.game.canvas.height);
         this.game.ctx.globalAlpha = 1;
         this.game.ctx.fillStyle = "white";
-        this.game.ctx.font = '40px sans-serif';
+        this.game.ctx.font = "50px amatic";
         this.game.ctx.fontStyle = 'bold';
         this.game.ctx.fillText("Game Over!", this.x + 1 / 10 * this.width, y-300);
-        this.game.ctx.font = '25px sans-serif';
+        this.game.ctx.font = "35px amatic";
         this.game.ctx.fillText("Score: " + this.game.gameState.score, this.x + 1 / 10 * this.width, y - 250);
-        this.game.ctx.font = '40px sans-serif';
+        this.game.ctx.font = "50px amatic";
         this.game.ctx.fillText("Press space to start new game", this.x + 1 / 10 * this.width, y - 100);
         this.game.ctx.restore();
 
@@ -94,14 +94,14 @@ export default class ScoreBoard {
         this.game.ctx.fillRect(0, 0, this.game.canvas.width, this.game.canvas.height);
         this.game.ctx.globalAlpha = 1;
         this.game.ctx.fillStyle = "white";
-        this.game.ctx.font = '40px sans-serif';
+        this.game.ctx.font = "50px amatic";
         this.game.ctx.fontStyle = 'bold';
         this.game.ctx.fillText("Paused", this.x + 1 / 10 * this.width, y-300);
-        this.game.ctx.font = '25px sans-serif';
+        this.game.ctx.font = "35px amatic";
         this.game.ctx.fillText("Use arrow keys to move and jump", this.x + 1 / 10 * this.width, y - 250);
         this.game.ctx.fillText("Beware of the bugs and get all the features!", this.x + 1 / 10 * this.width, y - 200);
         this.game.ctx.fillText("Press p to pause the game", this.x + 1 / 10 * this.width, y - 150);
-        this.game.ctx.font = '40px sans-serif';
+        this.game.ctx.font = "50px amatic";
         this.game.ctx.fillText("Press space to resume the game", this.x + 1 / 10 * this.width, y - 100);
         this.game.ctx.restore();
     }

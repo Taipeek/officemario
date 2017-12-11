@@ -8,9 +8,23 @@ body {
 
 canvas {
 
-    margin: 20px;
+    margin: 0px 20px  20px 20px;
     border: 1px solid black;
     box-shadow: 5px 5px #777;
     /*image-rendering: pixelated;*/
 
+}
+
+@font-face {
+    font-family: 'amatic';
+    src: url('./amatic.ttf') format('truetype'); /* Chrome 4+, Firefox 3.5, Opera 10+, Safari 3—5 */
+}
+h1{
+    font-family: amatic;
+    font-size: 50px;
+    margin-left: 20px;
+    margin-bottom: 0px;
+}
+body{
+    display: inline-table;
 }
