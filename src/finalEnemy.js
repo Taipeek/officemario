@@ -38,7 +38,7 @@ export default class FinalEnemy {
                 break;
         }
         this.visible = false;
-        this.fireworksCountDown = 260;
+        this.fireworksCountDown = 130;
         this.lastShot = -1;
         this.bullets = [];
         this.width = properties.width;
@@ -190,7 +190,7 @@ export default class FinalEnemy {
 
         if (this.dead && this.fireworksCountDown > 0){
             let image = new Image();
-            image.src = "img/fireworks/"+Math.floor(26 - this.fireworksCountDown/10)+".png";
+            image.src = "img/fireworks/"+Math.floor(26 - this.fireworksCountDown/5)+".png";
             this.game.ctx.drawImage(image, this.position.x, this.position.y-250, 150,150);
             this.fireworksCountDown--;
         }
