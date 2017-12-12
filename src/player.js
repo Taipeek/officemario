@@ -238,11 +238,13 @@ export default class Player {
         if (this.moonwalk.on && this.velocity.y === this.gravity.current) {
             this.moonwalk.music.volume = this.game.maxVolume / 10;
             this.moonwalk.music.currentTime = this.moonwalk.start;
+            this.game.music.pause();
             this.moonwalk.music.play();
         }
         else {
             this.moonwalk.start = this.moonwalk.music.currentTime;
             this.moonwalk.music.pause();
+            this.game.music.play();
         }
     }
 

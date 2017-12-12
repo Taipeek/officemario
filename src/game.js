@@ -39,7 +39,17 @@ export default class Game {
         // key handlers
         window.onkeydown = this.handleKeyDown;
         window.onkeyup = this.handleKeyUp;
-        this.newGame();
+
+        this.prepareMusic()
+        this.newGame();        
+    }
+
+    prepareMusic() {
+        this.music = new Audio();
+        this.music.src = 'sounds/background_music.mp3';
+        this.music.load();
+        this.music.loop = true;
+        this.music.volume = this.maxVolume / 2;
     }
 
     moveScreen(where, step) {
@@ -121,6 +131,7 @@ export default class Game {
                 this.deadline.tick2.pause();
             }
             this.scoreBoard.renderGameOver();
+            this.music.pause();
         }
     }
 
@@ -143,6 +154,7 @@ export default class Game {
         console.log(this);
         this.render();
         this.scoreBoard.renderPause();
+        this.music.pause();
     }
 
     handleKeyDown(event) {
@@ -151,10 +163,11 @@ export default class Game {
             switch (event.key) {
                 case ' ':
                     if (this.gameState.status === "over") {
-                        this.newGame();
+                        this.newGame();                        
                     }
                     this.gameLoopInterval = setInterval(this.gameLoop, this.gameLoopSpeed);
                     this.gameState.status = "running";
+                    this.music.play();
                     break;
             }
             return;
@@ -183,6 +196,7 @@ export default class Game {
             // mute sounds
             case 'm':
                 this.maxVolume = (this.maxVolume === 0 ? 0.5 : 0);
+                this.music.volume = this.maxVolume / 2;
                 break;
         }
 
