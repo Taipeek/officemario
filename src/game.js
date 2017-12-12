@@ -37,6 +37,7 @@ export default class Game {
         this.renderCounter = 0;
         this.shake = {on: false};
         this.deadline=new Deadline(this);
+        this.deadlineActive=false;
         // key handlers
         window.onkeydown = this.handleKeyDown;
         window.onkeyup = this.handleKeyUp;
@@ -92,7 +93,7 @@ export default class Game {
             status: "new",
             score: 0,
             lives: 3,
-            level: 1
+            level: 2
         };
         this.screenPosition = {x: 0, y: 0};
         //Create game objects
@@ -125,6 +126,9 @@ export default class Game {
             && playerPos.y >= this.levelEnd.position.y && playerPos.y + this.player.height.current <= this.levelEnd.position.y + this.levelEnd.height) {
             this.screenPosition = {x: 0, y: 0};
             this.gameState.level++;
+            if(this.gameState.level==3){
+                this.deadlineActive=true;
+            }
             this.map = new LevelMap(this);
             this.spawnObjects();
             console.log('next level');
@@ -233,7 +237,8 @@ export default class Game {
         this.handleShake();
         this.ctx.translate(-this.screenPosition.x, -this.screenPosition.y);
         this.map.render();
-        //this.deadline.render();
+       
+        
         this.player.render();
         this.powerups.forEach(powerup => {
             powerup.render();
@@ -245,6 +250,9 @@ export default class Game {
         this.levelEnd.render();
 
         this.finalEnemy.render();
+         if(this.deadlineActive){
+           this.deadline.render(); 
+        }
         this.ctx.restore();
         this.scoreBoard.render();
 
@@ -255,6 +263,9 @@ export default class Game {
         this.map.update();
         this.player.update();
         //this.deadline.update();
+        if(this.deadlineActive){
+           this.deadline.update();
+        }
         this.powerups.forEach(powerup => {
             powerup.update();
         });

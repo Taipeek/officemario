@@ -2,11 +2,11 @@ export default class Deadline {
         
         constructor(game) {
         this.game = game;        
-        this.position = {x: -1000};
+        this.position = {x: -700};
         this.tick1=new Audio('sounds/tick1.mp3')
         this.tick2=new Audio('sounds/tick2.mp3')
         
-        this.velocity = {x: 2.0};
+        this.velocity = {x: 2.5};
        // this.tileWidth = this.game.map.tileWidth;
         //this.tileHeight = this.game.map.tileHeight;
         this.soundPlaying=false;
