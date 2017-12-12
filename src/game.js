@@ -2,7 +2,7 @@ import Player from "./player";
 import LevelMap from "./levelMap";
 import Powerup from "./powerup";
 import Feature from "./feature";
-import FinalEnemy from"./finalEnemy"
+import FinalEnemy from "./finalEnemy"
 import ScoreBoard from "./scoreBoard";
 import Bug from "./bug";
 import LevelEnd from "./levelEnd";
@@ -36,8 +36,6 @@ export default class Game {
         this.gameLoop = this.gameLoop.bind(this);
         this.renderCounter = 0;
         this.shake = {on: false};
-        this.deadline=new Deadline(this);
-        this.deadlineActive=false;
         // key handlers
         window.onkeydown = this.handleKeyDown;
         window.onkeyup = this.handleKeyUp;
@@ -65,9 +63,11 @@ export default class Game {
     spawnObjects() {
         this.powerups = [];
         this.features = [];
-        this.deadline=new Deadline(this);
+        if (this.gameState.level === 3) this.deadline = new Deadline(this);
+        else this.deadline = null;
         this.shake = {on: false};
         let objectLayer = this.map.mapData.layers[2];
+        this.finalEnemy = null;
         objectLayer.objects.forEach(item => {
             if (item.type === "playerspawn") {
                 this.player.position.x = item.x;
@@ -76,9 +76,9 @@ export default class Game {
                 this.powerups.push(new Powerup(this, item.x, item.y, null));
             } else if (item.type === "enemyspawn") {
                 this.features.push(new Bug(this, item.x, item.y));
-            }else if (item.type === "featurespawn") {
+            } else if (item.type === "featurespawn") {
                 this.features.push(new Feature(this, item.x, item.y));
-            }else if (item.type === "bossspawn") {
+            } else if (item.type === "bossspawn") {
                 this.finalEnemy = new FinalEnemy(this, item.x, item.y, 'left', item.properties);
             } else if (item.type === "levelend") {
                 this.levelEnd = new LevelEnd(this, item.x, item.y, item.width, item.height);
@@ -93,7 +93,7 @@ export default class Game {
             status: "new",
             score: 0,
             lives: 3,
-            level: 2
+            level: 1
         };
         this.screenPosition = {x: 0, y: 0};
         //Create game objects
@@ -116,19 +116,20 @@ export default class Game {
             this.gameState.status = "over";
             console.log(this);
             this.render();
+            if (this.deadline) {
+                this.deadline.tick1.pause();
+                this.deadline.tick2.pause();
+            }
             this.scoreBoard.renderGameOver();
         }
     }
 
-    checkNextLevel() {
+    checkNextLevel(force) {
         let playerPos = this.player.position;
-        if (this.finalEnemy.dead && playerPos.x >= this.levelEnd.position.x && playerPos.x + this.player.width.current <= this.levelEnd.position.x + this.levelEnd.width
-            && playerPos.y >= this.levelEnd.position.y && playerPos.y + this.player.height.current <= this.levelEnd.position.y + this.levelEnd.height) {
+        if (force || ((!this.finalEnemy || this.finalEnemy.dead) && playerPos.x >= this.levelEnd.position.x && playerPos.x + this.player.width.current <= this.levelEnd.position.x + this.levelEnd.width
+                && playerPos.y >= this.levelEnd.position.y && playerPos.y + this.player.height.current <= this.levelEnd.position.y + this.levelEnd.height)) {
             this.screenPosition = {x: 0, y: 0};
-            this.gameState.level++;
-            if(this.gameState.level==3){
-                this.deadlineActive=true;
-            }
+            this.gameState.level++; //TODO check for no lvl 4
             this.map = new LevelMap(this);
             this.spawnObjects();
             console.log('next level');
@@ -211,6 +212,9 @@ export default class Game {
             case 'ArrowDown':
                 this.keyBoard["down"] = false;
                 break;
+            case 'l':
+                this.checkNextLevel(true);
+                break;
         }
     }
 
@@ -222,13 +226,13 @@ export default class Game {
         let randY = (0.5 - Math.random()) * 18;
 
         if (this.shake.rampdown) {
-            randX *= (this.shake.counter / (this.framerate*2));
-            randY *= (this.shake.counter / (this.framerate*2));
+            randX *= (this.shake.counter / (this.framerate * 2));
+            randY *= (this.shake.counter / (this.framerate * 2));
         }
         this.ctx.translate(Math.floor(randX), Math.floor(randY));
         this.shake.counter--;
 
-        if (this.shake.counter <= 2* this.framerate)
+        if (this.shake.counter <= 2 * this.framerate)
             this.shake.rampdown = true;
     }
 
@@ -237,8 +241,7 @@ export default class Game {
         this.handleShake();
         this.ctx.translate(-this.screenPosition.x, -this.screenPosition.y);
         this.map.render();
-       
-        
+
         this.player.render();
         this.powerups.forEach(powerup => {
             powerup.render();
@@ -249,10 +252,8 @@ export default class Game {
 
         this.levelEnd.render();
 
-        this.finalEnemy.render();
-         if(this.deadlineActive){
-           this.deadline.render(); 
-        }
+        if (this.finalEnemy) this.finalEnemy.render();
+        if (this.deadline) this.deadline.render();
         this.ctx.restore();
         this.scoreBoard.render();
 
@@ -262,17 +263,14 @@ export default class Game {
     update() {
         this.map.update();
         this.player.update();
-        //this.deadline.update();
-        if(this.deadlineActive){
-           this.deadline.update();
-        }
+        if (this.deadline) this.deadline.update();
         this.powerups.forEach(powerup => {
             powerup.update();
         });
         this.features.forEach(feature => {
             feature.update();
         });
-        this.finalEnemy.update();
+        if (this.finalEnemy) this.finalEnemy.update();
     }
 
     gameLoop() {
