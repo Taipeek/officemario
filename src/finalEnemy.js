@@ -114,6 +114,7 @@ export default class FinalEnemy {
                 if (this.lives === 0) {
                     // console.log("BOSS KILLED");
                     this.dead = true;
+                    this.game.gameState.score+=5;
                     this.playSound('death');
                 }
             }

@@ -40,7 +40,7 @@ export default class Game {
         window.onkeydown = this.handleKeyDown;
         window.onkeyup = this.handleKeyUp;
 
-        this.prepareMusic()
+        this.prepareMusic();
         this.newGame();        
     }
 
@@ -49,7 +49,7 @@ export default class Game {
         this.music.src = 'sounds/background_music.mp3';
         this.music.load();
         this.music.loop = true;
-        this.music.volume = this.maxVolume / 2;
+        this.music.volume = this.maxVolume / 4;
     }
 
     moveScreen(where, step) {
@@ -119,8 +119,8 @@ export default class Game {
         }
     }
 
-    checkGameOver() {
-        if (this.gameState.lives === 0) {
+    checkGameOver(force) {
+        if (force || this.gameState.lives === 0) {
             clearInterval(this.gameLoopInterval);
             this.gameLoopInterval = null;
             this.gameState.status = "over";
@@ -139,6 +139,8 @@ export default class Game {
         let playerPos = this.player.position;
         if (force || ((!this.finalEnemy || this.finalEnemy.dead) && playerPos.x >= this.levelEnd.position.x && playerPos.x + this.player.width.current <= this.levelEnd.position.x + this.levelEnd.width
                 && playerPos.y >= this.levelEnd.position.y && playerPos.y + this.player.height.current <= this.levelEnd.position.y + this.levelEnd.height)) {
+            if(this.gameState.level===3) return this.checkGameOver(true);
+
             this.screenPosition = {x: 0, y: 0};
             this.gameState.level++; //TODO check for no lvl 4
             this.map = new LevelMap(this);
@@ -193,11 +195,7 @@ export default class Game {
             case 'ArrowDown':
                 this.keyBoard["down"] = true;
                 break;
-            // mute sounds
-            case 'm':
-                this.maxVolume = (this.maxVolume === 0 ? 0.5 : 0);
-                this.music.volume = this.maxVolume / 2;
-                break;
+
         }
 
         if (event.key === "v") {
@@ -228,6 +226,14 @@ export default class Game {
                 break;
             case 'l':
                 this.checkNextLevel(true);
+                break;
+            case 'i':
+                this.gameState.lives+=5;
+                break;
+            // mute sounds
+            case 'm':
+                this.maxVolume = (this.maxVolume === 0 ? 0.5 : 0);
+                this.music.volume = this.maxVolume / 4;
                 break;
         }
     }

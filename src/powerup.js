@@ -1,7 +1,7 @@
 export default class Powerup {
     constructor(game, x, y, type) {
         this.game = game;
-        this.type = (type ? type: this.randomType()); // default type for now
+        this.type = (type ? type : this.randomType()); // default type for now
         this.active = true;
         this.applied = false;
         this.timeToLive = Math.floor((5 + Math.random() * 5) * this.game.framerate); // 5 to 10 seconds
@@ -14,18 +14,17 @@ export default class Powerup {
         this.velocity = {
             x: (Math.random() < 0.5 ? -1 : 1),
             y: -10 * this.gravity,
-            max: this.tileHeight/2
+            max: this.tileHeight / 2
         };
         this.img = new Image();
         this.img.src = 'img/powerups/' + this.type + '.png';
 
         this.prepareSounds();
-        
+
         //console.log('spawned ' + this.type + ' at ' + this.position.x + ' ' + this.position.y);
     }
 
-    randomType()
-    {
+    randomType() {
         return ['pizza', 'coffee', 'auto', 'debug'][Math.floor(Math.random() * 4)]
     }
 
@@ -34,7 +33,7 @@ export default class Powerup {
         // we probably need free sounds, consider these placeholders
 
         let soundpath;
-        switch(this.type) {
+        switch (this.type) {
             case 'pizza':
                 soundpath = 'crunch';
                 break;
@@ -144,9 +143,11 @@ export default class Powerup {
                 this.game.player.invincible = true;
                 break;
             case 'auto':
-                this.game.player.maxVelocity.x += 2;
-                this.game.player.maxVelocity.y += 2;
-                this.game.player.jumpForce.current = 14.1;
+                if (this.game.player.maxVelocityInitial.x >= this.game.player.maxVelocity.x) {
+                    this.game.player.maxVelocity.x += 2;
+                    this.game.player.maxVelocity.y += 2;
+                    this.game.player.jumpForce.current = 14.1;
+                }
                 break;
             case 'coffee':
                 this.game.gameState.lives++;
@@ -156,8 +157,8 @@ export default class Powerup {
                     counter: this.duration
                 };
                 break;
-            case 'pizza': 
-                this.game.gameState.lives++;               
+            case 'pizza':
+                this.game.gameState.lives++;
                 this.game.player.maxVelocity.x -= 2;
                 break;
             default:
@@ -167,23 +168,25 @@ export default class Powerup {
         this.playSound();
     }
 
-    wearoff()
-    {
+    wearoff() {
         this.applied = false;
         switch (this.type) {
             case 'debug':
                 this.game.player.invincible = false;
                 break;
             case 'auto':
-                this.game.player.maxVelocity.x -= 2;
-                this.game.player.maxVelocity.y -= 2;
-                this.game.player.jumpForce.current = this.game.player.jumpForce.initial;
+                if (this.game.player.maxVelocityInitial.x < this.game.player.maxVelocity.x) {
+                    this.game.player.maxVelocity.x -= 2;
+                    this.game.player.maxVelocity.y -= 2;
+                    this.game.player.jumpForce.current = this.game.player.jumpForce.initial;
+                }
                 break;
             case 'coffee':
                 this.game.shake.on = false;
                 break;
-            case 'pizza':                
-                this.game.player.maxVelocity.x += 2;
+            case 'pizza':
+                if (this.game.player.maxVelocity.x < this.game.player.maxVelocityInitial.x)
+                    this.game.player.maxVelocity.x += 2;
                 break;
             default:
                 console.log("unknown powerup type: " + this.type);
@@ -192,8 +195,7 @@ export default class Powerup {
     }
 
     update() {
-        if (this.applied)
-        {
+        if (this.applied) {
             this.duration -= 1;
             if (this.duration <= 0)
                 this.wearoff();
@@ -227,14 +229,14 @@ export default class Powerup {
         this.game.ctx.save();
         try {
             this.game.ctx.drawImage(this.img, this.position.x, this.position.y);
-        } catch(e) { // no image found - draw a red box with the powerup type on it
+        } catch (e) { // no image found - draw a red box with the powerup type on it
             //console.log(e);
             this.game.ctx.fillStyle = 'red';
             this.game.ctx.fillRect(this.position.x, this.position.y, this.tileWidth, this.tileHeight);
             let text = this.type;
             this.game.ctx.fillStyle = 'white';
-            this.game.ctx.fillText(text, this.position.x + this.tileWidth/2 - this.game.ctx.measureText(text).width/2,
-                this.position.y + this.tileHeight/2);
+            this.game.ctx.fillText(text, this.position.x + this.tileWidth / 2 - this.game.ctx.measureText(text).width / 2,
+                this.position.y + this.tileHeight / 2);
         }
 
         this.game.ctx.restore();

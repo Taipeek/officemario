@@ -21,7 +21,7 @@ export default class ScoreBoard {
         //this.game.ctx.strokeStyle = "black";
         this.game.ctx.font = '30px amatic';
         this.game.ctx.fontStyle = 'bold';
-        let score = "Score: " + gameState.score;
+        let score = "Score: " + gameState.score*10;
         let lives = "Lives: " + gameState.lives;
         let level = "Level: " + gameState.level;
         let text = score + '  ' + lives + '  ' + level;

@@ -29,6 +29,7 @@ export default class Player {
     initialize() {
         this.velocity = {x: 0, y: 0};
         this.maxVelocity = {x: 4, y: 4};
+        this.maxVelocityInitial = {x: 4, y: 4};
         this.moveForce = {current: 1.7, initial: 1.7};
         this.jumpForce = {current: 11, initial: 11};
         this.gravity = {current: 0.4, initial: 0.4};
